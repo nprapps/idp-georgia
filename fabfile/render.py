@@ -102,6 +102,8 @@ def render_all():
     app_config_js()
     copytext_js()
 
+    local('npm run build')
+
     compiled_includes = {}
 
     # Loop over all views in the app

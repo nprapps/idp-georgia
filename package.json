@@ -1,9 +1,25 @@
 {
     "name": "app-template",
     "version": "1.0.0",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build_once": "webpack --devtool source-map",
+        "start": "webpack --progress --watch --devtool source-map",
+        "build": "webpack -p --colors --progress --config 'webpack.production.config.js'",
+        "preinstall": "npm install -g concurrently"
+    },
     "dependencies": {
+    },
+    "devDependencies": {
+        "babel-core": "^6.14.0",
+        "babel-loader": "^6.2.5",
+        "babel-preset-es2015": "^6.14.0",
+        "fontello-cli": "~0.4.0",
+        "json-loader": "^0.5.4",
         "less": "~1.7.0",
+        "uglify-js": "^2.7.3",
         "universal-jst": "~1.0.5",
-        "fontello-cli": "~0.4.0"
+        "webpack": "^1.13.2",
+        "webpack-glob-entries": "^1.0.1"
     }
 }
