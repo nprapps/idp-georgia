@@ -33,7 +33,9 @@ idp-georgia
 What is this?
 -------------
 
-**TKTK: Describe idp-georgia here.**
+Storytelling project around the situation of Internally Displaced Persons in Georgia.
+
+WIP
 
 Assumptions
 -----------
@@ -133,7 +135,7 @@ Run the project
 A flask app is used to run the project locally. It will automatically recompile templates and assets on demand.
 
 ```
-workon $PROJECT_SLUG
+workon idp-georgia
 fab app
 ```
 
