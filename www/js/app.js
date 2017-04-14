@@ -5,7 +5,9 @@
  */
 var onDocumentLoad = function(e) {
     // Cache jQuery references
-    renderExampleTemplate();
+    if (Modernizr.svg) {
+        renderExampleTemplate();
+    }
 }
 
 /*
