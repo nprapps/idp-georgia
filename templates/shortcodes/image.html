@@ -1,0 +1,11 @@
+<div class="embed-image" data-src="{{ url }}">
+    <div class="image-wrapper" style="padding-bottom: {{ ratio }}%;">
+        <img width="{{ width }}" height="auto" src="">
+    </div>
+    {% if caption != None and caption != '' %}
+    <p class="caption image-caption">{{ caption }}</p>
+    {% endif %}
+    {% if credit != None and credit != '' %}
+    <p class="credit image-credit">{{ credit }}</p>
+    {% endif %}
+</div>
