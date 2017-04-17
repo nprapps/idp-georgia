@@ -1,0 +1,14 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<div class="intro-common">Episode common intro goes here</div>
+<div class="intro-custom">Episode custom intro goes here</div>
+<div class='episode-content'>
+{% for section in sections %}
+    <section>
+        {{section.contents|safe}}
+    </section>
+{% endfor %}
+</div>
+<div class='episode-footer'>Episode footer goes here</div>
+{% endblock %}

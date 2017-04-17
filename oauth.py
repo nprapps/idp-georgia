@@ -1,6 +1,5 @@
-#!/usr/bin/env python
-# _*_ coding:utf-8 _*_
 import app_config
+import codecs
 import os
 
 from app_config import authomatic
@@ -10,7 +9,9 @@ from flask import Blueprint, make_response, redirect, render_template, url_for
 from functools import wraps
 from render_utils import make_context
 
-SPREADSHEET_URL_TEMPLATE = 'https://docs.google.com/feeds/download/spreadsheets/Export?exportFormat=xlsx&key=%s'
+# Via: https://developers.google.com/drive/v3/reference/files/export
+# and: https://developers.google.com/drive/v3/web/manage-downloads
+DRIVE_API_EXPORT_TEMPLATE = 'https://www.googleapis.com/drive/v3/files/%s/export?mimeType=%s'
 
 oauth = Blueprint('_oauth', __name__)
 
@@ -101,12 +102,17 @@ def save_credentials(credentials):
     with open(file_path, 'w') as f:
         f.write(credentials.serialize())
 
-def get_document(key, file_path):
+def get_document(key, file_path, mimeType=None):
     """
     Uses Authomatic to get the google doc
     """
+    mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    if not mimeType:
+        mimeType = mime
     credentials = get_credentials()
-    url = SPREADSHEET_URL_TEMPLATE % key
+    url = DRIVE_API_EXPORT_TEMPLATE % (
+        key,
+        mimeType)
     response = app_config.authomatic.access(credentials, url)
 
     if response.status != 200:
@@ -116,6 +122,42 @@ def get_document(key, file_path):
             raise KeyError("Error! Google returned a %s error" % response.status)
 
     with open(file_path, 'wb') as writefile:
+        writefile.write(response.content)
+
+
+def get_doc(key, file_path):
+    """
+    Uses Authomatic to get the google doc
+    """
+    credentials = get_credentials()
+    url = DRIVE_API_EXPORT_TEMPLATE % (key, 'text/html')
+    response = app_config.authomatic.access(credentials, url)
+
+    if response.status != 200:
+        if response.status == 404:
+            raise KeyError("Error! Your Google Doc (%s) does not exist or you do not have permission to access it." % key)
+        else:
+            raise KeyError("Error! Google returned a %s error" % response.status)
+
+    with codecs.open(file_path, 'w', 'utf-8') as writefile:
+        writefile.write(response.content)
+
+
+def get_doc_as_text(key, file_path):
+    """
+    Uses Authomatic to get the google doc
+    """
+    credentials = get_credentials()
+    url = DRIVE_API_EXPORT_TEMPLATE % (key, 'text/plain')
+    response = app_config.authomatic.access(credentials, url)
+
+    if response.status != 200:
+        if response.status == 404:
+            raise KeyError("Error! Your Google Doc (%s) does not exist or you do not have permission to access it." % key)
+        else:
+            raise KeyError("Error! Google returned a %s error" % response.status)
+
+    with codecs.open(file_path, 'w', 'utf-8') as writefile:
         writefile.write(response.content)
 
 def _has_api_credentials():

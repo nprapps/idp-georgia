@@ -8,13 +8,17 @@ routes. While not necessary for most Flask apps, it is required in the
 App Template for static publishing.
 """
 
-import app_config
 import logging
 import oauth
 import static
+import os
+import app_config
+import parse_doc
 
-from flask import Flask, make_response, render_template
+from copydoc import CopyDoc
+from flask import Flask, make_response, render_template, abort
 from render_utils import make_context, smarty_filter, urlencode_filter
+from render_utils import flatten_app_config
 from werkzeug.debug import DebuggedApplication
 
 app = Flask(__name__)
@@ -27,6 +31,7 @@ logging.basicConfig(format=app_config.LOG_FORMAT)
 logger = logging.getLogger(__name__)
 logger.setLevel(app_config.LOG_LEVEL)
 
+
 @app.route('/')
 @oauth.oauth_required
 def index():
@@ -36,6 +41,44 @@ def index():
     context = make_context()
 
     return make_response(render_template('index.html', **context))
+
+
+@app.route('/copydoc/<string:filename>')
+def _copydoc(filename):
+    """
+    Example view demonstrating rendering a simple HTML page.
+    """
+    if not os.path.exists('data/%s.html' % filename):
+        abort(404)
+
+    with open(app_config.EPISODE_DOCUMENTS[filename]['path']) as f:
+        html = f.read()
+
+    doc = CopyDoc(html)
+    context = {
+        'doc': doc
+    }
+
+    return make_response(render_template('copydoc.html', **context))
+
+
+@app.route('/episode/<string:filename>')
+def _episode(filename):
+    """
+    Example view demonstrating rendering a simple HTML page.
+    """
+    if not os.path.exists('data/%s.html' % filename):
+        abort(404)
+
+    with open(app_config.EPISODE_DOCUMENTS[filename]['path']) as f:
+        html = f.read()
+
+    context = make_context()
+    doc = CopyDoc(html)
+    parsed_document = parse_doc.parse(doc)
+    context.update(parsed_document)
+    return make_response(render_template('episode.html', **context))
+
 
 app.register_blueprint(static.static)
 app.register_blueprint(oauth.oauth)
@@ -48,4 +91,4 @@ else:
 
 # Catch attempts to run the app directly
 if __name__ == '__main__':
-    logging.error('This command has been removed! Please run "fab app" instead!')
+    logging.error('Please Run "fab app" instead!')

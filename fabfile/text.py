@@ -8,11 +8,12 @@ import app_config
 import logging
 
 from fabric.api import task
-from oauth import get_document, get_credentials
+from oauth import get_document, get_credentials, get_doc, get_doc_as_text
 
 logging.basicConfig(format=app_config.LOG_FORMAT)
 logger = logging.getLogger(__name__)
 logger.setLevel(app_config.LOG_LEVEL)
+
 
 @task(default=True)
 def update():
@@ -30,3 +31,5 @@ def update():
         return
 
     get_document(app_config.COPY_GOOGLE_DOC_KEY, app_config.COPY_PATH)
+    for episode, value in app_config.EPISODE_DOCUMENTS.iteritems():
+        get_doc(value['key'], value['path'])

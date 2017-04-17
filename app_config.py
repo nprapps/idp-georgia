@@ -96,6 +96,26 @@ COPY_GOOGLE_DOC_KEY = '1ETICIL5hdjXR14fb_Mvp2igeY9mg_7hwcWf-UfRCStI'
 COPY_PATH = 'data/copy.xlsx'
 
 """
+EPISODE DOCUMENTS
+"""
+EPISODE_DOCUMENTS = {
+    'intro': {
+        'key': '1ca6e2FKyPBHHSJaxz7Q3NSarCAvIQpTFHk33asQWjE0',
+        'path': 'data/intro.html'},
+    'irakli': {
+        'key': '1i7jOkwG3DwiFv2WdNyFt8wihhZGye0IZFPGNqSJwzJo',
+        'path': 'data/irakli.html'},
+    'ana': {
+        'key': '1s6X-ZVCDqxqZ9XkUMauM6BGIgjjmxzJLfBlmVJhQt9U',
+        'path': 'data/ana.html'},
+    'veriko': {
+        'key': '1MqT6SJjdg2mcs-A1DiHHfhJRxa3IXPUQH-749wSUOUI',
+        'path': 'data/veriko.html'}
+}
+IMAGE_URL = 'https://media.npr.org/idp-georgia'
+LOAD_COPY_INTERVAL = 5
+
+"""
 SHARING
 """
 SHARE_URL = 'http://%s/%s/' % (PRODUCTION_S3_BUCKET, PROJECT_SLUG)
@@ -172,7 +192,7 @@ def configure_targets(deployment_target):
 
     if deployment_target == 'production':
         S3_BUCKET = PRODUCTION_S3_BUCKET
-        S3_BASE_URL = '//%s/%s' % (S3_BUCKET, PROJECT_SLUG)
+        S3_BASE_URL = 'https://%s/%s' % (S3_BUCKET, PROJECT_SLUG)
         S3_DEPLOY_URL = 's3://%s/%s' % (S3_BUCKET, PROJECT_SLUG)
         SERVERS = PRODUCTION_SERVERS
         SERVER_BASE_URL = 'http://%s/%s' % (SERVERS[0], PROJECT_SLUG)
@@ -183,6 +203,8 @@ def configure_targets(deployment_target):
     elif deployment_target == 'staging':
         S3_BUCKET = STAGING_S3_BUCKET
         S3_BASE_URL = '//%s/%s' % (S3_BUCKET, PROJECT_SLUG)
+        S3_BASE_URL = 'https://s3.amazonaws.com/%s/%s' % (S3_BUCKET,
+                                                          PROJECT_SLUG)
         S3_DEPLOY_URL = 's3://%s/%s' % (S3_BUCKET, PROJECT_SLUG)
         SERVERS = STAGING_SERVERS
         SERVER_BASE_URL = 'http://%s/%s' % (SERVERS[0], PROJECT_SLUG)
@@ -197,7 +219,7 @@ def configure_targets(deployment_target):
         SERVERS = []
         SERVER_BASE_URL = 'http://127.0.0.1:8001/%s' % PROJECT_SLUG
         SERVER_LOG_PATH = '/tmp'
-        LOG_LEVEL = logging.DEBUG
+        LOG_LEVEL = logging.INFO
         DEBUG = True
         ASSETS_MAX_AGE = 20
 
