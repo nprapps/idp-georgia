@@ -1,4 +1,5 @@
 import imagesLoaded from 'imagesloaded';
+import * as _ from 'underscore';
 import URL from 'url-parse';
 
 const READ_INTERVAL = 5000;
@@ -32,10 +33,11 @@ var onWindowLoaded = function(e) {
     parseUrl();
     // Check conditional logic for our customized intro
     checkConditionalLogic();
-    addIntroContent();
     addAppListeners();
-    interval = new Timer(setActiveIntroText, READ_INTERVAL)
-    interval.start();
+    // interval = new Timer(setActiveIntroText, READ_INTERVAL)
+    // interval.start();
+    // Force first sections load of assets
+    lazyload_assets(document.querySelector(".section"));
     //render();
     // Setup Chartbeat last!
     ANALYTICS.setupChartbeat();
@@ -76,21 +78,6 @@ const parseUrl = function() {
     if (bits) {
         current_episode = bits.slice(-1)[0].replace('.html','');
     }
-}
-
-const addIntroContent = function() {
-    // Common intro
-    let tab = 'common';
-    let context = {'contents': COPY[tab], 'tab': tab, 'intro': show_full_intro};
-    let html = JST.intro(context);
-    let container = document.getElementById('intro-common');
-    container.innerHTML = html;
-    // Conditional intro
-    tab = current_episode;
-    context = {'contents': COPY[tab], 'tab': tab, 'intro': !show_full_intro};
-    html = JST.intro(context);
-    container = document.getElementById('intro-custom');
-    container.innerHTML = html;
 }
 
 // CHECK CONDITIONAL LOGIC
@@ -248,18 +235,16 @@ const render = function(e) {
     if (document.body.classList.contains('intro')) {
         // Common Intro is active
         // use scroll to move between intro text
-        interval.restart();
-        setActiveIntroText(true);
+        // setActiveIntroText(true);
     } else if (document.body.classList.contains('custom')) {
         // Custom Intro is active
-        // use scroll or interval to move between intro text
-        interval.restart();
-        setActiveIntroText(true);
+        // use scroll or to move between intro text
+        // setActiveIntroText(true);
     } else {
-        interval.stop();
         // We are inside the episode contents use scroll to lazyload assets
-        checkSectionVisibility();
+        // checkSectionVisibility();
     }
+    checkSectionVisibility();
     // Store scrollTop position
     lastScrollTop = currentScrollTop;
 }

@@ -81,6 +81,7 @@ def _episode(filename):
     doc = CopyDoc(html)
     parsed_document = parse_doc.parse(doc)
     context.update(parsed_document)
+    context.update({'episode': key})
     return make_response(render_template('episode.html', **context))
 
 

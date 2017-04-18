@@ -2,8 +2,12 @@
 
 {% block content %}
 <div id='intro'>
-    <div id='intro-common' class='intro'></div>
-    <div id='intro-custom' class='intro'></div>
+    <div id='intro-common' class='intro'>
+        {% include '_intro_common.html' %}
+    </div>
+    <div id='intro-custom' class='intro'>
+        {% include '_intro_custom.html' %}
+    </div>
 </div>
 <div class='episode-content'>
 {% for section in sections %}
