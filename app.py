@@ -17,6 +17,7 @@ import parse_doc
 
 from copydoc import CopyDoc
 from flask import Flask, make_response, render_template, abort
+from flask import redirect, url_for
 from render_utils import make_context, smarty_filter, urlencode_filter
 from render_utils import flatten_app_config
 from werkzeug.debug import DebuggedApplication
@@ -38,9 +39,10 @@ def index():
     """
     Example view demonstrating rendering a simple HTML page.
     """
-    context = make_context()
+    # context = make_context()
 
-    return make_response(render_template('index.html', **context))
+    # return make_response(render_template('index.html', **context))
+    return redirect(url_for('_episode', filename='irakli.html'))
 
 
 @app.route('/copydoc/<string:filename>')
@@ -48,10 +50,11 @@ def _copydoc(filename):
     """
     Example view demonstrating rendering a simple HTML page.
     """
-    if not os.path.exists('data/%s.html' % filename):
+    key = filename.split('.')[0]
+    if not os.path.exists('data/%s' % filename):
         abort(404)
 
-    with open(app_config.EPISODE_DOCUMENTS[filename]['path']) as f:
+    with open(app_config.EPISODE_DOCUMENTS[key]['path']) as f:
         html = f.read()
 
     doc = CopyDoc(html)
@@ -67,10 +70,11 @@ def _episode(filename):
     """
     Example view demonstrating rendering a simple HTML page.
     """
-    if not os.path.exists('data/%s.html' % filename):
+    key = filename.split('.')[0]
+    if not os.path.exists('data/%s' % filename):
         abort(404)
 
-    with open(app_config.EPISODE_DOCUMENTS[filename]['path']) as f:
+    with open(app_config.EPISODE_DOCUMENTS[key]['path']) as f:
         html = f.read()
 
     context = make_context()

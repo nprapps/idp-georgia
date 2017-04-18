@@ -1,12 +1,17 @@
 {% extends '_base.html' %}
 
 {% block content %}
-<div class="intro-common">Episode common intro goes here</div>
-<div class="intro-custom">Episode custom intro goes here</div>
+<div id='intro'>
+    <div id='intro-common' class='intro'></div>
+    <div id='intro-custom' class='intro'></div>
+</div>
 <div class='episode-content'>
 {% for section in sections %}
-    <section>
-        {{section.contents|safe}}
+    <section class='section' id='{{section.slug}}'>
+        <h3 class='headline section-headline'>{{section.headline}}</h3>
+        <div class='section-contents'>
+            {{section.contents|safe}}
+        </div>
     </section>
 {% endfor %}
 </div>
