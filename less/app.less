@@ -21,6 +21,34 @@ body {
     }
 }
 
+// INTRO
+#intro-wrap {
+    .panel {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        height: 100vh;
+
+        .text-wrapper {
+            display: block;
+            opacity: 0;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            text-align: center;
+
+            p {
+                max-width: 730px;
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
 // MEDIA TYPES
 
 .image-wrapper, .vid-wrapper {
