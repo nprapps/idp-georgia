@@ -116,6 +116,12 @@ IMAGE_URL = 'https://media.npr.org/idp-georgia'
 LOAD_COPY_INTERVAL = 5
 
 """
+MONGODB
+"""
+MONGODB_URL = 'mongodb://localhost:27017/'
+DB_IMAGE_TTL = 60 * 30
+
+"""
 SHARING
 """
 SHARE_URL = 'http://%s/%s/' % (PRODUCTION_S3_BUCKET, PROJECT_SLUG)

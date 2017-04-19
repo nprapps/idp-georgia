@@ -4,7 +4,7 @@ Copyright 2017 NPR.  All rights reserved.  No part of these materials may be rep
 
 
 idp-georgia
-========================
+===========
 
 * [What is this?](#what-is-this)
 * [Assumptions](#assumptions)
@@ -46,6 +46,7 @@ The following things are assumed to be true in this documentation.
 * You are using Python 2.7. (Probably the version that came OSX.)
 * You have [virtualenv](https://pypi.python.org/pypi/virtualenv) and [virtualenvwrapper](https://pypi.python.org/pypi/virtualenvwrapper) installed and working.
 * You have NPR's AWS credentials stored as environment variables locally.
+* You have mongodb installed.
 
 For more details on the technology stack used with the app-template, see our [development environment blog post](http://blog.apps.npr.org/2013/06/06/how-to-setup-a-developers-environment.html).
 
@@ -85,6 +86,12 @@ brew install node
 curl https://npmjs.org/install.sh | sh
 ```
 
+MongoDB is used to cache the ratios of our visual assets so that we do not need to download it everytime the parser runs
+
+```
+brew install mongodb
+```
+
 Then bootstrap the project:
 
 ```
@@ -92,6 +99,7 @@ cd idp-georgia
 mkvirtualenv idp-georgia
 pip install -r requirements.txt
 npm install
+fab data.bootstrap_db
 fab update
 ```
 
@@ -140,6 +148,16 @@ fab app
 ```
 
 Visit [localhost:8000](http://localhost:8000) in your browser.
+
+#### Terminal shortcut
+
+Do you use [iTerm2](http://iterm2.com) as your terminal app? Here's [a sample AppleScript](https://gist.github.com/jjelosua/7f696f6f527ab40599f4abf216a6c3e6) to automatically launch a four-paned terminal window (one for the idp-georgia machine, one for the local webserver, one for the google drive daemon and last one for mongodb).
+
+You can save this locally, customize it to match your own configuration and add an alias for it to your `.bash_profile`.
+
+```
+alias georgia="osascript ~/PATH-TO-FILE/iterm_idpgeorgia.scpt"
+```
 
 COPY configuration
 ------------------
