@@ -74,7 +74,7 @@ def _copydoc(filename):
     return make_response(render_template('copydoc.html', **context))
 
 
-@app.route('/episode/<string:filename>')
+@app.route('/<string:filename>')
 def _episode(filename):
     """
     Example view demonstrating rendering a simple HTML page.

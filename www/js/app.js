@@ -25,7 +25,6 @@ var onWindowLoaded = function(e) {
     else {
         console.log('non-touch device');
     }
-    console.log('hey!');
     // Test localstorage scenarios
     // STORAGE.set('idp-georgia-intro',false);
     // STORAGE.set('idp-georgia-episodes',['irakli', 'ana']);
