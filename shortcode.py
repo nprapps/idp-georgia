@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # _*_ coding:utf-8 _*_
 import app_config
+import datetime
 import logging
 import requests
 import shortcodes
@@ -9,6 +10,7 @@ from PIL import Image
 from StringIO import StringIO
 from functools import partial
 from jinja2 import Environment, FileSystemLoader
+from pymongo import MongoClient
 
 IMAGE_URL_TEMPLATE = '%s/%s'
 IMAGE_TYPES = ['image', 'graphic']
@@ -105,9 +107,25 @@ def _get_image_context(id):
     Download image and get/cache aspect ratio.
     """
     url = IMAGE_URL_TEMPLATE % (app_config.IMAGE_URL, id)
-    logger.info('image %s: downloading %s' % (id, url))
-    response = requests.get(url)
-    image = Image.open(StringIO(response.content))
-    ratio = float(image.height) / float(image.width)
+
+    client = MongoClient(app_config.MONGODB_URL)
+    database = client['idp-georgia']
+    collection = database.images
+    result = collection.find_one({'_id': id})
+
+    if not result:
+        logger.info('image %s: uncached, downloading %s' % (id, url))
+        response = requests.get(url)
+        image = Image.open(StringIO(response.content))
+        ratio = float(image.height) / float(image.width)
+        collection.insert({
+            '_id': id,
+            'date': datetime.datetime.utcnow(),
+            'ratio': ratio,
+        })
+    else:
+        logger.info('image %s: retrieved from cache' % id)
+        ratio = result['ratio']
+
     ratio = round(ratio * 100, 2)
     return dict(ratio=ratio, url=url)
