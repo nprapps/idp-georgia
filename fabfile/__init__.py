@@ -193,6 +193,16 @@ def deploy(remote='origin', reload=False):
         }
     )
 
+    render.render_episodes()
+    flat.deploy_folder(
+        app_config.S3_BUCKET,
+        '.episodes',
+        app_config.PROJECT_SLUG,
+        headers={
+            'Cache-Control': 'max-age=%i' % app_config.DEFAULT_MAX_AGE
+        }
+    )
+
     if reload:
         reset_browsers()
 

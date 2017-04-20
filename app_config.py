@@ -99,18 +99,18 @@ COPY_PATH = 'data/copy.xlsx'
 EPISODE DOCUMENTS
 """
 EPISODE_DOCUMENTS = {
-    'intro': {
-        'key': '1ca6e2FKyPBHHSJaxz7Q3NSarCAvIQpTFHk33asQWjE0',
-        'path': 'data/intro.html'},
     'irakli': {
         'key': '1i7jOkwG3DwiFv2WdNyFt8wihhZGye0IZFPGNqSJwzJo',
-        'path': 'data/irakli.html'},
+        'path': 'data/irakli.html',
+        'next': 'ana.html'},
     'ana': {
         'key': '1s6X-ZVCDqxqZ9XkUMauM6BGIgjjmxzJLfBlmVJhQt9U',
-        'path': 'data/ana.html'},
+        'path': 'data/ana.html',
+        'next': 'veriko.html'},
     'veriko': {
         'key': '1MqT6SJjdg2mcs-A1DiHHfhJRxa3IXPUQH-749wSUOUI',
-        'path': 'data/veriko.html'}
+        'path': 'data/veriko.html',
+        'next': 'irakli.html'}
 }
 IMAGE_URL = 'https://media.npr.org/idp-georgia'
 LOAD_COPY_INTERVAL = 5

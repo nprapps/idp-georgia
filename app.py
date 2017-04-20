@@ -65,7 +65,7 @@ def _copydoc(filename):
     return make_response(render_template('copydoc.html', **context))
 
 
-@app.route('/episode/<string:filename>')
+@app.route('/<string:filename>')
 def _episode(filename):
     """
     Example view demonstrating rendering a simple HTML page.
@@ -81,7 +81,8 @@ def _episode(filename):
     doc = CopyDoc(html)
     parsed_document = parse_doc.parse(doc)
     context.update(parsed_document)
-    context.update({'episode': key})
+    context.update({'episode': key,
+                    'next': app_config.EPISODE_DOCUMENTS[key]['next']})
     return make_response(render_template('episode.html', **context))
 
 

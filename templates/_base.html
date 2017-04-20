@@ -48,9 +48,9 @@
     {{ JS.render('js/app-footer.min.js') }}
 
     {% if DEPLOYMENT_TARGET %}
-    <script src="{{S3_BASE_URL}}/js/rendered/app.min.js"></script>
+    <script src="js/rendered/app.min.js"></script>
     {% else %}
-    <script src="{{S3_BASE_URL}}/js/rendered/app.js"></script>
+    <script src="js/rendered/app.js"></script>
     {% endif %}
 
     {% block extra_foot %}

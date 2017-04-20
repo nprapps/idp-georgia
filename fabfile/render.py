@@ -168,17 +168,18 @@ def render_copydocs(episode=None):
 
 
 def _render_copydoc(episode=None):
+    episode_file = '%s.html' % episode
     view_name = '_copydoc'
     with app.app.test_request_context():
         view = app.__dict__[view_name]
-        response = view(episode)
+        response = view(episode_file)
 
     try:
         os.makedirs('.copydoc/')
     except OSError:
         pass
 
-    with codecs.open('.copydoc/{0}.html'.format(episode),
+    with codecs.open('.copydoc/{0}'.format(episode_file),
                      'w', 'utf-8') as f:
         f.write(response.data.decode('utf-8'))
 
@@ -193,16 +194,20 @@ def render_episodes(episode=None):
 
 
 def _render_episode(episode):
+    from flask import g
+    episode_file = '%s.html' % episode
     view_name = '_episode'
     with app.app.test_request_context():
+        g.compile_includes = True
+        g.compiled_includes = {}
         view = app.__dict__[view_name]
-        response = view(episode)
+        response = view(episode_file)
 
     try:
         os.makedirs('.episodes/')
     except OSError:
         pass
 
-    with codecs.open('.episodes/{0}.html'.format(episode),
+    with codecs.open('.episodes/{0}'.format(episode_file),
                      'w', 'utf-8') as f:
         f.write(response.data.decode('utf-8'))
