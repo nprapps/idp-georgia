@@ -19,7 +19,6 @@ from copydoc import CopyDoc
 from flask import Flask, make_response, render_template, abort
 from flask import redirect, url_for
 from render_utils import make_context, smarty_filter, urlencode_filter
-from render_utils import flatten_app_config
 from werkzeug.debug import DebuggedApplication
 
 app = Flask(__name__)
@@ -34,6 +33,7 @@ logger.setLevel(app_config.LOG_LEVEL)
 
 
 @app.route('/')
+@app.route('/index.html')
 @oauth.oauth_required
 def _index():
     """
@@ -90,8 +90,10 @@ def _episode(filename):
     doc = CopyDoc(html)
     parsed_document = parse_doc.parse(doc)
     context.update(parsed_document)
-    context.update({'episode': key,
-                    'next': app_config.EPISODE_DOCUMENTS[key]['next']})
+    context.update({
+        'episode': key,
+        'next_primary': app_config.EPISODE_DOCUMENTS[key]['next_primary'],
+        'next_secondary': app_config.EPISODE_DOCUMENTS[key]['next_secondary']})
     return make_response(render_template('episode.html', **context))
 
 

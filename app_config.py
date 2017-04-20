@@ -103,15 +103,18 @@ EPISODE_DOCUMENTS = {
         'key': '1XItDq6yFo_B0nyvi3r8Eu5rVAg-OPjbc4cYcl9kuNkc',
         #'key': '1i7jOkwG3DwiFv2WdNyFt8wihhZGye0IZFPGNqSJwzJo',
         'path': 'data/irakli.html',
-        'next': 'ana.html'},
+        'next_primary': 'ana',
+        'next_secondary': 'veriko'},
     'ana': {
         'key': '1s6X-ZVCDqxqZ9XkUMauM6BGIgjjmxzJLfBlmVJhQt9U',
         'path': 'data/ana.html',
-        'next': 'veriko.html'},
+        'next_primary': 'veriko',
+        'next_secondary': 'irakli'},
     'veriko': {
         'key': '1MqT6SJjdg2mcs-A1DiHHfhJRxa3IXPUQH-749wSUOUI',
         'path': 'data/veriko.html',
-        'next': 'irakli.html'}
+        'next_primary': 'irakli',
+        'next_secondary': 'ana'},
 }
 IMAGE_URL = 'https://media.npr.org/idp-georgia'
 LOAD_COPY_INTERVAL = 5

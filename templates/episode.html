@@ -19,10 +19,23 @@
     </section>
 {% endfor %}
 </div>
-<div class='episode-footer'>
-    <div class="panel">
+<div id='footer' class='episode-footer'>
+    <div id="primary" class="panel-footer">
         <div class="text-wrapper">
-            <a href="{{next}}">{{ footer }}</a>
+            <a href="{{next_primary}}.html">{{ footer }}</a>
+        </div>
+    </div>
+    <div id="secondary" class="panel-footer">
+        <div class="text-wrapper">
+            <a href="{{next_secondary}}.html">{{ footer_alt }}</a>
+        </div>
+    </div>
+</div>
+<div id='end' class='episode-end'>
+    <div class="panel-footer">
+        <div class="text-wrapper">
+            <p>{{COPY['end'].related_content}}</p>
+            <p>{{COPY['end'].donate}}</p>
         </div>
     </div>
 </div>

@@ -3,16 +3,22 @@ import * as _ from 'underscore';
 import URL from 'url-parse';
 
 const READ_INTERVAL = 5000;
-const WAIT_TO_ENSURE_SCROLLING_IS_DONE = 500;
+const WAIT_TO_ENSURE_SCROLLING_IS_DONE = 40;
 const LAZYLOAD_AHEAD = 1;
+const AVAILABLE_EPISODES = ['irakli', 'ana', 'veriko'];
+
 let url = null;
 let show_full_intro = true;
 let show_custom_intro = true;
+let show_footer = true;
+let show_primary = true;
+let seen_episodes = null;
 let replay_action = 'full';
-let current_episode = 'irakli';
+let current_episode = null;
 let interval = null;
 let lastScrollTop = window.pageYOffset;
 let currentScrollTop = null;
+let scrollController = null;
 
 /*
  * Run on page load.
@@ -33,6 +39,7 @@ var onWindowLoaded = function(e) {
     parseUrl();
     // Check conditional logic for our customized intro
     checkConditionalLogic();
+    adaptPageToUserStatus();
     addAppListeners();
     // Init intro scroll controller
     initIntroScroller();
@@ -46,11 +53,10 @@ var onWindowLoaded = function(e) {
 }
 
 const initIntroScroller = function() {
-    let scrollController = new ScrollMagic.Controller();
+    scrollController = new ScrollMagic.Controller();
 
-    document.querySelectorAll('.panel').forEach(function(d,i) {
+    document.querySelectorAll('.panel-intro').forEach(function(d,i) {
         var innerText = d.querySelector('.text-wrapper');
-        console.log(innerText);
         var timeline = new TimelineLite()
             .to(innerText, 1, { opacity: 1 })
             .to(innerText, 1, { opacity: 0 });
@@ -64,68 +70,119 @@ const initIntroScroller = function() {
 
         if (d.classList.contains('final-panel')) {
             var bgScene = new ScrollMagic.Scene({
-                    duration: '50%',
+                    duration: '100%',
                     offset: '50%',
                     triggerElement: d
+                    //triggerHook: 'onLeave'
                 })
                 .setTween(document.querySelector('#bg-container'), 1, { opacity: 0 })
+                .on('end', introSceneEnd)
                 .addTo(scrollController);
         }
     });
+
+    // footer scrollmagic
+    document.querySelectorAll('.panel-footer').forEach(function(d,i) {
+        var innerText = d.querySelector('.text-wrapper');
+        var timeline = new TimelineLite()
+            .to(innerText, 1, { opacity: 1 })
+            .to(innerText, 1, { opacity: 0 });
+
+        var scrollScene = new ScrollMagic.Scene({
+            duration: '100%',
+            triggerElement: d
+        })
+        .setTween(timeline)
+        .on('start', footerSceneStart)
+        .addTo(scrollController);
+    });
 };
 
-// A simple wrapper for starting and clearing an interval
-let Timer = function(callback, duration) {
-    let intervalID;
+const introSceneEnd = function(e) {
+    // Mark intro as seen
+    if (e.scrollDirection == 'FORWARD') {
+        STORAGE.set('idp-georgia-intro',true);
+    }
+}
 
-    function start() {
-        if (callback && duration) {
-            intervalID = setInterval(callback, duration);
+const footerSceneStart = function(e) {
+    // Mark intro as seen
+    if (e.scrollDirection == 'FORWARD') {
+        if (!seen_episodes) {
+            STORAGE.set('idp-georgia-episodes',[current_episode]);
+        }
+        else if (!_.contains(seen_episodes, current_episode)) {
+            seen_episodes.push(current_episode)
+            STORAGE.set('idp-georgia-episodes',seen_episodes);
         }
     }
-
-    function restart(newDuration) {
-        duration = newDuration || duration;
-        clearTimeout(intervalID);
-        if (callback && duration) {
-            intervalID = setInterval(callback, duration);
-        }
-    }
-
-    function stop() {
-        clearTimeout(intervalID);
-    }
-
-    return {
-        start: start,
-        restart: restart,
-        stop: stop
-    };
-};
+}
 
 const parseUrl = function() {
-    url = new URL(window.location);
+    url = new URL(window.location, window.location, true);
     let bits = url.pathname.split('/');
     if (bits) {
-        current_episode = bits.slice(-1)[0].replace('.html','');
+        current_episode = bits.slice(-1)[0].replace('.html','').toLowerCase();
+        if (current_episode == 'index') {
+            // Use Irakli as the default episode
+            current_episode = 'irakli';
+        }
+    }
+
+    // Allow localstorage to be wiped using refresh query param
+    if (url.query.refresh) {
+        STORAGE.deleteKey('idp-georgia-intro')
+        STORAGE.deleteKey('idp-georgia-episodes')
     }
 }
 
 // CHECK CONDITIONAL LOGIC
 const checkConditionalLogic = function() {
-
     const seen_intro = STORAGE.get('idp-georgia-intro');
-    const seen_episodes = STORAGE.get('idp-georgia-episodes');
+    seen_episodes = STORAGE.get('idp-georgia-episodes');
+    console.log('seen_intro', seen_intro);
+    console.log('seen_episodes', seen_episodes);
+
     if (seen_intro) {
         show_full_intro = false;
-        document.body.classList.add('custom');
     }
-    else {
-        document.body.classList.add('intro');
+    if (seen_episodes && seen_episodes.constructor === Array) {
+        let unseen_episodes = _.difference(AVAILABLE_EPISODES, seen_episodes);
+        if (_.isEmpty(unseen_episodes) || _.isEqual(unseen_episodes, [current_episode])) {
+            show_footer = false;
+        }
+        if (_.contains(seen_episodes, APP_CONFIG.EPISODE_DOCUMENTS[current_episode]['next_primary'])) {
+            show_primary = false;
+        }
     }
-    if (seen_episodes) {
-        console.log(seen_episodes);
+}
+
+const adaptPageToUserStatus = function() {
+    let container = null
+    if (!show_full_intro) {
+        // Remove .panel class from intro and hide
+        container = document.getElementById('intro-common');
+        container.classList.add('hide');
     }
+
+    if (show_footer) {
+        // hide episode end
+        container = document.getElementById('end');
+        container.classList.add('hide');
+        if (show_primary) {
+            container = document.getElementById('secondary');
+            container.classList.add('hide');
+        } else {
+            container = document.getElementById('primary');
+            container.classList.add('hide');
+        }
+    } else {
+        // hide footer
+        let container = document.getElementById('footer');
+        container.classList.add('hide');
+
+    }
+
 }
 
 // LAZY-LOADING FUNCTIONALITY
@@ -208,58 +265,6 @@ const checkSectionVisibility = function() {
     });
 }
 
-const setActiveIntroText = function(scroll) {
-    let selector = show_full_intro ? 'intro-common' : 'intro-custom';
-    const intro = document.getElementById('intro');
-    const active = intro.querySelector('.intro-item.active');
-    if (active) {
-        let next = active.nextElementSibling;
-        if (next) {
-            active.classList.remove('active');
-            next.classList.add('active')
-        } else {
-            // If we were seeing the common intro
-            // Move to custom intro
-            if (document.body.classList.contains('intro')) {
-                // Remove last common intro text
-                active.classList.remove('active');
-                // Introduction was seen store in local storage
-                STORAGE.set('idp-georgia-intro',true);
-                show_full_intro = false;
-                document.body.classList.add('custom');
-                document.body.classList.remove('intro');
-                let item = document.getElementById('intro-custom').querySelector('.intro-item');
-                item.classList.add('active');
-            } else if (document.body.classList.contains('custom')) {
-                // Remove last custom intro text
-                active.classList.remove('active');
-                document.body.classList.add(current_episode);
-                document.body.classList.remove('custom');
-                // Stop the interval
-                interval.stop();
-            }
-        }
-    } else {
-        let item = document.getElementById(selector).querySelector('.intro-item');
-        item.classList.add('active');
-    }
-    // TODO: check scroll direction and act accordingly
-    if (scroll) {
-        // Determine direction
-        if (currentScrollTop >= lastScrollTop) {
-            //Downward
-            console.log('scroll downward');
-        } else {
-            //Upward
-            console.log('scroll upward');
-        }
-    }
-    else {
-        // Fired by the interval, move downwards
-        console.log('interval downward');
-    }
-}
-
 const render = function(e) {
     currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
     checkSectionVisibility();
@@ -268,16 +273,23 @@ const render = function(e) {
 }
 
 // Throttle scroll through underscore
-const handler = _.debounce(render, WAIT_TO_ENSURE_SCROLLING_IS_DONE);
+const handler = _.throttle(render, WAIT_TO_ENSURE_SCROLLING_IS_DONE);
 
 // EVENT LISTENERS
 const addAppListeners = function() {
     // Listen to different window movement events
     if (window.addEventListener) {
-        addEventListener('DOMContentLoaded', handler, false);
-        addEventListener('load', handler, false);
         addEventListener('scroll', handler, false);
         addEventListener('resize', handler, false);
+    }
+
+    document.getElementById('more_info').onclick = function(e){
+        let container = document.getElementById('intro-common');
+        container.classList.remove('hide');
+        scrollController.destroy(true);
+        window.scrollTo(0, 0);
+        initIntroScroller();
+        return false;
     }
 }
 

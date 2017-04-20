@@ -1,12 +1,12 @@
 <div id="bg-container" class="bg-img bg-1"></div>
-<div class="panel">
+<div class="panel-intro">
     <div class="text-wrapper">
         <h1>{{ COPY.content.headline }}</h1>
         <h2>{{ COPY.content.subhed }}</h2>
     </div>
 </div>
 {% for content in COPY.common %}
-<div class="panel panel-{{ loop.index0 }}{% if loop.last %} final-panel{% endif %}">
+<div class="panel-intro panel-{{ loop.index0 }}{% if loop.last %} final-panel{% endif %}">
     <div class="text-wrapper">
         <p>{{ content.text }}</p>
     </div>
