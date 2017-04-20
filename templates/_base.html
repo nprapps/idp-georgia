@@ -32,6 +32,12 @@
     {{ JS.push('js/lib/cross-storage-client.js') }}
     {{ JS.push('js/app_config.js') }}
     {{ JS.push('js/analytics.js') }}
+    {{ JS.push('js/lib/gsap/CSSPlugin.min.js') }}
+    {{ JS.push('js/lib/gsap/EasePack.min.js') }}
+    {{ JS.push('js/lib/gsap/TweenLite.min.js') }}
+    {{ JS.push('js/lib/gsap/TimelineLite.min.js') }}
+    {{ JS.push('js/lib/ScrollMagic.js') }}
+    {{ JS.push('js/lib/gsap/animation.gsap.js') }}
     {{ JS.render('js/app-header.min.js') }}
 
     {% block content %}

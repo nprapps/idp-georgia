@@ -1,3 +1,14 @@
+<div id="bg-container" class="bg-img bg-1"></div>
+<div class="panel">
+    <div class="text-wrapper">
+        <h1>{{ COPY.content.headline }}</h1>
+        <h2>{{ COPY.content.subhed }}</h2>
+    </div>
+</div>
 {% for content in COPY.common %}
-    <p class='intro-item common'>{{ content.text }}</p>
+<div class="panel panel-{{ loop.index0 }}{% if loop.last %} final-panel{% endif %}">
+    <div class="text-wrapper">
+        <p>{{ content.text }}</p>
+    </div>
+</div>
 {% endfor %}

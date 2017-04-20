@@ -34,6 +34,8 @@ var onWindowLoaded = function(e) {
     // Check conditional logic for our customized intro
     checkConditionalLogic();
     addAppListeners();
+    // Init intro scroll controller
+    initIntroScroller();
     // interval = new Timer(setActiveIntroText, READ_INTERVAL)
     // interval.start();
     // Force first sections load of assets
@@ -42,6 +44,34 @@ var onWindowLoaded = function(e) {
     // Setup Chartbeat last!
     ANALYTICS.setupChartbeat();
 }
+
+const initIntroScroller = function() {
+    let scrollController = new ScrollMagic.Controller();
+
+    document.querySelectorAll('.panel').forEach(function(d,i) {
+        var innerText = d.querySelector('.text-wrapper');
+        var timeline = new TimelineLite()
+            .to(innerText, 1, { opacity: 1 })
+            .to(innerText, 1, { opacity: 0 });
+
+        var scrollScene = new ScrollMagic.Scene({
+            duration: '100%',
+            triggerElement: d
+        })
+        .setTween(timeline)
+        .addTo(scrollController);
+
+        if (d.classList.contains('final-panel')) {
+            var bgScene = new ScrollMagic.Scene({
+                    duration: '50%',
+                    offset: '50%',
+                    triggerElement: d
+                })
+                .setTween(document.querySelector('#bg-container'), 1, { opacity: 0 })
+                .addTo(scrollController);
+        }
+    });
+};
 
 // A simple wrapper for starting and clearing an interval
 let Timer = function(callback, duration) {
@@ -231,19 +261,6 @@ const setActiveIntroText = function(scroll) {
 
 const render = function(e) {
     currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    // Render page initially or after a scroll is detected
-    if (document.body.classList.contains('intro')) {
-        // Common Intro is active
-        // use scroll to move between intro text
-        // setActiveIntroText(true);
-    } else if (document.body.classList.contains('custom')) {
-        // Custom Intro is active
-        // use scroll or to move between intro text
-        // setActiveIntroText(true);
-    } else {
-        // We are inside the episode contents use scroll to lazyload assets
-        // checkSectionVisibility();
-    }
     checkSectionVisibility();
     // Store scrollTop position
     lastScrollTop = currentScrollTop;

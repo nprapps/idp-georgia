@@ -1,3 +1,7 @@
 {% for content in COPY[episode] %}
-    <p class='intro-item {{episode}}'>{{ content.text }}</p>
+<div class="panel panel-{{ loop.index0 }}{% if loop.last %} final-panel{% endif %}">
+    <div class="text-wrapper">
+        <p>{{ content.text }}</p>
+    </div>
+</div>
 {% endfor %}
