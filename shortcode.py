@@ -21,7 +21,7 @@ SHORTCODE_DICT = {
     },
     'image': {
         'caption': '',
-        'credit': 'Image credit',
+        'credit': '',
         'width': '100%'
     },
     'collage2': {
@@ -75,7 +75,6 @@ def _get_collage_extra_context(pargs, tag):
     extra = dict()
     if tag in COLLAGE_TYPES:
         extra.update(_get_collage_context(pargs))
-    logger.info('extra %s' % extra)
     return extra
 
 
@@ -163,7 +162,6 @@ def _get_collage_context(pargs):
     for ix, id in enumerate(pargs):
         url = IMAGE_URL_TEMPLATE % (app_config.IMAGE_URL, id)
         ratios['url%s' % ix] = url
-        logger.info(url)
         client = MongoClient(app_config.MONGODB_URL)
         database = client['idp-georgia']
         collection = database.images
@@ -184,5 +182,4 @@ def _get_collage_context(pargs):
             ratio = result['ratio']
         ratio = round(ratio * 100, 2)
         ratios['ratio%s' % ix] = ratio
-    logger.info(ratios)
     return ratios

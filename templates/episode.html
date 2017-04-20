@@ -1,7 +1,6 @@
 {% extends '_base.html' %}
 
 {% block content %}
-
 <div id='intro'>
     <div id='intro-common' class='intro-wrapper'>
         {% include '_intro_common.html' %}
@@ -11,9 +10,9 @@
     </div>
 </div>
 <div class='episode-content'>
+<h2> {{ COPY[episode].headline }} </h2>
 {% for section in sections %}
     <section class='section' id='{{section.slug}}'>
-        <h3 class='headline section-headline'>{{section.headline}}</h3>
         <div class='section-contents'>
             {{section.contents|safe}}
         </div>
@@ -21,7 +20,10 @@
 {% endfor %}
 </div>
 <div class='episode-footer'>
-    <h3>Episode footer goes here</h3>
-    <a href="{{next}}">Go to next Episode</a>
+    <div class="panel">
+        <div class="text-wrapper">
+            <a href="{{next}}">{{ footer }}</a>
+        </div>
+    </div>
 </div>
 {% endblock %}

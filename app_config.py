@@ -100,7 +100,8 @@ EPISODE DOCUMENTS
 """
 EPISODE_DOCUMENTS = {
     'irakli': {
-        'key': '1i7jOkwG3DwiFv2WdNyFt8wihhZGye0IZFPGNqSJwzJo',
+        'key': '1XItDq6yFo_B0nyvi3r8Eu5rVAg-OPjbc4cYcl9kuNkc',
+        #'key': '1i7jOkwG3DwiFv2WdNyFt8wihhZGye0IZFPGNqSJwzJo',
         'path': 'data/irakli.html',
         'next': 'ana.html'},
     'ana': {

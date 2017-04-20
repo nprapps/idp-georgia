@@ -1,7 +1,5 @@
-{% for content in COPY[episode] %}
-<div class="panel panel-{{ loop.index0 }}{% if loop.last %} final-panel{% endif %}">
+<div class="panel panel-custom final-panel">
     <div class="text-wrapper">
-        <p>{{ content.text }}</p>
+      {{ COPY[episode].conditional_intro }}
     </div>
 </div>
-{% endfor %}

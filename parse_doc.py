@@ -2,6 +2,7 @@
 import logging
 import re
 import app_config
+from bs4 import BeautifulSoup
 from shortcode import process_shortcode
 
 logging.basicConfig(format=app_config.LOG_FORMAT)
@@ -11,9 +12,9 @@ logger.setLevel(app_config.LOG_LEVEL)
 end_doc_regex = re.compile(ur'^\s*[Ee][Nn][Dd]\s*$',
                            re.UNICODE)
 
-new_episode_marker_regex = re.compile(ur'^\s*\+{50,}\s*$',
+new_section_marker_regex = re.compile(ur'^\s*\+{50,}\s*$',
                                       re.UNICODE)
-episode_end_marker_regex = re.compile(ur'^\s*-{50,}\s*$',
+section_end_marker_regex = re.compile(ur'^\s*-{50,}\s*$',
                                       re.UNICODE)
 
 frontmatter_marker_regex = re.compile(ur'^\s*-{3}\s*$',
@@ -25,24 +26,24 @@ extract_metadata_regex = re.compile(ur'^(.*?):(.*)$',
 shortcode_regex = re.compile(ur'^\s*\[%\s*.*\s*%\]\s*$', re.UNICODE)
 
 
-def is_episode_marker(tag):
+def is_section_marker(tag):
     """
-    Checks for the beginning of a new post
+    Checks for the beginning of a new section
     """
     text = tag.get_text()
-    m = new_episode_marker_regex.match(text)
+    m = new_section_marker_regex.match(text)
     if m:
         return True
     else:
         return False
 
 
-def is_episode_end_marker(tag):
+def is_section_end_marker(tag):
     """
-    Checks for the beginning of a new post
+    Checks for the beginning of a new section
     """
     text = tag.get_text()
-    m = episode_end_marker_regex.match(text)
+    m = section_end_marker_regex.match(text)
     if m:
         return True
     else:
@@ -53,7 +54,7 @@ def process_headline(contents):
     logger.debug('--process_headline start--')
     headline = None
     for tag in contents:
-        if tag.name == "h1":
+        if tag.name == "h2":
             headline = tag.get_text()
         else:
             logger.warning('unexpected tag found: Ignore %s' % tag.get_text())
@@ -78,9 +79,9 @@ def process_metadata(contents):
     return metadata
 
 
-def process_episode_contents(contents):
+def process_section_contents(contents):
     """
-    Process post copy content
+    Process episode copy content
     In particular parse and generate HTML from shortcodes
     """
     logger.debug('--process_post_contents start--')
@@ -97,9 +98,9 @@ def process_episode_contents(contents):
     return episode_contents
 
 
-def parse_raw_episode(raw_sections):
+def parse_raw_sections(raw_sections):
     """
-    parse raw posts into an array of post objects
+    parse raw episodes into an array of section objects
     """
 
     # Divide each episode into its subparts
@@ -129,36 +130,30 @@ def parse_raw_episode(raw_sections):
         metadata = process_metadata(section_raw_metadata)
         for k, v in metadata.iteritems():
             section[k] = v
-        section[u'contents'] = process_episode_contents(section_raw_contents)
+        section[u'contents'] = process_section_contents(section_raw_contents)
         sections.append(section)
     return sections
 
 
 def split_sections(doc):
     """
-    split the raw document into an array of raw posts
+    split the raw document into an array of raw sections
     """
-    logger.debug('--split_posts start--')
+    logger.debug('--split_sections start--')
     raw_sections = []
     raw_episode_contents = []
     ignore_orphan_text = True
 
-    hr = doc.soup.hr
-    # Get rid of everything after the Horizontal Rule
-    if (hr):
-        # Get rid of everything after the Horizontal Rule
-        hr.extract()
-
     body = doc.soup.body
     for child in body.children:
-        if is_episode_marker(child):
+        if is_section_marker(child):
             # Detected first post stop ignoring orphan text
             if ignore_orphan_text:
                 ignore_orphan_text = False
         else:
             if ignore_orphan_text:
                 continue
-            elif is_episode_end_marker(child):
+            elif is_section_end_marker(child):
                 ignore_orphan_text = True
                 raw_sections.append(raw_episode_contents)
                 raw_episode_contents = []
@@ -167,18 +162,47 @@ def split_sections(doc):
     return raw_sections
 
 
+def find_section_id(sections, id):
+    """
+    Find the section with a given id
+    """
+    for idx, section in enumerate(sections):
+        try:
+            if section['id'] == id:
+                return idx
+        except KeyError:
+            continue
+    return None
+
+
+def process_footer_contents(footer):
+    """
+    Remove html markup
+    """
+    soup = BeautifulSoup(footer['contents'], 'html.parser')
+    logger.info(soup)
+    return soup.get_text()
+
+
 def parse(doc):
     """
-    Custom parser for the debates google doc format
-    returns boolean marking if the transcript is live or has ended
+    parse google doc files and extract markup
     """
     try:
         parsed_document = {}
         logger.info('-------------start------------')
         raw_sections = split_sections(doc)
-        sections = parse_raw_episode(raw_sections)
+        sections = parse_raw_sections(raw_sections)
+        # remove footer
+        idx = find_section_id(sections, 'footer')
+        if idx is not None:
+            footer = sections.pop(idx)
+            footer = process_footer_contents(footer)
+        else:
+            logger.error("Did not find the footer section on the document")
         logger.info('Number of sections: %s' % len(sections))
         parsed_document['sections'] = sections
+        parsed_document['footer'] = footer
     finally:
         logger.info('-------------end------------')
     return parsed_document

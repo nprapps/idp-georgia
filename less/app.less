@@ -165,6 +165,12 @@ body {
     }
 }
 .episode-content {
+    h2 {
+        text-align: center;
+        font-size: 2rem;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
     h3, p {
         max-width: 730px;
         padding-left: 20px;
@@ -180,5 +186,42 @@ body {
         color: #666;
         font-size: 17px;
         line-height: 1.6;
+    }
+}
+
+.episode-footer {
+    position: relative;
+
+    .panel {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        height: 100vh;
+
+        .text-wrapper {
+            display: block;
+            opacity: 0;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            text-align: center;
+            color: @white;
+
+            h1 {
+                font-size: 4rem;
+            }
+
+            a {
+                display: inline-block;
+                font-size: 2rem;
+                line-height: 1.4;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+        }
     }
 }

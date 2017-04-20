@@ -50,6 +50,7 @@ const initIntroScroller = function() {
 
     document.querySelectorAll('.panel').forEach(function(d,i) {
         var innerText = d.querySelector('.text-wrapper');
+        console.log(innerText);
         var timeline = new TimelineLite()
             .to(innerText, 1, { opacity: 1 })
             .to(innerText, 1, { opacity: 0 });
