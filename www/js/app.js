@@ -139,7 +139,7 @@ const lazyload_videos = function(section) {
 }
 
 const lazyload_images = function(section) {
-    const images = section.querySelectorAll(".embed-image[data-src], .embed-graphic[data-src]");
+    const images = section.querySelectorAll(".image-wrapper[data-src], .embed-graphic[data-src]");
     const imagesArray = Array.prototype.slice.call(images);
     imagesArray.map(image => renderImage(image))
     if (imagesArray.length) {

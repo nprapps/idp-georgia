@@ -1,0 +1,19 @@
+<div class="embed-image">
+    <div class="collage2">
+        <div class="image-wrapper" data-src="{{ url0 }}" style="padding-bottom: {{ ratio0 }}%;">
+            <img width="{{ width }}" height="auto" src="">
+        </div>
+    </div>
+    <div class="collage2">
+        <div class="image-wrapper" data-src="{{ url1 }}" style="padding-bottom: {{ ratio1 }}%;">
+            <img width="{{ width }}" height="auto" src="">
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    {% if caption != None and caption != '' %}
+    <p class="caption image-caption">{{ caption }}</p>
+    {% endif %}
+    {% if credit != None and credit != '' %}
+    <p class="credit image-credit">{{ credit }}</p>
+    {% endif %}
+</div>

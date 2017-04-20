@@ -14,11 +14,17 @@ from pymongo import MongoClient
 
 IMAGE_URL_TEMPLATE = '%s/%s'
 IMAGE_TYPES = ['image', 'graphic']
+COLLAGE_TYPES = ['collage2']
 SHORTCODE_DICT = {
     'youtube': {
         'start_time': 0
     },
     'image': {
+        'caption': '',
+        'credit': 'Image credit',
+        'width': '100%'
+    },
+    'collage2': {
         'caption': '',
         'credit': 'Image credit',
         'width': '100%'
@@ -57,6 +63,19 @@ def _get_extra_context(id, tag):
     extra = dict()
     if tag in IMAGE_TYPES:
         extra.update(_get_image_context(id))
+    elif tag in COLLAGE_TYPES:
+        extra.update(_get_image_context(id))
+    return extra
+
+
+def _get_collage_extra_context(pargs, tag):
+    """
+    Do some processing
+    """
+    extra = dict()
+    if tag in COLLAGE_TYPES:
+        extra.update(_get_collage_context(pargs))
+    logger.info('extra %s' % extra)
     return extra
 
 
@@ -65,11 +84,16 @@ def _handler(context, content, pargs, kwargs, tag, defaults):
     Default handler all other handlers inherit from.
     """
     if pargs:
-        id = _process_id(pargs[0], tag)
-        template_context = dict(url=pargs[0],
-                                id=id)
-        extra_context = _get_extra_context(id, tag)
-        template_context.update(extra_context)
+        if tag in COLLAGE_TYPES:
+            template_context = dict()
+            extra_context = _get_collage_extra_context(pargs, tag)
+            template_context.update(extra_context)
+        else:
+            id = _process_id(pargs[0], tag)
+            template_context = dict(url=pargs[0],
+                                    id=id)
+            extra_context = _get_extra_context(id, tag)
+            template_context.update(extra_context)
     else:
         template_context = dict()
     template_context.update(defaults)
@@ -129,3 +153,36 @@ def _get_image_context(id):
 
     ratio = round(ratio * 100, 2)
     return dict(ratio=ratio, url=url)
+
+
+def _get_collage_context(pargs):
+    """
+    Download image and get/cache aspect ratio.
+    """
+    ratios = {}
+    for ix, id in enumerate(pargs):
+        url = IMAGE_URL_TEMPLATE % (app_config.IMAGE_URL, id)
+        ratios['url%s' % ix] = url
+        logger.info(url)
+        client = MongoClient(app_config.MONGODB_URL)
+        database = client['idp-georgia']
+        collection = database.images
+        result = collection.find_one({'_id': id})
+
+        if not result:
+            logger.info('image %s: uncached, downloading %s' % (id, url))
+            response = requests.get(url)
+            image = Image.open(StringIO(response.content))
+            ratio = float(image.height) / float(image.width)
+            collection.insert({
+                '_id': id,
+                'date': datetime.datetime.utcnow(),
+                'ratio': ratio,
+            })
+        else:
+            logger.info('image %s: retrieved from cache' % id)
+            ratio = result['ratio']
+        ratio = round(ratio * 100, 2)
+        ratios['ratio%s' % ix] = ratio
+    logger.info(ratios)
+    return ratios
