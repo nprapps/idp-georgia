@@ -19,6 +19,18 @@ body {
 
 // INTRO
 #intro-wrap {
+    .bg-img {
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+
+        &.bg-1 {
+            background-image: url('https://media.npr.org/idp-georgia/irakli_test_photos/20170309-GEORGIA_DSC0577_edit.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    }
+
     .panel {
         position: relative;
         width: 100%;
@@ -36,6 +48,7 @@ body {
             -ms-transform: translateY(-50%);
             transform: translateY(-50%);
             text-align: center;
+            color: @white;
 
             h1 {
                 font-size: 4rem;

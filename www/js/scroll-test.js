@@ -7,7 +7,6 @@ var onWindowLoaded = function(e) {
 const initScrollElements = function() {
     scrollController = new ScrollMagic.Controller();
 
-    //var textTween = TweenLite.to('#panel-text-1', 0.5, { opacity: 1 });
     document.querySelectorAll('.panel').forEach(function(d,i) {
         var innerText = d.querySelector('.text-wrapper');
         var timeline = new TimelineLite()

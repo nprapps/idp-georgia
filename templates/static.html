@@ -38,7 +38,9 @@
     {{ JS.push('js/analytics.js') }}
     {{ JS.render('js/app-header.min.js') }}
 
+    <!-- https://media.npr.org/idp-georgia/irakli_test_photos/20170309-GEORGIA_DSC0577_edit.jpg -->
     <div id="intro-wrap">
+        <div class="bg-img bg-1"></div>
         <div class="panel">
             <div class="text-wrapper">
                 <h1>Title screen</h1>
@@ -56,6 +58,7 @@
             </div>
         </div>
     </div>
+    <div id="story-wrap" style="height: 2000px; width: 100%;"></div>
 
     {# uncomment both files to use simpleStorage #}
     {{ JS.push('js/lib/simpleStorage.js') }}
