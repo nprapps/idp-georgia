@@ -45,6 +45,15 @@ def index():
     return redirect(url_for('_episode', filename='irakli.html'))
 
 
+@app.route('/static/')
+def _static():
+    """
+    Render a mostly-static HTML page for experimenting
+    """
+    context = make_context()
+    return make_response(render_template('static.html', **context))
+
+
 @app.route('/copydoc/<string:filename>')
 def _copydoc(filename):
     """

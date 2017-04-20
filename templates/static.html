@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- CHARTBEAT -->
+    <script type="text/javascript">
+        var _sf_startpt=(new Date()).getTime();
+    </script>
+
+    <title>Static test page</title>
+
+    <!-- META TAGS -->
+
+    <!-- FONTS -->
+    {% include '_fonts.html' %}
+
+    <!-- CSS -->
+    {{ CSS.push('less/app.less') }}
+    {% block extra_css %}{% endblock extra_css %}
+    {{ CSS.render('css/rendered/app.min.css') }}
+
+    {% block extra_head %}
+    {% endblock extra_head %}
+</head>
+<body>
+    <!-- ANALYTICS JAVASCRIPT -->
+    {{ JS.push('js/lib/modernizr.js') }}
+    {{ JS.push('js/lib/cookie.js') }}
+    {{ JS.push('js/lib/es6-promise.js') }}
+    {{ JS.push('js/lib/cross-storage-client.js') }}
+    {{ JS.push('js/lib/gsap/CSSPlugin.min.js') }}
+    {{ JS.push('js/lib/gsap/EasePack.min.js') }}
+    {{ JS.push('js/lib/gsap/TweenLite.min.js') }}
+    {{ JS.push('js/lib/gsap/TimelineLite.min.js') }}
+    {{ JS.push('js/lib/ScrollMagic.js') }}
+    {{ JS.push('js/lib/gsap/animation.gsap.js') }}
+    {{ JS.push('js/app_config.js') }}
+    {{ JS.push('js/analytics.js') }}
+    {{ JS.render('js/app-header.min.js') }}
+
+    <div id="intro-wrap">
+        <div class="panel">
+            <div class="text-wrapper">
+                <h1>Title screen</h1>
+            </div>
+        </div>
+        <div class="panel" id="panel-1">
+            <div id="panel-text-1" class="text-wrapper">
+                <p>They fled bombs and bullets and destruction. Their friends and relatives died. They lost everything.</p>
+                <p>They are internally displaced people, or IDPs.</p>
+            </div>
+        </div>
+        <div class="panel">
+            <div id="panel-text-2" class="text-wrapper">
+                <p> IDPs have never crossed an international border. Instead they are stuck in their own countries, sometimes just miles from where their journeys began, unable to go back to their homes, but also often unable to move on. </p>
+            </div>
+        </div>
+    </div>
+
+    {# uncomment both files to use simpleStorage #}
+    {{ JS.push('js/lib/simpleStorage.js') }}
+    {{ JS.push('js/storage.js') }}
+
+    {{ JS.push('js/copy.js') }}
+    {{ JS.push('js/templates.js') }}
+    {{ JS.push('js/scroll-test.js') }}
+    {% block extra_foot_js %}{% endblock extra_foot_js %}
+    {{ JS.render('js/app-footer.min.js') }}
+
+    {% if DEPLOYMENT_TARGET %}
+    <script src="{{S3_BASE_URL}}/js/rendered/app.min.js"></script>
+    {% else %}
+    <!--script src="{{S3_BASE_URL}}/js/rendered/app.js"></script-->
+    {% endif %}
+
+    {% block extra_foot %}
+    {% endblock extra_foot %}
+</body>
+</html>
+
