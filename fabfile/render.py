@@ -211,3 +211,7 @@ def _render_episode(episode):
     with codecs.open('.episodes/{0}'.format(episode_file),
                      'w', 'utf-8') as f:
         f.write(response.data.decode('utf-8'))
+    if episode == 'irakli':
+        with codecs.open('.episodes/index.html'.format(episode_file),
+                         'w', 'utf-8') as f:
+            f.write(response.data.decode('utf-8'))

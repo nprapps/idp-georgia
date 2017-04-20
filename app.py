@@ -35,7 +35,7 @@ logger.setLevel(app_config.LOG_LEVEL)
 
 @app.route('/')
 @oauth.oauth_required
-def index():
+def _index():
     """
     Example view demonstrating rendering a simple HTML page.
     """
