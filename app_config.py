@@ -20,7 +20,8 @@ NAMES
 """
 # Project name to be used in urls
 # Use dashes, not underscores!
-PROJECT_SLUG = 'idp-georgia'
+# PROJECT_SLUG = 'idp-georgia'
+PROJECT_SLUG = 'test-juan'
 
 # Project name to be used in file paths
 PROJECT_FILENAME = 'idp_georgia'
@@ -101,7 +102,6 @@ EPISODE DOCUMENTS
 EPISODE_DOCUMENTS = {
     'irakli': {
         'key': '1XItDq6yFo_B0nyvi3r8Eu5rVAg-OPjbc4cYcl9kuNkc',
-        #'key': '1i7jOkwG3DwiFv2WdNyFt8wihhZGye0IZFPGNqSJwzJo',
         'path': 'data/irakli.html',
         'next_primary': 'ana',
         'next_secondary': 'veriko'},

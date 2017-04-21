@@ -9,6 +9,7 @@
         {% include '_intro_custom.html' %}
     </div>
 </div>
+
 <div class='episode-content'>
 <h2> {{ COPY[episode].headline }} </h2>
 {% for section in sections %}
@@ -30,9 +31,7 @@
             <a href="{{next_secondary}}.html">{{ footer_alt }}</a>
         </div>
     </div>
-</div>
-<div id='end' class='episode-end'>
-    <div class="panel-footer">
+    <div id="end" class="panel-footer">
         <div class="text-wrapper">
             <p>{{COPY['end'].related_content}}</p>
             <p>{{COPY['end'].donate}}</p>

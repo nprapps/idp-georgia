@@ -1,9 +1,8 @@
 import imagesLoaded from 'imagesloaded';
 import * as _ from 'underscore';
 import URL from 'url-parse';
+import Clappr from 'clappr';
 
-const READ_INTERVAL = 5000;
-const WAIT_TO_ENSURE_SCROLLING_IS_DONE = 40;
 const LAZYLOAD_AHEAD = 1;
 const AVAILABLE_EPISODES = ['irakli', 'ana', 'veriko'];
 
@@ -15,10 +14,9 @@ let show_primary = true;
 let seen_episodes = null;
 let replay_action = 'full';
 let current_episode = null;
-let interval = null;
-let lastScrollTop = window.pageYOffset;
-let currentScrollTop = null;
 let scrollController = null;
+// Support multiple Clappr player instances
+let players = {};
 
 /*
  * Run on page load.
@@ -31,11 +29,6 @@ var onWindowLoaded = function(e) {
     else {
         console.log('non-touch device');
     }
-    // Test localstorage scenarios
-    // STORAGE.set('idp-georgia-intro',false);
-    // STORAGE.set('idp-georgia-episodes',['irakli', 'ana']);
-    // STORAGE.deleteKey('idp-georgia-intro')
-    // STORAGE.deleteKey('idp-georgia-episodes')
     parseUrl();
     // Check conditional logic for our customized intro
     checkConditionalLogic();
@@ -43,79 +36,10 @@ var onWindowLoaded = function(e) {
     addAppListeners();
     // Init intro scroll controller
     initIntroScroller();
-    // interval = new Timer(setActiveIntroText, READ_INTERVAL)
-    // interval.start();
     // Force first sections load of assets
     lazyload_assets(document.querySelector(".section"));
-    //render();
     // Setup Chartbeat last!
     ANALYTICS.setupChartbeat();
-}
-
-const initIntroScroller = function() {
-    scrollController = new ScrollMagic.Controller();
-
-    document.querySelectorAll('.panel-intro').forEach(function(d,i) {
-        var innerText = d.querySelector('.text-wrapper');
-        var timeline = new TimelineLite()
-            .to(innerText, 1, { opacity: 1 })
-            .to(innerText, 1, { opacity: 0 });
-
-        var scrollScene = new ScrollMagic.Scene({
-            duration: '100%',
-            triggerElement: d
-        })
-        .setTween(timeline)
-        .addTo(scrollController);
-
-        if (d.classList.contains('final-panel')) {
-            var bgScene = new ScrollMagic.Scene({
-                    duration: '100%',
-                    offset: '50%',
-                    triggerElement: d
-                    //triggerHook: 'onLeave'
-                })
-                .setTween(document.querySelector('#bg-container'), 1, { opacity: 0 })
-                .on('end', introSceneEnd)
-                .addTo(scrollController);
-        }
-    });
-
-    // footer scrollmagic
-    document.querySelectorAll('.panel-footer').forEach(function(d,i) {
-        var innerText = d.querySelector('.text-wrapper');
-        var timeline = new TimelineLite()
-            .to(innerText, 1, { opacity: 1 })
-            .to(innerText, 1, { opacity: 0 });
-
-        var scrollScene = new ScrollMagic.Scene({
-            duration: '100%',
-            triggerElement: d
-        })
-        .setTween(timeline)
-        .on('start', footerSceneStart)
-        .addTo(scrollController);
-    });
-};
-
-const introSceneEnd = function(e) {
-    // Mark intro as seen
-    if (e.scrollDirection == 'FORWARD') {
-        STORAGE.set('idp-georgia-intro',true);
-    }
-}
-
-const footerSceneStart = function(e) {
-    // Mark intro as seen
-    if (e.scrollDirection == 'FORWARD') {
-        if (!seen_episodes) {
-            STORAGE.set('idp-georgia-episodes',[current_episode]);
-        }
-        else if (!_.contains(seen_episodes, current_episode)) {
-            seen_episodes.push(current_episode)
-            STORAGE.set('idp-georgia-episodes',seen_episodes);
-        }
-    }
 }
 
 const parseUrl = function() {
@@ -140,9 +64,6 @@ const parseUrl = function() {
 const checkConditionalLogic = function() {
     const seen_intro = STORAGE.get('idp-georgia-intro');
     seen_episodes = STORAGE.get('idp-georgia-episodes');
-    console.log('seen_intro', seen_intro);
-    console.log('seen_episodes', seen_episodes);
-
     if (seen_intro) {
         show_full_intro = false;
     }
@@ -185,24 +106,114 @@ const adaptPageToUserStatus = function() {
 
 }
 
-// LAZY-LOADING FUNCTIONALITY
+const initIntroScroller = function() {
+    scrollController = new ScrollMagic.Controller();
 
-const isElementInViewport = function(el) {
-    // Adapted from http://stackoverflow.com/a/15203639/117014
-    // Returns true if el is partially on the viewport
-    var rect = el.getBoundingClientRect();
-    var vWidth   = window.innerWidth || document.documentElement.clientWidth;
-    var vHeight  = window.innerHeight || document.documentElement.clientHeight;
+    document.querySelectorAll('.panel-intro').forEach(function(d,i) {
+        var innerText = d.querySelector('.text-wrapper');
+        var timeline = new TimelineLite()
+            .to(innerText, 1, { opacity: 1 })
+            .to(innerText, 1, { opacity: 0 });
 
-    // Track partial visibility
-    if ((rect.top <= vHeight &&
-         0 >= -rect.bottom) &&
-        (rect.left <= vWidth  &&
-         0 >= -rect.right)) {
-            return true;
-    }
-    return false;
+        var scrollScene = new ScrollMagic.Scene({
+            duration: '100%',
+            triggerElement: d
+        })
+        .setTween(timeline)
+        .addTo(scrollController);
+
+        if (d.classList.contains('final-panel')) {
+            var bgScene = new ScrollMagic.Scene({
+                    duration: '100%',
+                    offset: '50%',
+                    triggerElement: d
+                    //triggerHook: 'onLeave'
+                })
+                .setTween(document.querySelector('#bg-container'), 1, { opacity: 0 })
+                .on('leave', introSceneLeave)
+                .addTo(scrollController);
+        }
+    });
+
+    // footer scrollmagic
+    document.querySelectorAll('.panel-footer').forEach(function(d,i) {
+        var innerText = d.querySelector('.text-wrapper');
+        var timeline = new TimelineLite()
+            .to(innerText, 1, { opacity: 1 })
+            .to(innerText, 1, { opacity: 0 });
+
+        var scrollScene = new ScrollMagic.Scene({
+            duration: '100%',
+            triggerElement: d
+        })
+        .setTween(timeline)
+        .on('enter', footerSceneEnter)
+        .addTo(scrollController);
+    });
+
+    // section image loading
+    document.querySelectorAll('.section').forEach(function(d,i) {
+        var innerText = d.querySelector('.text-wrapper');
+
+        var scrollScene = new ScrollMagic.Scene({
+            triggerElement: d
+        })
+        .on('enter', sectionEnter)
+        .addTo(scrollController);
+    });
+
+    // individual video loading
+    document.querySelectorAll('.video-wrapper').forEach(function(d,i) {
+        // Initialize players and preload videos
+        initVideos(d);
+
+        var scrollScene = new ScrollMagic.Scene({
+            triggerElement: d
+        })
+        .on('enter', videoEnter)
+        .on('leave', videoLeave)
+        .addTo(scrollController);
+    });
+
+};
+
+// VIDEO
+const createClapperPlayerInstance = function(poster, width, height) {
+    poster = poster || 'http://clappr.io/poster.png';
+    width = width || '100%';
+    height = height || '100%';
+    let player = new Clappr.Player({
+        width: width,
+        height: height,
+        baseUrl: 'assets/clappr',
+        poster: poster,
+        loop: true,
+        chromeless: true,
+        mute: true});
+    return player
 }
+
+const initVideos = function(el) {
+    let videoDiv = null;
+    const src = el.getAttribute("data-src");
+    const poster = el.getAttribute("data-poster");
+    const mime = el.getAttribute("data-mime");
+    const width = el.getAttribute("data-width");
+    const height = el.getAttribute("data-height");
+    const containerId = el.getAttribute("id");
+    if (!el.classList.contains('loaded')) {
+        let player = createClapperPlayerInstance(poster, width, height);
+        players[containerId] = player;
+        videoDiv = document.createElement('div');
+        videoDiv.classList.add('video');
+        el.append(videoDiv);
+        el.classList.add('loaded');
+        player.attachTo(videoDiv);
+        player.load(src,mime,false);
+    }
+}
+
+// IMAGES
 
 const renderImage = function(imageWrapper) {
     const image = imageWrapper.getElementsByTagName('img')[0];
@@ -212,7 +223,7 @@ const renderImage = function(imageWrapper) {
     var filenameExtension = parts.length - 1;
     if (parts[filenameExtension].toLowerCase() !== 'gif') {
         if (document.body.clientWidth > 800) {
-            parts[filenamePosition] += '-s750-c80';
+            parts[filenamePosition] += '-s800-c80';
         } else {
             parts[filenamePosition] += '-s600-c70';
         }
@@ -220,10 +231,6 @@ const renderImage = function(imageWrapper) {
     const newSrc = parts.join('.');
     image.setAttribute("src", newSrc);
     imageWrapper.removeAttribute("data-src");
-}
-
-const lazyload_videos = function(section) {
-    // TODO
 }
 
 const lazyload_images = function(section) {
@@ -238,51 +245,78 @@ const lazyload_images = function(section) {
 
 }
 
-/* Lazy loading of images and tweets
- * We expect this page to get really long so it is needed
- * tweets are handled here since we need to use the widget library to load them
- */
+// Scroll magic events
+
+const introSceneLeave = function(e) {
+    console.log("introSceneLeave");
+    // hidden elements fire spurious scroll magic events
+    // check if parent is hidden
+    if (this.triggerElement().parentNode.classList.contains('hide')) {
+        this.off('leave');
+    }
+    else if (e.scrollDirection == 'FORWARD') {
+        // Mark intro as seen
+        STORAGE.set('idp-georgia-intro',true);
+    }
+}
+
+const footerSceneEnter = function(e) {
+    console.log("footerSceneEnter");
+    // hidden elements fire spurious scroll magic events
+    if (this.triggerElement().classList.contains('hide')) {
+        this.off('enter');
+    }
+    // Mark intro as seen
+    if (e.scrollDirection == 'FORWARD') {
+        if (!seen_episodes) {
+            STORAGE.set('idp-georgia-episodes',[current_episode]);
+        }
+        else if (!_.contains(seen_episodes, current_episode)) {
+            seen_episodes.push(current_episode)
+            STORAGE.set('idp-georgia-episodes',seen_episodes);
+        }
+    }
+}
+
+const sectionEnter = function(e) {
+    console.log("sectionEnter");
+    lazyload_assets(this.triggerElement());
+    this.remove();
+}
+
+const videoEnter = function(e) {
+    console.log("videoEnter");
+    const el = this.triggerElement();
+    if (el.classList.contains('loaded')) {
+        const containerId = el.getAttribute("id");
+        let player = players[containerId];
+        player.play();
+    }
+    else {
+        console.error("player not loaded");
+    }
+}
+
+const videoLeave = function(e) {
+    console.log("videoLeave");
+    const el = this.triggerElement();
+    const containerId = el.getAttribute("id");
+    let player = players[containerId];
+    player.stop();
+}
+
+// Lazy loading of images
 const lazyload_assets = function(section, stop) {
     stop = stop || 0;
     // Lazyload images
     lazyload_images(section);
-    // Lazyload videos
-    lazyload_videos(section);
-
     if (stop < LAZYLOAD_AHEAD && section.nextElementSibling) {
         lazyload_assets(section.nextElementSibling, stop + 1);
     }
 }
 
-const checkSectionVisibility = function() {
-    // Check section visibility and launch lazyloading
-    const sections = document.querySelectorAll(".section");
-    const sectionsArray = Array.prototype.slice.call(sections);
-    sectionsArray.forEach(function(section, ix) {
-        if (isElementInViewport(section)) {
-            lazyload_assets(section)
-        }
-    });
-}
-
-const render = function(e) {
-    currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    checkSectionVisibility();
-    // Store scrollTop position
-    lastScrollTop = currentScrollTop;
-}
-
-// Throttle scroll through underscore
-const handler = _.throttle(render, WAIT_TO_ENSURE_SCROLLING_IS_DONE);
-
 // EVENT LISTENERS
 const addAppListeners = function() {
-    // Listen to different window movement events
-    if (window.addEventListener) {
-        addEventListener('scroll', handler, false);
-        addEventListener('resize', handler, false);
-    }
-
     document.getElementById('more_info').onclick = function(e){
         let container = document.getElementById('intro-common');
         container.classList.remove('hide');

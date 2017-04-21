@@ -180,7 +180,6 @@ def process_footer_contents(footer):
     Remove html markup
     """
     soup = BeautifulSoup(footer['contents'], 'html.parser')
-    logger.info(soup)
     return soup.get_text()
 
 

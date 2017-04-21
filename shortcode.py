@@ -16,9 +16,6 @@ IMAGE_URL_TEMPLATE = '%s/%s'
 IMAGE_TYPES = ['image', 'graphic']
 COLLAGE_TYPES = ['collage2']
 SHORTCODE_DICT = {
-    'youtube': {
-        'start_time': 0
-    },
     'image': {
         'caption': '',
         'credit': '',
@@ -34,8 +31,7 @@ SHORTCODE_DICT = {
         'credit': 'Graphic credit',
         'width': '100%'
     },
-    'facebook': {},
-    'npr_video': {},
+    'video': {},
 }
 
 env = Environment(loader=FileSystemLoader('templates/shortcodes'))
