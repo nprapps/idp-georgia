@@ -92,8 +92,7 @@ def _episode(filename):
     context.update(parsed_document)
     context.update({
         'episode': key,
-        'next_primary': app_config.EPISODE_DOCUMENTS[key]['next_primary'],
-        'next_secondary': app_config.EPISODE_DOCUMENTS[key]['next_secondary']})
+        'next': app_config.EPISODE_DOCUMENTS[key]['next']})
     return make_response(render_template('episode.html', **context))
 
 

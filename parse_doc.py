@@ -199,16 +199,9 @@ def parse(doc):
             footer = process_footer_contents(footer)
         else:
             logger.error("Did not find the footer section on the document")
-        idx = find_section_id(sections, 'footer-alt')
-        if idx is not None:
-            footer_alt = sections.pop(idx)
-            footer_alt = process_footer_contents(footer_alt)
-        else:
-            logger.error("Did not find the alternative footer section on the document")
         logger.info('Number of sections: %s' % len(sections))
         parsed_document['sections'] = sections
         parsed_document['footer'] = footer
-        parsed_document['footer_alt'] = footer_alt
     finally:
         logger.info('-------------end------------')
     return parsed_document

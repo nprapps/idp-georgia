@@ -20,18 +20,15 @@
     </section>
 {% endfor %}
 </div>
+{% if episode != 'veriko' %}
 <div id='footer' class='episode-footer'>
     <div id="primary" class="panel-footer">
         <div class="text-wrapper">
-            <a href="{{next_primary}}.html">{{ footer }}</a>
-        </div>
-    </div>
-    <div id="secondary" class="panel-footer">
-        <div class="text-wrapper">
-            <a href="{{next_secondary}}.html">{{ footer_alt }}</a>
+            <a href="{{next}}.html">{{ footer }}</a>
         </div>
     </div>
 </div>
+{% else %}
 <div class='episode-end'>
     <div id="end" class="panel-footer">
         <div class="text-wrapper">
@@ -40,4 +37,5 @@
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}

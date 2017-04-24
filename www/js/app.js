@@ -8,11 +8,7 @@ const AVAILABLE_EPISODES = ['irakli', 'ana', 'veriko'];
 
 let url = null;
 let show_full_intro = true;
-let show_custom_intro = true;
-let show_footer = true;
-let show_primary = true;
 let seen_episodes = null;
-let replay_action = 'full';
 let current_episode = null;
 let scrollController = null;
 // Support multiple Clappr player instances
@@ -63,47 +59,20 @@ const parseUrl = function() {
 // CHECK CONDITIONAL LOGIC
 const checkConditionalLogic = function() {
     const seen_intro = STORAGE.get('idp-georgia-intro');
-    seen_episodes = STORAGE.get('idp-georgia-episodes');
     if (seen_intro) {
         show_full_intro = false;
-    }
-    if (seen_episodes && seen_episodes.constructor === Array) {
-        let unseen_episodes = _.difference(AVAILABLE_EPISODES, seen_episodes);
-        if (_.isEmpty(unseen_episodes) || _.isEqual(unseen_episodes, [current_episode])) {
-            show_footer = false;
-        }
-        if (_.contains(seen_episodes, APP_CONFIG.EPISODE_DOCUMENTS[current_episode]['next_primary'])) {
-            show_primary = false;
-        }
     }
 }
 
 const adaptPageToUserStatus = function() {
     let container = null
+    // add current episode class to the body
+    document.body.classList.add(current_episode);
     if (show_full_intro) {
         // Remove .panel class from intro and hide
         container = document.getElementById('intro-common');
         container.classList.remove('hide');
     }
-
-    if (show_footer) {
-        // hide episode end
-        container = document.getElementById('end');
-        container.classList.add('hide');
-        if (show_primary) {
-            container = document.getElementById('secondary');
-            container.classList.add('hide');
-        } else {
-            container = document.getElementById('primary');
-            container.classList.add('hide');
-        }
-    } else {
-        // hide footer
-        let container = document.getElementById('footer');
-        container.classList.add('hide');
-
-    }
-
 }
 
 
