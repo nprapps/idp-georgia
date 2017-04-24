@@ -1,12 +1,10 @@
-{% for panel_key in ['intro_1','intro_2'] %}
-{% if COPY[episode][panel_key] %}
-<div class="panel-intro panel-custom{% if loop.last %} final-panel{% endif %}">
+{% for content in COPY['intro_%s' % episode] %}
+<div class="panel-intro panel-custom-{{ loop.index0 }}{% if loop.last %} final-panel{% endif %}">
     <div class="text-wrapper">
-        {{ COPY[episode][panel_key] }}
+        <p>{{ content.text }}</p>
         {% if loop.last %}
           <a id="more_info" href="#">{{ COPY.content.replay}}</a>
         {% endif %}
     </div>
 </div>
-{% endif %}
 {% endfor %}

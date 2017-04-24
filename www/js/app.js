@@ -34,8 +34,8 @@ var onWindowLoaded = function(e) {
     checkConditionalLogic();
     adaptPageToUserStatus();
     addAppListeners();
-    // Init intro scroll controller
-    initIntroScroller();
+    // Init scrollmagic controller
+    initScroller();
     // Force first sections load of assets
     lazyload_assets(document.querySelector(".section"));
     // Setup Chartbeat last!
@@ -108,7 +108,7 @@ const adaptPageToUserStatus = function() {
 
 
 // HEAD version
-const initIntroScroller = function() {
+const initScroller = function() {
     scrollController = new ScrollMagic.Controller();
 
     document.querySelectorAll('.panel-intro').forEach(function(d,i) {
@@ -124,7 +124,7 @@ const initIntroScroller = function() {
         .setTween(timeline)
         .addTo(scrollController);
 
-        if (d.classList.contains('panel-0')) {
+        if (d.classList.contains('panel-intro-0')) {
             var bgScene = new ScrollMagic.Scene({
                     duration: '50%',
                     triggerElement: d
@@ -156,6 +156,7 @@ const initIntroScroller = function() {
         var innerText = d.querySelector('.text-wrapper');
 
         var scrollScene = new ScrollMagic.Scene({
+            duration: '100%',
             triggerElement: d
         })
         .on('enter', sectionEnter)

@@ -5,8 +5,8 @@
         <h2>{{ COPY.content.subhed }}</h2>
     </div>
 </div>
-{% for content in COPY.common %}
-<div class="panel-intro panel-{{ loop.index0 }}{% if loop.last %} final-panel{% endif %}">
+{% for content in COPY.intro_common %}
+<div class="panel-intro panel-intro-{{ loop.index0 }}{% if loop.last %} final-panel{% endif %}">
     <div class="text-wrapper">
         <p>{{ content.text }}</p>
     </div>
