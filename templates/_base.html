@@ -44,9 +44,9 @@
     {% block content %}
     {% endblock content %}
 
-    {# uncomment both files to use simpleStorage #}
-    {{ JS.push('js/lib/simpleStorage.js') }}
-    {{ JS.push('js/storage.js') }}
+    {# tweak to use sesionStorage #}
+    {{ JS.push('js/lib/simpleSessionStorage.js') }}
+    {{ JS.push('js/sessionStorage.js') }}
 
     {{ JS.push('js/copy.js') }}
     {{ JS.push('js/templates.js') }}
