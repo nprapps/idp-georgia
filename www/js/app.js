@@ -293,7 +293,7 @@ const addAppListeners = function() {
         container.classList.remove('hide');
         scrollController.destroy(true);
         window.scrollTo(0, 0);
-        initIntroScroller();
+        initScroller();
         return false;
     }
 }
