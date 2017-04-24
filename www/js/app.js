@@ -165,9 +165,10 @@ const initIntroScroller = function() {
     // individual video loading
     document.querySelectorAll('.video-wrapper').forEach(function(d,i) {
         // Initialize players and preload videos
-        initVideos(d);
+        initVideo(d);
 
         var scrollScene = new ScrollMagic.Scene({
+            duration: '100%',
             triggerElement: d
         })
         .on('enter', videoEnter)
@@ -193,7 +194,7 @@ const createClapperPlayerInstance = function(poster, width, height) {
     return player
 }
 
-const initVideos = function(el) {
+const initVideo = function(el) {
     let videoDiv = null;
     const src = el.getAttribute("data-src");
     const poster = el.getAttribute("data-poster");
