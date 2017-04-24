@@ -106,14 +106,16 @@ const adaptPageToUserStatus = function() {
 
 }
 
+
+// HEAD version
 const initIntroScroller = function() {
     scrollController = new ScrollMagic.Controller();
 
     document.querySelectorAll('.panel-intro').forEach(function(d,i) {
         var innerText = d.querySelector('.text-wrapper');
         var timeline = new TimelineLite()
-            .to(innerText, 1, { opacity: 1 })
-            .to(innerText, 1, { opacity: 0 });
+            .to(innerText, 1, { opacity: 1, ease: Power1.easeOut })
+            .to(innerText, 1, { opacity: 0, ease: Power1.easeIn });
 
         var scrollScene = new ScrollMagic.Scene({
             duration: '100%',
@@ -122,15 +124,13 @@ const initIntroScroller = function() {
         .setTween(timeline)
         .addTo(scrollController);
 
-        if (d.classList.contains('final-panel')) {
+        if (d.classList.contains('panel-0')) {
             var bgScene = new ScrollMagic.Scene({
-                    duration: '100%',
-                    offset: '50%',
+                    duration: '50%',
                     triggerElement: d
-                    //triggerHook: 'onLeave'
                 })
                 .setTween(document.querySelector('#bg-container'), 1, { opacity: 0 })
-                .on('leave', introSceneLeave)
+                .on('end', introSceneLeave)
                 .addTo(scrollController);
         }
     });
