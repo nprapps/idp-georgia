@@ -80,10 +80,10 @@ const checkConditionalLogic = function() {
 
 const adaptPageToUserStatus = function() {
     let container = null
-    if (!show_full_intro) {
+    if (show_full_intro) {
         // Remove .panel class from intro and hide
         container = document.getElementById('intro-common');
-        container.classList.add('hide');
+        container.classList.remove('hide');
     }
 
     if (show_footer) {
