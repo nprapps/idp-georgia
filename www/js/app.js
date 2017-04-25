@@ -80,24 +80,58 @@ const initScroller = function() {
 
     document.querySelectorAll('.panel-intro').forEach(function(d,i) {
         var innerText = d.querySelector('.text-wrapper');
-        var timeline = new TimelineLite()
-            .to(innerText, 1, { opacity: 1, ease: Power1.easeOut })
-            .to(innerText, 1, { opacity: 0, ease: Power1.easeIn });
+        if (innerText) {
+            var timeline = new TimelineLite()
+                .to(innerText, 1, { opacity: 1, ease: Power1.easeOut })
+                .to(innerText, 1, { opacity: 0, ease: Power1.easeIn });
 
-        var scrollScene = new ScrollMagic.Scene({
-            duration: '100%',
-            triggerElement: d
-        })
-        .setTween(timeline)
-        .addTo(scrollController);
+            var scrollScene = new ScrollMagic.Scene({
+                duration: '100%',
+                triggerElement: d
+            })
+            .setTween(timeline)
+            .addTo(scrollController);
+        }
+
+        if (d.classList.contains('bg-fade-out')) {
+            var bgTimeline = new TimelineLite()
+                .to('#bg-container', 1, { opacity: 1, ease: Power1.easeOut })
+                .to('#bg-container', 1, { opacity: 0, ease: Power1.easeIn });
+
+            var bgScene = new ScrollMagic.Scene({
+                    duration: '100%',
+                    triggerElement: d
+                })
+                .setTween(bgTimeline)
+                .addTo(scrollController);
+        }
+
+        if (d.classList.contains('final-panel')) {
+            var bgTimeline = new TimelineLite()
+                .to('#bg-container', 1, { opacity: 0, ease: Power1.easeOut })
+                .to('#bg-container', 1, { opacity: 1, ease: Power1.easeIn });
+
+            var bgScene = new ScrollMagic.Scene({
+                    duration: '100%',
+                    triggerElement: d
+                })
+                .on('enter', function() {
+                    document.querySelector('#bg-container').className = 'bg-2';
+                })
+                .setTween(bgTimeline)
+                .on('end', introSceneLeave)
+                .addTo(scrollController);
+        }
 
         if (d.classList.contains('panel-intro-0')) {
             var bgScene = new ScrollMagic.Scene({
                     duration: '50%',
                     triggerElement: d
                 })
+                .on('enter', function() {
+                    document.querySelector('#bg-container').className = 'bg-1';
+                })
                 .setTween(document.querySelector('#bg-container'), 1, { opacity: 0 })
-                .on('end', introSceneLeave)
                 .addTo(scrollController);
         }
     });
@@ -277,14 +311,14 @@ const videoLeave = function(e) {
 
 // EVENT LISTENERS
 const addAppListeners = function() {
-    document.getElementById('more_info').onclick = function(e){
-        let container = document.getElementById('intro-common');
-        container.classList.remove('hide');
-        scrollController.destroy(true);
-        window.scrollTo(0, 0);
-        initScroller();
-        return false;
-    }
+    //document.getElementById('more_info').onclick = function(e){
+        //let container = document.getElementById('intro-common');
+        //container.classList.remove('hide');
+        //scrollController.destroy(true);
+        //window.scrollTo(0, 0);
+        //initScroller();
+        //return false;
+    //}
 }
 
 window.onload = onWindowLoaded;

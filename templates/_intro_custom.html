@@ -1,3 +1,7 @@
-{% for content in COPY['intro_%s' % episode] %}
-    <p>{{ content.text }}</p>
-{% endfor %}
+<div class="panel-intro panel-pin bg-fade-out">
+    <div class="text-wrapper">
+    {% for content in COPY['intro_%s' % episode] %}
+        {{ content.text }}
+    {% endfor %}
+    </div>
+</div>
