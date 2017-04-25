@@ -104,22 +104,6 @@ const initScroller = function() {
         }
     });
 
-    // footer scrollmagic
-    document.querySelectorAll('.panel-footer').forEach(function(d,i) {
-        var innerText = d.querySelector('.text-wrapper');
-        var timeline = new TimelineLite()
-            .to(innerText, 1, { opacity: 1 })
-            .to(innerText, 1, { opacity: 0 });
-
-        var scrollScene = new ScrollMagic.Scene({
-            duration: '100%',
-            triggerElement: d
-        })
-        .setTween(timeline)
-        .on('enter', footerSceneEnter)
-        .addTo(scrollController);
-    });
-
     // section image loading
     document.querySelectorAll('.section').forEach(function(d,i) {
         var innerText = d.querySelector('.text-wrapper');
@@ -231,23 +215,23 @@ const introSceneLeave = function(e) {
     }
 }
 
-const footerSceneEnter = function(e) {
-    console.log("footerSceneEnter");
-    // hidden elements fire spurious scroll magic events
-    if (this.triggerElement().classList.contains('hide')) {
-        this.off('enter');
-    }
-    // Mark intro as seen
-    if (e.scrollDirection == 'FORWARD') {
-        if (!seen_episodes) {
-            STORAGE.set('idp-georgia-episodes',[current_episode]);
-        }
-        else if (!_.contains(seen_episodes, current_episode)) {
-            seen_episodes.push(current_episode)
-            STORAGE.set('idp-georgia-episodes',seen_episodes);
-        }
-    }
-}
+// const footerSceneEnter = function(e) {
+//     console.log("footerSceneEnter");
+//     // hidden elements fire spurious scroll magic events
+//     if (this.triggerElement().classList.contains('hide')) {
+//         this.off('enter');
+//     }
+//     // Mark intro as seen
+//     if (e.scrollDirection == 'FORWARD') {
+//         if (!seen_episodes) {
+//             STORAGE.set('idp-georgia-episodes',[current_episode]);
+//         }
+//         else if (!_.contains(seen_episodes, current_episode)) {
+//             seen_episodes.push(current_episode)
+//             STORAGE.set('idp-georgia-episodes',seen_episodes);
+//         }
+//     }
+// }
 
 const sectionEnter = function(e) {
     console.log("sectionEnter");

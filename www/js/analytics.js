@@ -318,8 +318,8 @@ var ANALYTICS = (function () {
     }
 
     setupGoogle();
-    setupComscore();
-    setupNielson();
+    // setupComscore();
+    // setupNielson();
 
     return {
         'setupChartbeat': setupChartbeat,
