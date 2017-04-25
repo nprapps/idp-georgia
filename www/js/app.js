@@ -1,7 +1,6 @@
 import imagesLoaded from 'imagesloaded';
 import * as _ from 'underscore';
 import URL from 'url-parse';
-import Clappr from 'clappr';
 
 const LAZYLOAD_AHEAD = 1;
 const AVAILABLE_EPISODES = ['irakli', 'ana', 'veriko'];
@@ -64,6 +63,7 @@ const checkConditionalLogic = function() {
     }
 }
 
+// APPLY STATUS TO PAGE
 const adaptPageToUserStatus = function() {
     let container = null
     // add current episode class to the body
@@ -75,8 +75,6 @@ const adaptPageToUserStatus = function() {
     }
 }
 
-
-// HEAD version
 const initScroller = function() {
     scrollController = new ScrollMagic.Controller();
 
@@ -149,23 +147,8 @@ const initScroller = function() {
 };
 
 // VIDEO
-const createClapperPlayerInstance = function(poster, width, height) {
-    poster = poster || 'http://clappr.io/poster.png';
-    width = width || '100%';
-    height = height || '100%';
-    let player = new Clappr.Player({
-        width: width,
-        height: height,
-        baseUrl: 'assets/clappr',
-        poster: poster,
-        loop: true,
-        chromeless: true,
-        mute: true});
-    return player
-}
-
 const initVideo = function(el) {
-    let videoDiv = null;
+    let videoTag = null;
     const src = el.getAttribute("data-src");
     const poster = el.getAttribute("data-poster");
     const mime = el.getAttribute("data-mime");
@@ -173,19 +156,22 @@ const initVideo = function(el) {
     const height = el.getAttribute("data-height");
     const containerId = el.getAttribute("id");
     if (!el.classList.contains('loaded')) {
-        let player = createClapperPlayerInstance(poster, width, height);
-        players[containerId] = player;
-        videoDiv = document.createElement('div');
-        videoDiv.classList.add('video');
-        el.append(videoDiv);
+        videoTag = document.createElement('video');
+        videoTag.setAttribute('muted','');
+        if (Modernizr.touch) {
+            videoTag.setAttribute('autoplay','');
+            videoTag.setAttribute('playsinline','');
+        }
+        videoTag.setAttribute('loop','');
+        videoTag.setAttribute('src',src);
+        videoTag.setAttribute('poster',poster);
+        videoTag.setAttribute('width',width);
+        el.append(videoTag);
         el.classList.add('loaded');
-        player.attachTo(videoDiv);
-        player.load(src,mime,false);
     }
 }
 
 // IMAGES
-
 const renderImage = function(imageWrapper) {
     const image = imageWrapper.getElementsByTagName('img')[0];
     const src = imageWrapper.getAttribute("data-src");
@@ -214,6 +200,16 @@ const lazyload_images = function(section) {
         })
     }
 
+}
+
+// Lazy loading of images
+const lazyload_assets = function(section, stop) {
+    stop = stop || 0;
+    // Lazyload images
+    lazyload_images(section);
+    if (stop < LAZYLOAD_AHEAD && section.nextElementSibling) {
+        lazyload_assets(section.nextElementSibling, stop + 1);
+    }
 }
 
 // Scroll magic events
@@ -257,32 +253,25 @@ const sectionEnter = function(e) {
 
 const videoEnter = function(e) {
     console.log("videoEnter");
-    const el = this.triggerElement();
-    if (el.classList.contains('loaded')) {
-        const containerId = el.getAttribute("id");
-        let player = players[containerId];
-        player.play();
-    }
-    else {
-        console.error("player not loaded");
+    if (!Modernizr.touch) {
+        const el = this.triggerElement();
+        if (el.classList.contains('loaded')) {
+            let video = el.querySelector('video');
+            video.play();
+        }
+        else {
+            console.error("player not loaded");
+        }
     }
 }
 
 const videoLeave = function(e) {
     console.log("videoLeave");
-    const el = this.triggerElement();
-    const containerId = el.getAttribute("id");
-    let player = players[containerId];
-    player.stop();
-}
-
-// Lazy loading of images
-const lazyload_assets = function(section, stop) {
-    stop = stop || 0;
-    // Lazyload images
-    lazyload_images(section);
-    if (stop < LAZYLOAD_AHEAD && section.nextElementSibling) {
-        lazyload_assets(section.nextElementSibling, stop + 1);
+    if (!Modernizr.touch) {
+        const el = this.triggerElement();
+        let video = el.querySelector('video');
+        video.pause();
+        video.currentTime = 0;
     }
 }
 

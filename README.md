@@ -99,8 +99,20 @@ cd idp-georgia
 mkvirtualenv idp-georgia
 pip install -r requirements.txt
 npm install
-fab data.bootstrap_db
 fab update
+```
+
+We'll need a running instance of mongo to cache our images, it you have used brew to install mongo then run this on a new terminal window:
+
+```
+mongod --config /usr/local/etc/mongod.conf
+```
+
+_Note: Leave that terminal window/tab open you are going to need it to cache images_
+
+Then in your main terminal run:
+```
+fab data.bootstrap_db
 ```
 
 **Problems installing requirements?** You may need to run the pip command as ``ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future pip install -r requirements.txt`` to work around an issue with OSX.
@@ -139,6 +151,30 @@ A site can have any number of rendered pages, each with a corresponding template
 
 Run the project
 ---------------
+
+We'll need a running instance of mongo to cache our images so run this on a new terminal window:
+
+```
+mongod --config /usr/local/etc/mongod.conf
+```
+
+_Note: Leave that terminal window/tab open you are going to need it to cache images_
+
+We are using Google Drive Documents as our source for content, so you will need to download those documents prior to running the app, to do so run:
+
+```
+workon idp-georgia
+fab text.update
+```
+
+_Optional: There's also a daemon that will automatically sync the google documents to your local environment, if you prefer to do that instead of manually updating your google drive local copies then run on a new terminal window/tab:
+
+```
+workon idp-georgia
+fab daemons.main
+```
+
+_Note: Leave that terminal window/tab open if you want the daemon to fetch google drive documents periodically_
 
 A flask app is used to run the project locally. It will automatically recompile templates and assets on demand.
 
