@@ -19,12 +19,14 @@ SHORTCODE_DICT = {
     'image': {
         'caption': '',
         'credit': '',
-        'width': '100%'
+        'width': '100%',
+        'format': 'centered'
     },
     'collage2': {
         'caption': '',
         'credit': 'Image credit',
-        'width': '100%'
+        'width': '100%',
+        'format': 'centered'
     },
     'graphic': {
         'caption': 'Graphic caption',
@@ -112,7 +114,8 @@ def process_shortcode(tag):
     Generates html from shortcode
     """
     # Replace unicode <br>
-    text = tag.get_text().replace(u'\xa0', u' ')
+    # Replace rquote to normal quotation marks
+    text = tag.get_text().replace(u'\xa0', u' ').replace(u'\u201D', u'"')
     try:
         return parser.parse(text)
     except shortcodes.RenderingError as e:

@@ -101,7 +101,7 @@ body {
 
 // MEDIA TYPES
 
-.image-wrapper, .vid-wrapper {
+.image-wrapper {
     background-color: #f1f1f1;
     &:after {
         content: 'loading';
@@ -120,10 +120,20 @@ body {
     }
 }
 
-
 .embed-image, .embed-graphic {
-    margin: 2em 0;
-    width: 100%;
+
+    &.full {
+        margin: 2em 0;
+        width: 100%;
+    }
+
+    &.centered {
+        max-width: 730px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
     .collage2 {
         width: 48%;
@@ -193,6 +203,7 @@ body {
         color: @textgray;
     }
 }
+
 .episode-content {
     h2 {
         text-align: center;
@@ -220,16 +231,6 @@ body {
 
 .video-wrapper {
     width: 100%;
-}
-
-.video {
-    width: 100%;
-    height: 100vh;
-}
-
-video {
-    // Get rid of video black bars
-    object-fit: cover;
 }
 
 .episode-footer, .episode-end {
