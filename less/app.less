@@ -55,6 +55,7 @@ body {
             transform: translateY(-50%);
             text-align: center;
             color: @black;
+            padding: 0 1em;
 
             h1 {
                 font-size: 5rem;
@@ -68,6 +69,15 @@ body {
                 line-height: 1.5;
                 max-width: 800px;
                 margin: 0 auto 1em;
+
+                @media @screen-small {
+                    font-size: 1.5rem;
+                }
+
+                @media @screen-landscape {
+                    font-size: 1.2rem;
+                    max-width: 480px;
+                }
             }
         }
 
@@ -95,6 +105,14 @@ body {
         img.intro-map {
             width: 100%;
             max-width: 600px;
+
+            @media @screen-small {
+                max-width: 360px;
+            }
+
+            @media @screen-landscape and (min-width: 421px) {
+                max-width: 280px;
+            }
         }
     }
 }
