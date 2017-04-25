@@ -94,15 +94,17 @@ const initScroller = function() {
         }
 
         if (d.classList.contains('bg-fade-out')) {
-            var bgTimeline = new TimelineLite()
-                .to('#bg-container', 1, { opacity: 1, ease: Power1.easeOut })
-                .to('#bg-container', 1, { opacity: 0, ease: Power1.easeIn });
-
             var bgScene = new ScrollMagic.Scene({
-                    duration: '100%',
+                    duration: '50%',
                     triggerElement: d
                 })
-                .setTween(bgTimeline)
+                .on('end', function(e) {
+                    if (e.scrollDirection == 'REVERSE') {
+                        document.querySelector('#bg-container').classList.remove('pinned');
+                    } else {
+                        document.querySelector('#bg-container').classList.add('pinned');
+                    }
+                })
                 .addTo(scrollController);
         }
 
