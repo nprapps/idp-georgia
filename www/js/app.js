@@ -13,6 +13,12 @@ let scrollController = null;
 // Support multiple Clappr player instances
 let players = {};
 
+// Returns true with the exception of iPhones with no playsinline support
+Modernizr.addTest('iphonewoplaysinline', function () {
+    return false;
+    return navigator.userAgent.match(/(iPhone|iPod)/g) ? ('playsinline' in document.createElement('video')) : true;
+});
+
 /*
  * Run on page load.
  */
@@ -24,6 +30,7 @@ var onWindowLoaded = function(e) {
     else {
         console.log('non-touch device');
     }
+
     parseUrl();
     // Check conditional logic for our customized intro
     checkConditionalLogic();
@@ -163,9 +170,14 @@ const initVideo = function(el) {
             videoTag.setAttribute('playsinline','');
         }
         videoTag.setAttribute('loop','');
-        videoTag.setAttribute('src',src);
         videoTag.setAttribute('poster',poster);
         videoTag.setAttribute('width',width);
+        // Check if iPhone with no playsinline support
+        if (Modernizr.iphonewoplaysinline) {
+            let source = document.createElement('source');
+            source.setAttribute('src',src);
+            videoTag.append(source);
+        }
         el.append(videoTag);
         el.classList.add('loaded');
     }
@@ -257,10 +269,12 @@ const videoEnter = function(e) {
         const el = this.triggerElement();
         if (el.classList.contains('loaded')) {
             let video = el.querySelector('video');
-            video.play();
+            video.play().catch((error) => {
+                // Ignore play errors using poster as fallback
+            });
         }
         else {
-            console.error("player not loaded");
+            console.error("video not loaded");
         }
     }
 }
