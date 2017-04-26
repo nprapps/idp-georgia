@@ -15,7 +15,7 @@ let players = {};
 
 // Returns true with the exception of iPhones with no playsinline support
 Modernizr.addTest('iphonewoplaysinline', function () {
-    return navigator.userAgent.match(/(iPhone|iPod)/g) ? ('playsinline' in document.createElement('video')) : true;
+    return navigator.userAgent.match(/(iPhone|iPod)/g) ? ('playsInline' in document.createElement('video')) : true;
 });
 
 /*
