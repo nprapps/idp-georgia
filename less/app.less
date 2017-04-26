@@ -24,20 +24,20 @@ body {
         position: absolute;
 
     &.bg-irakli {
-        background-image: url('../../assets/kartli-vid-preview.png');
-        background-size: cover;
-        background-position: center;
+        // background-image: url('../../assets/kartli-vid-preview.png');
+        // background-size: cover;
+        // background-position: center;
     }
 
     &.bg-ana {
-        background-image: url('../../assets/ana_intro.jpg');
-        background-size: cover;
-        background-position: center;
+        // background-image: url('../../assets/ana_intro.jpg');
+        // background-size: cover;
+        // background-position: center;
     }
     &.bg-veriko {
-        background-image: url('../../assets/veriko_intro.jpg');
-        background-size: cover;
-        background-position: center;
+        // background-image: url('../../assets/veriko_intro.jpg');
+        // background-size: cover;
+        // background-position: center;
     }
 }
 
@@ -260,6 +260,15 @@ body {
 
 .video-wrapper {
     width: 100%;
+
+    &.intro {
+        height: 100vh;
+
+        video {
+            height: 100%;
+            object-fit: cover;
+        }
+    }
 }
 
 .episode-footer, .episode-end {
