@@ -13,21 +13,27 @@ let scrollController = null;
 // Support multiple Clappr player instances
 let players = {};
 
+// Returns true with the exception of iPhones with no playsinline support
+Modernizr.addTest('iphonewoplaysinline', function () {
+    return navigator.userAgent.match(/(iPhone|iPod)/g) ? ('playsInline' in document.createElement('video')) : true;
+});
+
 /*
  * Run on page load.
  */
 var onWindowLoaded = function(e) {
     // Cache jQuery references
-    if (Modernizr.touch) {
+    if (Modernizr.touchevents) {
         console.log('touch device detected');
     }
     else {
         console.log('non-touch device');
     }
+
     parseUrl();
     // Check conditional logic for our customized intro
     checkConditionalLogic();
-    adaptPageToUserStatus();
+    adaptPageToSessionStatus();
     addAppListeners();
     // Init scrollmagic controller
     initScroller();
@@ -51,7 +57,6 @@ const parseUrl = function() {
     // Allow localstorage to be wiped using refresh query param
     if (url.query.refresh) {
         STORAGE.deleteKey('idp-georgia-intro')
-        STORAGE.deleteKey('idp-georgia-episodes')
     }
 }
 
@@ -64,7 +69,7 @@ const checkConditionalLogic = function() {
 }
 
 // APPLY STATUS TO PAGE
-const adaptPageToUserStatus = function() {
+const adaptPageToSessionStatus = function() {
     let container = null
     // add current episode class to the body
     document.body.classList.add(current_episode);
@@ -77,6 +82,12 @@ const adaptPageToUserStatus = function() {
 
 const initScroller = function() {
     scrollController = new ScrollMagic.Controller();
+    var duration = show_full_intro ? '400%' : '100%';
+    var introScene = new ScrollMagic.Scene({
+            duration: duration
+        })
+        .setPin('#bg-container', {pushFollowers: false})
+        .addTo(scrollController);
 
     document.querySelectorAll('.panel-intro').forEach(function(d,i) {
         var innerText = d.querySelector('.text-wrapper');
@@ -87,25 +98,10 @@ const initScroller = function() {
 
             var scrollScene = new ScrollMagic.Scene({
                 duration: '100%',
-                triggerElement: d
+                triggerElement: d,
             })
             .setTween(timeline)
             .addTo(scrollController);
-        }
-
-        if (d.classList.contains('bg-fade-out')) {
-            var bgScene = new ScrollMagic.Scene({
-                    duration: '50%',
-                    triggerElement: d
-                })
-                .on('end', function(e) {
-                    if (e.scrollDirection == 'REVERSE') {
-                        document.querySelector('#bg-container').classList.remove('pinned');
-                    } else {
-                        document.querySelector('#bg-container').classList.add('pinned');
-                    }
-                })
-                .addTo(scrollController);
         }
 
         if (d.classList.contains('final-panel')) {
@@ -117,23 +113,8 @@ const initScroller = function() {
                     duration: '100%',
                     triggerElement: d
                 })
-                .on('enter', function() {
-                    document.querySelector('#bg-container').className = 'bg-2';
-                })
                 .setTween(bgTimeline)
                 .on('end', introSceneLeave)
-                .addTo(scrollController);
-        }
-
-        if (d.classList.contains('panel-intro-0')) {
-            var bgScene = new ScrollMagic.Scene({
-                    duration: '50%',
-                    triggerElement: d
-                })
-                .on('enter', function() {
-                    document.querySelector('#bg-container').className = 'bg-1';
-                })
-                .setTween(document.querySelector('#bg-container'), 1, { opacity: 0 })
                 .addTo(scrollController);
         }
     });
@@ -194,14 +175,19 @@ const initVideo = function(el) {
     if (!el.classList.contains('loaded')) {
         videoTag = document.createElement('video');
         videoTag.setAttribute('muted','');
-        if (Modernizr.touch) {
+        if (Modernizr.touchevents) {
             videoTag.setAttribute('autoplay','');
             videoTag.setAttribute('playsinline','');
         }
         videoTag.setAttribute('loop','');
-        videoTag.setAttribute('src',src);
         videoTag.setAttribute('poster',poster);
         videoTag.setAttribute('width',width);
+        // Check if iPhone with no playsinline support
+        if (Modernizr.iphonewoplaysinline) {
+            let source = document.createElement('source');
+            source.setAttribute('src',src);
+            videoTag.append(source);
+        }
         el.append(videoTag);
         el.classList.add('loaded');
     }
@@ -289,21 +275,23 @@ const sectionEnter = function(e) {
 
 const videoEnter = function(e) {
     console.log("videoEnter");
-    if (!Modernizr.touch) {
+    if (!Modernizr.touchevents) {
         const el = this.triggerElement();
         if (el.classList.contains('loaded')) {
             let video = el.querySelector('video');
-            video.play();
+            video.play().catch((error) => {
+                // Ignore play errors using poster as fallback
+            });
         }
         else {
-            console.error("player not loaded");
+            console.error("video not loaded");
         }
     }
 }
 
 const videoLeave = function(e) {
     console.log("videoLeave");
-    if (!Modernizr.touch) {
+    if (!Modernizr.touchevents) {
         const el = this.triggerElement();
         let video = el.querySelector('video');
         video.pause();
