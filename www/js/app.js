@@ -18,7 +18,7 @@ let players = {};
  */
 var onWindowLoaded = function(e) {
     // Cache jQuery references
-    if (Modernizr.touch) {
+    if (Modernizr.touchevents) {
         console.log('touch device detected');
     }
     else {
@@ -158,7 +158,7 @@ const initVideo = function(el) {
     if (!el.classList.contains('loaded')) {
         videoTag = document.createElement('video');
         videoTag.setAttribute('muted','');
-        if (Modernizr.touch) {
+        if (Modernizr.touchevents) {
             videoTag.setAttribute('autoplay','');
             videoTag.setAttribute('playsinline','');
         }
@@ -253,7 +253,7 @@ const sectionEnter = function(e) {
 
 const videoEnter = function(e) {
     console.log("videoEnter");
-    if (!Modernizr.touch) {
+    if (!Modernizr.touchevents) {
         const el = this.triggerElement();
         if (el.classList.contains('loaded')) {
             let video = el.querySelector('video');
@@ -267,7 +267,7 @@ const videoEnter = function(e) {
 
 const videoLeave = function(e) {
     console.log("videoLeave");
-    if (!Modernizr.touch) {
+    if (!Modernizr.touchevents) {
         const el = this.triggerElement();
         let video = el.querySelector('video');
         video.pause();
