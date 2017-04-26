@@ -94,11 +94,12 @@ a {
             -ms-transform: translateY(-50%);
             transform: translateY(-50%);
             text-align: center;
-            color: @brightwhite;
             padding: 0 1em;
+            color: @black;
 
             h1 {
-                font-size: 5rem;
+                color: @brightwhite;
+                font-size: 7rem;
                 font-weight: bold;
                 text-transform: uppercase;
                 text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
@@ -106,17 +107,17 @@ a {
             }
 
             p {
-                font-size: 1.6rem;
+                font-size: 2rem;
                 line-height: 1.6;
-                max-width: 730px;
+                max-width: 680px;
                 margin: 0 auto 1em;
 
                 @media @screen-small {
-                    font-size: 1.5rem;
+                    font-size: 1.4rem;
                 }
 
                 @media @screen-landscape {
-                    font-size: 1.2rem;
+                    font-size: 1.3rem;
                     max-width: 480px;
                 }
             }
@@ -145,11 +146,7 @@ a {
 
         p {
             color: @black;
-            max-width: 730px;
-            padding-left: 20px;
-            padding-right: 20px;
-            margin-left: auto;
-            margin-right: auto;
+            .story-well-sizing();
             -webkit-font-smoothing: antialiased;
             font-weight: bold;
             font-size: 1.4rem;
@@ -159,7 +156,7 @@ a {
 
         .panel-intro .text-wrapper {
             p {
-                color: @brightwhite;
+                color: @black;
             }
         }
 

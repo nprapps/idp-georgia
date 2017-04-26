@@ -82,7 +82,7 @@ const adaptPageToSessionStatus = function() {
 
 const initScroller = function() {
     scrollController = new ScrollMagic.Controller();
-    var duration = show_full_intro ? '400%' : '100%';
+    var duration = show_full_intro ? '100%' : '100%';
     var introScene = new ScrollMagic.Scene({
             duration: duration
         })
@@ -104,16 +104,25 @@ const initScroller = function() {
             .addTo(scrollController);
         }
 
+        if (d.classList.contains('bg-fade-out')) {
+            var bgScene = new ScrollMagic.Scene({
+                    duration: '50%',
+                    triggerElement: d
+                })
+                .setTween('#bg-container', { opacity: 0, ease: Power1.easeOut })
+                .addTo(scrollController);
+        }
+
         if (d.classList.contains('final-panel')) {
-            var bgTimeline = new TimelineLite()
-                .to('#bg-container', 1, { opacity: 0, ease: Power1.easeOut })
-                .to('#bg-container', 1, { opacity: 1, ease: Power1.easeIn });
+            //var bgTimeline = new TimelineLite()
+                //.to('#bg-container', 1, { opacity: 0, ease: Power1.easeOut })
+                //.to('#bg-container', 1, { opacity: 1, ease: Power1.easeIn });
 
             var bgScene = new ScrollMagic.Scene({
                     duration: '100%',
                     triggerElement: d
                 })
-                .setTween(bgTimeline)
+                //.setTween(bgTimeline)
                 .on('end', introSceneLeave)
                 .addTo(scrollController);
         }
