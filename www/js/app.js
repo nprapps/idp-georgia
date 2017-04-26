@@ -127,7 +127,7 @@ const initScroller = function() {
                 .addTo(scrollController);
 
             var introScene = new ScrollMagic.Scene({
-                    duration: '200%',
+                    duration: '150%',
                     triggerElement: d
                 })
                .on('end', function(e) {
