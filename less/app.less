@@ -18,23 +18,34 @@ body {
 }
 
 // INTRO
+.bg-img {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+
+    &.bg-irakli {
+        background-image: url('../../assets/kartli-vid-preview.png');
+        background-size: cover;
+        background-position: center;
+    }
+
+    &.bg-ana {
+        background-image: url('../../assets/ana_intro.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+    &.bg-veriko {
+        background-image: url('../../assets/veriko_intro.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+}
+
 .intro-wrapper {
     position: relative;
 
     * {
         box-sizing: border-box;
-    }
-
-    .bg-img {
-        width: 100%;
-        height: 100vh;
-        position: fixed;
-
-        &.bg-1 {
-            background-image: url('../../assets/kartli-vid-preview.png');
-            background-size: cover;
-            background-position: center;
-        }
     }
 
     .panel-intro {
@@ -54,7 +65,7 @@ body {
             -ms-transform: translateY(-50%);
             transform: translateY(-50%);
             text-align: center;
-            color: @black;
+            color: @brightwhite;
             padding: 0 1em;
 
             h1 {
@@ -98,7 +109,7 @@ body {
     &#intro-custom {
         .panel-intro .text-wrapper {
             p {
-                color: @black;
+                color: @brightwhite;
             }
         }
 
