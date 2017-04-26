@@ -86,7 +86,7 @@ const initScroller = function() {
     var introScene = new ScrollMagic.Scene({
             duration: duration
         })
-        .setPin('#bg-container', {pushFollowers: false})
+        .setPin('#title-bg-container', {pushFollowers: false})
         .addTo(scrollController);
 
     document.querySelectorAll('.panel-intro').forEach(function(d,i) {
@@ -109,21 +109,34 @@ const initScroller = function() {
                     duration: '50%',
                     triggerElement: d
                 })
-                .setTween('#bg-container', { opacity: 0, ease: Power1.easeOut })
+                .setTween('#title-bg-container', { opacity: 0, ease: Power1.easeOut })
                 .addTo(scrollController);
         }
 
         if (d.classList.contains('final-panel')) {
-            //var bgTimeline = new TimelineLite()
-                //.to('#bg-container', 1, { opacity: 0, ease: Power1.easeOut })
-                //.to('#bg-container', 1, { opacity: 1, ease: Power1.easeIn });
+            var bgTimeline = new TimelineLite()
+                .to('#bg-container', 1, { opacity: 0, ease: Power1.easeOut })
+                .to('#bg-container', 1, { opacity: 1, ease: Power1.easeIn });
 
             var bgScene = new ScrollMagic.Scene({
                     duration: '100%',
                     triggerElement: d
                 })
-                //.setTween(bgTimeline)
+                .setTween(bgTimeline)
                 .on('end', introSceneLeave)
+                .addTo(scrollController);
+
+            var introScene = new ScrollMagic.Scene({
+                    duration: '200%',
+                    triggerElement: d
+                })
+               .on('end', function(e) {
+                    if (e.scrollDirection == 'REVERSE') {
+                        document.querySelector('#bg-container').classList.remove('bg-end');
+                    } else {
+                        document.querySelector('#bg-container').classList.add('bg-end');
+                    }
+                })
                 .addTo(scrollController);
         }
     });

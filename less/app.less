@@ -49,11 +49,33 @@ a {
         width: 100%;
         height: 100vh;
         position: absolute;
+        background-size: cover;
+        background-position: center;
 
-        &.bg-irakli {
-            // background-image: url('../../assets/kartli-vid-preview.png');
-            // background-size: cover;
-            // background-position: center;
+        &.bg-title {
+            &.bg-irakli {
+                background-image: url('../../assets/kartli-vid-preview.png');
+            }
+        }
+
+        &.bg-static {
+            /*display: none;*/
+            opacity: 0;
+            position: fixed;
+
+            &.bg-active {
+                display: block;
+            }
+
+            &.bg-end {
+                display: block;
+                position: absolute;
+                bottom: 0;
+            }
+
+            &.bg-irakli {
+                background-image: url('https://media.npr.org/idp-georgia/irakli_test_photos/20170308-GEORGIA_DSC0362_edit-s800-c80.jpg');
+            }
         }
 
         &.bg-ana {
