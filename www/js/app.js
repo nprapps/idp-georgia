@@ -33,7 +33,7 @@ var onWindowLoaded = function(e) {
     parseUrl();
     // Check conditional logic for our customized intro
     checkConditionalLogic();
-    adaptPageToUserStatus();
+    adaptPageToSessionStatus();
     addAppListeners();
     // Init scrollmagic controller
     initScroller();
@@ -57,7 +57,6 @@ const parseUrl = function() {
     // Allow localstorage to be wiped using refresh query param
     if (url.query.refresh) {
         STORAGE.deleteKey('idp-georgia-intro')
-        STORAGE.deleteKey('idp-georgia-episodes')
     }
 }
 
@@ -70,7 +69,7 @@ const checkConditionalLogic = function() {
 }
 
 // APPLY STATUS TO PAGE
-const adaptPageToUserStatus = function() {
+const adaptPageToSessionStatus = function() {
     let container = null
     // add current episode class to the body
     document.body.classList.add(current_episode);
@@ -83,6 +82,12 @@ const adaptPageToUserStatus = function() {
 
 const initScroller = function() {
     scrollController = new ScrollMagic.Controller();
+    var duration = show_full_intro ? '400%' : '100%';
+    var introScene = new ScrollMagic.Scene({
+            duration: duration
+        })
+        .setPin('#bg-container', {pushFollowers: false})
+        .addTo(scrollController);
 
     document.querySelectorAll('.panel-intro').forEach(function(d,i) {
         var innerText = d.querySelector('.text-wrapper');
@@ -92,17 +97,16 @@ const initScroller = function() {
 
         var scrollScene = new ScrollMagic.Scene({
             duration: '100%',
-            triggerElement: d
+            triggerElement: d,
         })
         .setTween(timeline)
         .addTo(scrollController);
 
-        if (d.classList.contains('panel-intro-0')) {
+        if (d.classList.contains('final-panel')) {
             var bgScene = new ScrollMagic.Scene({
-                    duration: '50%',
+                    duration: '100%',
                     triggerElement: d
                 })
-                .setTween(document.querySelector('#bg-container'), 1, { opacity: 0 })
                 .on('end', introSceneLeave)
                 .addTo(scrollController);
         }
@@ -292,6 +296,7 @@ const videoLeave = function(e) {
 const addAppListeners = function() {
     document.getElementById('more_info').onclick = function(e){
         let container = document.getElementById('intro-common');
+        show_full_intro = true;
         container.classList.remove('hide');
         scrollController.destroy(true);
         window.scrollTo(0, 0);
