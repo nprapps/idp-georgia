@@ -3,14 +3,20 @@
 // Content
 // -------------------------
 
-html {
-    font-size: 14px;
-    line-height: 1;
-}
 body {
     .gotham();
+    font-size: 18px;
+    line-height: 1.7;
     padding: 0;
     margin: 0 auto;
+
+    * {
+        box-sizing: border-box;
+    }
+}
+
+img {
+    max-width: 100%;
 }
 
 .hide {
@@ -230,20 +236,17 @@ body {
         font-weight: bold;
     }
     h3, p {
-        max-width: 730px;
-        padding-left: 20px;
-        padding-right: 20px;
+        max-width: 680px;
+        padding-left: 15px;
+        padding-right: 15px;
         margin-left: auto;
         margin-right: auto;
-        -webkit-font-smoothing: antialiased;
     }
 
     p {
         font-family: Georgia, serif;
-        margin-bottom: 22px
-        color: #666;
-        font-size: 17px;
-        line-height: 1.6;
+        margin-bottom: 1.2em;
+        color: #333;
     }
 }
 
