@@ -141,21 +141,7 @@ const initScroller = function() {
         }
     });
 
-    // footer scrollmagic
-    document.querySelectorAll('.panel-footer').forEach(function(d,i) {
-        var innerText = d.querySelector('.text-wrapper');
-        var timeline = new TimelineLite()
-            .to(innerText, 1, { opacity: 1 })
-            .to(innerText, 1, { opacity: 0 });
 
-        var scrollScene = new ScrollMagic.Scene({
-            duration: '100%',
-            triggerElement: d
-        })
-        .setTween(timeline)
-        .on('enter', footerSceneEnter)
-        .addTo(scrollController);
-    });
 
     // section image loading
     document.querySelectorAll('.section').forEach(function(d,i) {
