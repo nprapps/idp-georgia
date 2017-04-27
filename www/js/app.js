@@ -133,22 +133,6 @@ const initScroller = function() {
         }
     });
 
-    // TODO: remove once footer has been redesigned
-    // Footer navigation
-    document.querySelectorAll('.panel-footer').forEach(function(d,i) {
-        var innerText = d.querySelector('.text-wrapper');
-        var timeline = new TimelineLite()
-            .to(innerText, 1, { opacity: 1 })
-            .to(innerText, 1, { opacity: 0 });
-
-        var scrollScene = new ScrollMagic.Scene({
-            duration: '100%',
-            triggerElement: d
-        })
-        .setTween(timeline)
-        .addTo(scrollController);
-    });
-
     // Section viewport tracking to lazyload assets
     document.querySelectorAll('.section').forEach(function(d,i) {
         var innerText = d.querySelector('.text-wrapper');

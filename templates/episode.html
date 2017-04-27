@@ -25,22 +25,8 @@
     </section>
 {% endfor %}
 </div>
-{% if episode != 'veriko' %}
-<div id='footer' class='episode-footer'>
-    <div id="primary" class="panel-footer">
-        <div class="text-wrapper">
-            <a href="{{next}}.html">{{ footer }}</a>
-        </div>
-    </div>
+<div id="footer">
+    {% include '_footer.html' %}
+    {% include '_utility_nav.html' %}
 </div>
-{% else %}
-<div class='episode-end'>
-    <div id="end" class="panel-footer">
-        <div class="text-wrapper">
-            <p>{{COPY['end'].related_content}}</p>
-            <p>{{COPY['end'].donate}}</p>
-        </div>
-    </div>
-</div>
-{% endif %}
 {% endblock %}
