@@ -17,6 +17,11 @@
 </div>
 
 <div class='episode-content'>
+    <div class="inline-intro">
+    {% for content in COPY['intro_%s' % episode] %}
+        {{ content.text }}
+    {% endfor %}
+    </div>
 {% for section in sections %}
     <section class='section' id='{{section.slug}}'>
         <div class='section-contents'>

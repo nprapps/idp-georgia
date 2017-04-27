@@ -1,7 +1,6 @@
 <div class="panel-intro panel-pin bg-fade-out">
     <div class="text-wrapper">
-    {% for content in COPY['intro_%s' % episode] %}
-        {{ content.text }}
-    {% endfor %}
+        <h2>{{ COPY[episode].headline }}</h2>
+        <p>{{ COPY[episode].subhed }}</p>
     </div>
 </div>
