@@ -91,6 +91,8 @@ const initScroller = function() {
         .setPin('#title-bg-container', {pushFollowers: false})
         .addTo(scrollController);
 
+    // TODO since most of this is panel specific, we can probably
+    // take a lot of it out of the for loop
     document.querySelectorAll('.panel-intro').forEach(function(d,i) {
         var innerText = d.querySelector('.text-wrapper');
 
