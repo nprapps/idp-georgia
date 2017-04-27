@@ -175,12 +175,11 @@ def find_section_id(sections, id):
     return None
 
 
-def process_footer_contents(footer):
+def process_extracted_contents(inline_intro):
     """
     Remove html markup
     """
-    soup = BeautifulSoup(footer['contents'], 'html.parser')
-    return soup.get_text()
+    return inline_intro['contents']
 
 
 def parse(doc):
@@ -192,8 +191,16 @@ def parse(doc):
         logger.info('-------------start------------')
         raw_sections = split_sections(doc)
         sections = parse_raw_sections(raw_sections)
+        # extract inline-intro
+        idx = find_section_id(sections, 'inline-intro')
+        if idx is not None:
+            inline_intro = sections.pop(idx)
+            inline_intro = process_extracted_contents(inline_intro)
+        else:
+            logger.error("Did not find the footer section on the document")
         logger.info('Number of sections: %s' % len(sections))
         parsed_document['sections'] = sections
+        parsed_document['inline_intro'] = inline_intro
     finally:
         logger.info('-------------end------------')
     return parsed_document
