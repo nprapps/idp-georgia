@@ -83,6 +83,8 @@ const adaptPageToSessionStatus = function() {
 const initScroller = function() {
     scrollController = new ScrollMagic.Controller();
     var duration = show_full_intro ? '100%' : '100%';
+
+    // Pin title background
     var introScene = new ScrollMagic.Scene({
             duration: duration
         })
@@ -90,20 +92,7 @@ const initScroller = function() {
         .addTo(scrollController);
 
     document.querySelectorAll('.panel-intro').forEach(function(d,i) {
-        var innerText = d.querySelector('.text-wrapper');
-        if (innerText) {
-            var timeline = new TimelineLite()
-                .to(innerText, 1, { opacity: 1, ease: Power1.easeOut })
-                .to(innerText, 1, { opacity: 0, ease: Power1.easeIn });
-
-            var scrollScene = new ScrollMagic.Scene({
-                duration: '100%',
-                triggerElement: d,
-            })
-            .setTween(timeline)
-            .addTo(scrollController);
-        }
-
+        // First panel of intro text will fade out the intro background
         if (d.classList.contains('bg-fade-out')) {
             var bgScene = new ScrollMagic.Scene({
                     duration: '50%',
@@ -113,6 +102,7 @@ const initScroller = function() {
                 .addTo(scrollController);
         }
 
+        // Final panel in the intro will fade in the episode poster
         if (d.classList.contains('final-panel')) {
             var bgTimeline = new TimelineLite()
                 .to('#bg-container', 1, { opacity: 0, ease: Power1.easeOut })
@@ -138,6 +128,44 @@ const initScroller = function() {
                     }
                 })
                 .addTo(scrollController);
+        }
+
+        var innerText = d.querySelector('.text-wrapper');
+
+        // Fade in and manually pin the episode titling in the last panel
+        if (d.classList.contains('panel-pin')) {
+            var introScene = new ScrollMagic.Scene({
+                    duration: '50%',
+                    triggerElement: d
+                })
+                .setTween(innerText, { opacity: 1, ease: Power1.easeIn })
+                .addTo(scrollController);
+
+            var introScene = new ScrollMagic.Scene({
+                    duration: '50%',
+                    triggerElement: d
+                })
+                .on('enter', function(e) {
+                    innerText.classList.add('pinned');
+                })
+                .on('leave', function(e) {
+                    innerText.classList.remove('pinned');
+                })
+                .addTo(scrollController);
+        } else {
+            // Fade in/out all text as it comes into view
+            if (innerText) {
+                var timeline = new TimelineLite()
+                    .to(innerText, 1, { opacity: 1, ease: Power1.easeOut })
+                    .to(innerText, 1, { opacity: 0, ease: Power1.easeIn });
+
+                var scrollScene = new ScrollMagic.Scene({
+                    duration: '100%',
+                    triggerElement: d,
+                })
+                .setTween(timeline)
+                .addTo(scrollController);
+            }
         }
     });
 
