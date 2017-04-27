@@ -92,48 +92,11 @@ const initScroller = function() {
         .addTo(scrollController);
 
     document.querySelectorAll('.panel-intro').forEach(function(d,i) {
-        // First panel of intro text will fade out the intro background
-        if (d.classList.contains('bg-fade-out')) {
-            var bgScene = new ScrollMagic.Scene({
-                    duration: '50%',
-                    triggerElement: d
-                })
-                .setTween('#title-bg-container', { opacity: 0, ease: Power1.easeOut })
-                .addTo(scrollController);
-        }
-
-        // Final panel in the intro will fade in the episode poster
-        if (d.classList.contains('final-panel')) {
-            var bgTimeline = new TimelineLite()
-                .to('#bg-container', 1, { opacity: 0, ease: Power1.easeOut })
-                .to('#bg-container', 1, { opacity: 1, ease: Power1.easeIn });
-
-            var bgScene = new ScrollMagic.Scene({
-                    duration: '100%',
-                    triggerElement: d
-                })
-                .setTween(bgTimeline)
-                .on('end', introSceneLeave)
-                .addTo(scrollController);
-
-            var introScene = new ScrollMagic.Scene({
-                    duration: '150%',
-                    triggerElement: d
-                })
-               .on('end', function(e) {
-                    if (e.scrollDirection == 'REVERSE') {
-                        document.querySelector('#bg-container').classList.remove('bg-end');
-                    } else {
-                        document.querySelector('#bg-container').classList.add('bg-end');
-                    }
-                })
-                .addTo(scrollController);
-        }
-
         var innerText = d.querySelector('.text-wrapper');
 
         // Fade in and manually pin the episode titling in the last panel
         if (d.classList.contains('panel-pin')) {
+            // Fade in episode titling
             var introScene = new ScrollMagic.Scene({
                     duration: '50%',
                     triggerElement: d
@@ -141,6 +104,7 @@ const initScroller = function() {
                 .setTween(innerText, { opacity: 1, ease: Power1.easeIn })
                 .addTo(scrollController);
 
+            // Pin episode titling, then unpin to correspond with natural scroll
             var introScene = new ScrollMagic.Scene({
                     duration: '50%',
                     triggerElement: d
@@ -165,6 +129,42 @@ const initScroller = function() {
                 })
                 .setTween(timeline)
                 .addTo(scrollController);
+            }
+
+            // First panel of intro text will fade out the intro background
+            if (d.classList.contains('bg-fade-out')) {
+                var bgScene = new ScrollMagic.Scene({
+                        duration: '50%',
+                        triggerElement: d
+                    })
+                    .setTween('#title-bg-container', { opacity: 0, ease: Power1.easeOut })
+                    .addTo(scrollController);
+            } else if (d.classList.contains('final-panel')) {
+            // Final panel in the intro will fade in the episode poster
+                var bgTimeline = new TimelineLite()
+                    .to('#bg-container', 1, { opacity: 0, ease: Power1.easeOut })
+                    .to('#bg-container', 1, { opacity: 1, ease: Power1.easeIn });
+
+                var bgScene = new ScrollMagic.Scene({
+                        duration: '100%',
+                        triggerElement: d
+                    })
+                    .setTween(bgTimeline)
+                    .on('end', introSceneLeave)
+                    .addTo(scrollController);
+
+                var introScene = new ScrollMagic.Scene({
+                        duration: '150%',
+                        triggerElement: d
+                    })
+                   .on('end', function(e) {
+                        if (e.scrollDirection == 'REVERSE') {
+                            document.querySelector('#bg-container').classList.remove('bg-end');
+                        } else {
+                            document.querySelector('#bg-container').classList.add('bg-end');
+                        }
+                    })
+                    .addTo(scrollController);
             }
         }
     });
