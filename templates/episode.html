@@ -8,7 +8,7 @@
         <div id='intro-vid' class='video-wrapper intro' data-src='{{ intro_video_src }}' data-poster='{{ intro_video_poster }}' data-mime='video/mp4' data-width='100%' data-height='100%'></div>
     </div>
     <div id="bg-container" class="bg-img bg-static bg-{{episode}}"></div>
-    <div id='intro-common' class='intro-wrapper hide'>
+    <div id='intro-common' class='intro-wrapper'>
         {% include '_intro_common.html' %}
     </div>
     <div id='intro-custom' class='intro-wrapper'>
@@ -30,22 +30,8 @@
     </section>
 {% endfor %}
 </div>
-{% if episode != 'veriko' %}
-<div id='footer' class='episode-footer'>
-    <div id="primary" class="panel-footer">
-        <div class="text-wrapper">
-            <a href="{{next}}.html">{{ footer }}</a>
-        </div>
-    </div>
+<div id="footer">
+    {% include '_footer.html' %}
+    {% include '_utility_nav.html' %}
 </div>
-{% else %}
-<div class='episode-end'>
-    <div id="end" class="panel-footer">
-        <div class="text-wrapper">
-            <p>{{COPY['end'].related_content}}</p>
-            <p>{{COPY['end'].donate}}</p>
-        </div>
-    </div>
-</div>
-{% endif %}
 {% endblock %}
