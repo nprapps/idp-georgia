@@ -192,16 +192,8 @@ def parse(doc):
         logger.info('-------------start------------')
         raw_sections = split_sections(doc)
         sections = parse_raw_sections(raw_sections)
-        # remove footer
-        idx = find_section_id(sections, 'footer')
-        if idx is not None:
-            footer = sections.pop(idx)
-            footer = process_footer_contents(footer)
-        else:
-            logger.error("Did not find the footer section on the document")
         logger.info('Number of sections: %s' % len(sections))
         parsed_document['sections'] = sections
-        parsed_document['footer'] = footer
     finally:
         logger.info('-------------end------------')
     return parsed_document
