@@ -28,12 +28,21 @@
 {% if episode != 'veriko' %}
 <div id="footer">
     <div class="footer-question">
-
+        <a href="{{next}}.html">
             <img src="https://media.npr.org/idp-georgia/ana_test_photos/20170314-GEORGIA_DSC3237_edit-s800-c80.jpg">
             <h4>Ana's story</h4>
-            <h3><a href="{{next}}.html">{{ footer }}</a></h3>
-
+            <h3>{{ footer }}</h3>
+        </a>
     </div>
+    <div class="utility-nav">
+        <dl>
+            <dt>Strangers in their own land:</dt>
+            <dd><a href="#">1. Irakli</a></dd>
+            <dd><a href="#">2. Ana</a></dd>
+            <dd><a href="#">3. Veriko</a></dd>
+        </dl>
+    </div>
+
 </div>
 {% else %}
 <div class='episode-end'>
