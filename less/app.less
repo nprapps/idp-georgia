@@ -9,8 +9,19 @@ html {
 }
 
 body {
+    opacity: 0;
     padding: 0;
     margin: 0 auto;
+
+    // Fade in opacity when ready
+    &.ready {
+        -webkit-transition: opacity 3s ease;
+        -moz-transition: opacity 3s ease;
+        -ms-transition: opacity 3s ease;
+        -o-transition: opacity 3s ease;
+        transition: opacity 3s ease;
+        opacity: 1;
+    }
 
     * {
         box-sizing: border-box;
@@ -78,17 +89,18 @@ a {
             &.bg-irakli {
                 background-image: url('https://media.npr.org/idp-georgia/irakli_test_photos/20170308-GEORGIA_DSC0362_edit-s800-c80.jpg');
             }
-        }
 
-        &.bg-ana {
-            // background-image: url('../../assets/ana_intro.jpg');
-            // background-size: cover;
-            // background-position: center;
-        }
-        &.bg-veriko {
-            // background-image: url('../../assets/veriko_intro.jpg');
-            // background-size: cover;
-            // background-position: center;
+            &.bg-ana {
+                background-image: url('../../assets/poster/ana_intro.jpg');
+                // background-size: cover;
+                // background-position: center;
+            }
+
+            &.bg-veriko {
+                background-image: url('../../assets/poster/veriko_intro.jpg');
+                // background-size: cover;
+                // background-position: center;
+            }
         }
     }
 }

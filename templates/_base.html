@@ -44,10 +44,6 @@
     {% block content %}
     {% endblock content %}
 
-    {# tweak to use sesionStorage #}
-    {{ JS.push('js/lib/simpleSessionStorage.js') }}
-    {{ JS.push('js/sessionStorage.js') }}
-
     {{ JS.push('js/copy.js') }}
     {{ JS.push('js/templates.js') }}
     {% block extra_foot_js %}{% endblock extra_foot_js %}
