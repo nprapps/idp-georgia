@@ -1,16 +1,10 @@
 <div class="panel-intro title-panel">
     <div class="text-wrapper">
-        <img class="top-nav-logo" src="../../assets/npr-black.png">
+        <img class="top-nav-logo" src="../../assets/npr-white.png">
 
-        <h5>Episode 1: Paradise Lost</h5>
+        <h5>{{ COPY[episode].intro_slug }}</h5>
         <h1>{{ COPY.content.headline }}</h1>
-        <p>More than half of all people displaced by war and conflict have never crossed an international border. They fled bombs and bullets and destruction. Their friends and relatives died. They lost everything. But they are not refugees.</p>
-
-        <p>They are internally displaced people, or IDPs.</p>
-
-        <p>These are the stories of people who had to start over, some of them just miles from where they started.</p>
-
-        <!-- <p><b>These are the stories of three people trying to rebuild their lives in the shadow of what they lost.</b></p> -->
+        {{ COPY.content.title_content }}
     </div>
 </div>
 {% for content in COPY.intro_panels %}
