@@ -415,10 +415,13 @@ a {
 
 
     img {
-        width: 30rem;
-        float: left;
-        margin-bottom: 2rem;
         border: 1px solid #ddd;
+
+        @media @screen-tiny-above {
+            width: 25rem;
+            float: left;
+            margin-bottom: 2rem;
+        }
     }
 
     .footer-question {
@@ -428,7 +431,10 @@ a {
         padding-bottom: 2rem;
 
         .next-story-action {
-            margin-left: 33rem;
+
+            @media @screen-tiny-above {
+                margin-left: 28rem;
+            }
 
             h4 {
                 font-size: 1.5rem;
@@ -454,18 +460,54 @@ a {
 
     }
 
-    .utility-nav {
-        clear: both;
+    .boilerplate {
         max-width: 680px;
-        margin: 2rem auto 0 auto;
+        margin: 0 auto;
         padding: 0 15px;
+        clear: both;
+    }
+
+    .utility-nav {
+        margin-top: 2rem;
+        border-top: 1px solid #ddd;
+        padding-top: 1rem;
 
         p {
             color: #888;
             font-size: 1.4rem;
-            margin: 1rem 0 0 0;
+            margin: 0;
             padding: 1rem 0;
-            border-top: 1px solid #ccc;
+
+
+            a {
+                color: #888;
+                padding-right: 2rem;
+            }
+
+            b {
+                text-transform: uppercase;
+                display: block;
+                padding-right: 2rem;
+
+                @media @screen-landscape-above {
+                    display: inline;
+                }
+            }
+        }
+    }
+
+    .credits {
+        clear: both;
+        max-width: 680px;
+        margin-top: 1rem;
+        padding-bottom: 2rem;
+
+        p {
+            color: #888;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
 
             a {
                 color: #888;
@@ -478,49 +520,3 @@ a {
         }
     }
 }
-
-
-
-.episode-end {
-    position: relative;
-}
-
-// .episode-footer, .episode-end {
-//     position: relative;
-//
-//     .panel-footer {
-//         position: relative;
-//         width: 100%;
-//         height: 100%;
-//         height: 100vh;
-//
-//         .text-wrapper {
-//             display: block;
-//             opacity: 0;
-//             position: absolute;
-//             left: 0;
-//             top: 50%;
-//             width: 100%;
-//             -webkit-transform: translateY(-50%);
-//             -ms-transform: translateY(-50%);
-//             transform: translateY(-50%);
-//             text-align: center;
-//             color: @black;
-//
-//             h1 {
-//                 font-size: 4rem;
-//             }
-//
-//             p, a {
-//                 font-size: 2rem;
-//                 line-height: 1.4;
-//                 max-width: 800px;
-//                 margin: 0 auto;
-//             }
-//
-//             a {
-//                 display: inline-block;
-//             }
-//         }
-//     }
-// }
