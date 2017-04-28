@@ -5,7 +5,7 @@
 {% set intro_video_poster = COPY.content.intro_poster %}
 <div id='intro'>
     <div id="title-bg-container" class="bg-img bg-title bg-{{episode}}">
-        <div id='intro-vid' class='video-wrapper intro' data-src='{{ intro_video_src }}' data-poster='{{ intro_video_poster }}' data-mime='video/mp4' data-width='100%' data-height='100%'></div>
+        <div id='intro-vid' class='video-wrapper intro' data-src='{{ intro_video_src }}' data-poster='{{ intro_video_poster }}' data-mime='video/mp4' data-width='100%' data-height='100%' data-loop data-muted data-autoplay></div>
     </div>
     <div id="bg-container" class="bg-img bg-static bg-{{episode}}"></div>
     <div id='intro-common' class='intro-wrapper'>

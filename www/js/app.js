@@ -216,15 +216,33 @@ const initVideo = function(el) {
     const mime = el.getAttribute("data-mime");
     const width = el.getAttribute("data-width");
     const height = el.getAttribute("data-height");
+    const loop = el.getAttribute("data-loop");
+    const muted = el.getAttribute("data-muted");
+    const autoplay = el.getAttribute("data-autoplay");
+    const controls = el.getAttribute("data-controls");
+    const preload = el.getAttribute("data-preload");
     const containerId = el.getAttribute("id");
     if (!el.classList.contains('loaded')) {
         videoTag = document.createElement('video');
-        videoTag.setAttribute('muted','');
+        if (muted != null) {
+            videoTag.setAttribute('muted','');
+        }
+        if (loop != null) {
+            videoTag.setAttribute('loop','');
+        }
+        if (controls != null) {
+            videoTag.setAttribute('controls','');
+        }
+        if (preload != null) {
+            videoTag.setAttribute('preload', preload);
+        }
         if (Modernizr.touchevents) {
-            videoTag.setAttribute('autoplay','');
+            if (autoplay != null) {
+                videoTag.setAttribute('autoplay','');
+            }
             videoTag.setAttribute('playsinline','');
         }
-        videoTag.setAttribute('loop','');
+
         videoTag.setAttribute('poster',poster);
         videoTag.setAttribute('width',width);
         // Check if iPhone with no playsinline support
@@ -306,9 +324,15 @@ const videoEnter = function(e) {
         const el = this.triggerElement();
         if (el.classList.contains('loaded')) {
             let video = el.querySelector('video');
-            video.play().catch((error) => {
-                // Ignore play errors using poster as fallback
-            });
+            if (video.getAttribute('controls') == null) {
+                console.log('video does not have controls');
+                video.play().catch((error) => {
+                    // Ignore play errors using poster as fallback
+                    console.log("error in playback", error);
+                });
+            } else {
+                console.log('video has controls, ignore');
+            }
         }
         else {
             console.error("video not loaded");
@@ -321,8 +345,13 @@ const videoLeave = function(e) {
     if (!Modernizr.touchevents) {
         const el = this.triggerElement();
         let video = el.querySelector('video');
-        video.pause();
-        video.currentTime = 0;
+        if (video.getAttribute('controls') == null) {
+            console.log('video does not have controls');
+            video.pause();
+            video.currentTime = 0;
+        } else {
+            console.log('video has controls, ignore');
+        }
     }
 }
 

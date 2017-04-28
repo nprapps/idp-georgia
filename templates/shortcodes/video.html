@@ -1,1 +1,8 @@
-<div id='{{ container_id }}' class='video-wrapper' data-src='{{ src }}' data-poster='{{ poster }}' data-mime='{{ mime }}' data-width='{{ width }}' data-height='{{ height }}'></div>
+<div id='{{ container_id }}' class='video-wrapper' data-src='{{ src }}'
+     data-poster='{{ poster }}' data-mime='{{ mime }}' data-width='{{ width }}'
+     data-height='{{ height }}' data-preload='{{ preload }}'
+     {% if loop %} data-loop {% endif %}
+     {% if muted %} data-muted {% endif %}
+     {% if autoplay %} data-autoplay {% endif %}
+     {% if controls %} data-controls {% endif %}
+></div>
