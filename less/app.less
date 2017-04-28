@@ -450,6 +450,7 @@ a {
 
     img {
         border: 1px solid #ddd;
+        
 
         @media @screen-tiny-above {
             width: 25rem;
@@ -460,9 +461,13 @@ a {
 
     .footer-question {
         padding: 2rem 15px 0 15px;
-        max-width: 680px;
+        max-width: 30rem;
         margin: 0 auto;
         padding-bottom: 2rem;
+
+        @media @screen-tiny-above {
+            max-width: 680px;
+        }
 
         .next-story-action {
 
