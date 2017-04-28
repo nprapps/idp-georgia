@@ -145,6 +145,14 @@ const initScroller = function() {
                         triggerElement: d
                     })
                     .setTween(bgTimeline)
+                    .on('end', function(e) {
+                        let topNav = document.getElementById('episode-nav');
+                        if (e.scrollDirection == 'REVERSE') {
+                            topNav.classList.remove('active');
+                        } else {
+                            topNav.classList.add('active');
+                        }
+                    })
                     .addTo(scrollController);
 
                 var introScene = new ScrollMagic.Scene({

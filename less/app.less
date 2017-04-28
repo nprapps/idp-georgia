@@ -62,6 +62,40 @@ a {
     display: none;
 }
 
+.top-nav {
+
+    opacity: 0;
+    background-color: @textgray;
+    position: fixed;
+    top: 0;
+    line-height: 50px;
+    min-height: 50px;
+    width: 100%;
+    z-index: 10;
+    padding: 0 1em;
+
+    img {
+        vertical-align: middle;
+    }
+
+    span {
+        margin-left: 10px;
+        display: inline-block;
+        vertical-align: middle;
+        color: @brightwhite;
+        font-size: 1.5rem;
+    }
+
+    &.active {
+        -webkit-transition: opacity .5s ease;
+        -moz-transition: opacity .5s ease;
+        -ms-transition: opacity .5s ease;
+        -o-transition: opacity .5s ease;
+        transition: opacity .5s ease;
+        opacity: .8;
+    }
+}
+
 
 
 // INTRO
