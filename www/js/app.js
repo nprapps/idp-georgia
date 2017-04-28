@@ -3,7 +3,7 @@ import * as _ from 'underscore';
 import URL from 'url-parse';
 
 const LAZYLOAD_AHEAD = 1;
-const AVAILABLE_EPISODES = ['index', 'irakli', 'ana', 'veriko'];
+const AVAILABLE_EPISODES = ['irakli', 'ana', 'veriko'];
 let scrollController = null;
 let current_episode = null;
 let internal_link = false;
@@ -53,9 +53,15 @@ const parseUrl = function() {
 // CHECK CONDITIONAL LOGIC
 const checkConditionalLogic = function() {
     const referrer = new URL(document.referrer, window.location, true);
-    internal_link = _.find(AVAILABLE_EPISODES, function(e) {
-        return referrer.pathname.indexOf(e) !== -1 ? true : false;
-    })
+    if (referrer.pathname.indexOf('idp-georgia/') !== -1) {
+        internal_link = true;
+    }
+    // Local tests
+    if (referrer.hostname == 'localhost') {
+        internal_link = _.find(AVAILABLE_EPISODES, function(e) {
+            return referrer.pathname.indexOf(e) !== -1 ? true : false;
+        })
+    }
 }
 
 // APPLY STATUS TO PAGE

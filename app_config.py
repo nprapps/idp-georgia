@@ -101,13 +101,11 @@ EPISODE DOCUMENTS
 """
 EPISODE_DOCUMENTS = {
     'irakli': {
-        #'key': '1XItDq6yFo_B0nyvi3r8Eu5rVAg-OPjbc4cYcl9kuNkc',
-        'key': '1r_Eiq1clB-blcpVctSmME9tDkBw9uPiU6wtsDMmkCEg',
+        'key': '1XItDq6yFo_B0nyvi3r8Eu5rVAg-OPjbc4cYcl9kuNkc',
         'path': 'data/irakli.html',
         'next': 'ana'},
     'ana': {
-        #'key': '1s6X-ZVCDqxqZ9XkUMauM6BGIgjjmxzJLfBlmVJhQt9U',
-        'key': '1pEeOxqc3ruy8Cy8IksZOMpnr_gTHIlx62praiyJX2vk',
+        'key': '1s6X-ZVCDqxqZ9XkUMauM6BGIgjjmxzJLfBlmVJhQt9U',
         'path': 'data/ana.html',
         'next': 'veriko'},
     'veriko': {

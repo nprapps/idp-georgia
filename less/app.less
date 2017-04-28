@@ -431,6 +431,10 @@ a {
 .video-wrapper {
     width: 100%;
 
+    &.centered {
+        .story-well-sizing();
+    }
+
     &.intro {
         height: 100vh;
 
@@ -450,7 +454,7 @@ a {
 
     img {
         border: 1px solid #ddd;
-        
+
 
         @media @screen-tiny-above {
             width: 25rem;

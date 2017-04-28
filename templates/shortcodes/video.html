@@ -1,4 +1,4 @@
-<div id='{{ container_id }}' class='video-wrapper' data-src='{{ src }}'
+<div id='{{ container_id }}' class='video-wrapper{% if extra_classes %} {{extra_classes}}{% endif %}' data-src='{{ src }}'
      data-poster='{{ poster }}' data-mime='{{ mime }}' data-width='{{ width }}'
      data-height='{{ height }}' data-preload='{{ preload }}'
      {% if loop %} data-loop {% endif %}
