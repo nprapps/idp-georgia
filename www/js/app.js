@@ -200,7 +200,7 @@ const initScroller = function() {
 };
 
 // VIDEO
-const introVideoLoaded = function(e) {
+const animateBodyOpacity = function(e) {
     if (!internal_link) {
         // If not coming from an internal links
         // having the video loaded allow us to
@@ -236,7 +236,18 @@ const initVideo = function(el) {
         el.append(videoTag);
         // Check if intro video has loaded
         if (el.classList.contains('intro')) {
-            videoTag.oncanplay = introVideoLoaded;
+            videoTag.oncanplay = animateBodyOpacity;
+            const sources = videoTag.querySelectorAll('source');
+            if (sources.length !== 0) {
+                var lastSource = sources[sources.length-1];
+                lastSource.addEventListener('error', function() {
+                    //TODO show error message?
+                    animateBodyOpacity();
+                });
+            }
+            else {
+                animateBodyOpacity();
+            }
         }
         el.classList.add('loaded');
     }
