@@ -101,6 +101,7 @@ const initScroller = function() {
     // Intro scroll navigation
     document.querySelectorAll('.panel-intro').forEach(function(d,i) {
         var innerText = d.querySelector('.text-wrapper');
+        var assetWrapper = d.querySelector('.asset-wrapper');
 
         // Fade in and manually pin the episode titling in the last panel
         if (d.classList.contains('panel-pin')) {
@@ -136,6 +137,15 @@ const initScroller = function() {
                     triggerElement: d,
                 })
                 .setTween(timeline)
+                .addTo(scrollController);
+            }
+
+            if (assetWrapper) {
+                var activeCharScene = new ScrollMagic.Scene({
+                    duration: '50%',
+                    triggerElement: assetWrapper
+                })
+                .setTween(assetWrapper, { opacity: 0, ease: Power1.easeOut })
                 .addTo(scrollController);
             }
 
@@ -180,6 +190,14 @@ const initScroller = function() {
                         }
                     })
                     .addTo(scrollController);
+
+                var otherChars = assetWrapper.querySelectorAll('.char-wrapper:not(.char-' + current_episode + ')');
+                var characterTransitionScene = new ScrollMagic.Scene({
+                    duration: 0,
+                    triggerElement: assetWrapper
+                })
+                .setClassToggle(otherChars, 'not-active')
+                .addTo(scrollController);
             }
         }
     });
