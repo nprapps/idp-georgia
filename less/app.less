@@ -72,14 +72,13 @@ a {
     min-height: 50px;
     width: 100%;
     z-index: 10;
-    padding: 0 1em;
 
     img {
+        padding: 0 1em;
         vertical-align: middle;
     }
 
     span {
-        margin-left: 10px;
         display: inline-block;
         vertical-align: middle;
         color: @brightwhite;
@@ -109,6 +108,7 @@ a {
         * {
             color: @brightwhite;
             margin-bottom: 0px;
+            font-size: 1.2rem;
 
             &:hover {
                 cursor: pointer;
@@ -126,6 +126,7 @@ a {
 
     &:hover {
         .menu {
+            border-top: 1px solid rgba(255,255,255,0.5);
             display: block;
         }
     }

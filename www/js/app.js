@@ -37,7 +37,6 @@ var onWindowLoaded = function(e) {
     initScroller();
     // Force first section load of assets
     lazyload_assets(document.querySelector(".section"), 0);
-    addAppListeners();
     // Setup Chartbeat last!
     ANALYTICS.setupChartbeat();
 }
@@ -436,21 +435,6 @@ const videoLeave = function(e) {
         let player = players[containerId];
         // player.stop();
     }
-}
-
-const addAppListeners = function() {
-    let episodeNav = document.getElementById('episode-nav');
-    episodeNav.addEventListener("mouseenter", function( event ) {
-        // highlight the mouseover target
-        event.target.style.color = "orange";
-        let menu = episodeNav.querySelector('.menu');
-        menu.classList.remove('hide');
-    }, false);
-    episodeNav.addEventListener("mouseout", function( event ) {
-        // highlight the mouseover target
-        let menu = episodeNav.querySelector('.menu');
-        menu.classList.add('hide');
-    }, false);
 }
 
 window.onload = onWindowLoaded;
