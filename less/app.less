@@ -63,7 +63,7 @@ a {
 }
 
 .top-nav {
-
+    display: none;
     opacity: 0;
     background-color: @textgray;
     position: fixed;
@@ -87,12 +87,47 @@ a {
     }
 
     &.active {
+        cursor: pointer;
+        display: block;
         -webkit-transition: opacity .5s ease;
         -moz-transition: opacity .5s ease;
         -ms-transition: opacity .5s ease;
         -o-transition: opacity .5s ease;
         transition: opacity .5s ease;
         opacity: .8;
+    }
+
+    .menu {
+        display: none;
+        position: absolute;
+        line-height: normal;
+        background-color: @textgray;
+        min-width: 50%;
+        z-index: 10;
+        padding: 0 1em;
+
+        * {
+            color: @brightwhite;
+            margin-bottom: 0px;
+
+            &:hover {
+                cursor: pointer;
+                color: @black;
+            }
+        }
+
+        .separator {
+            width: 100px;
+            margin-left: 0px;
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+        }
+
+    }
+
+    &:hover {
+        .menu {
+            display: block;
+        }
     }
 }
 

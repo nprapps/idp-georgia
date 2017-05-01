@@ -37,6 +37,7 @@ var onWindowLoaded = function(e) {
     initScroller();
     // Force first section load of assets
     lazyload_assets(document.querySelector(".section"), 0);
+    addAppListeners();
     // Setup Chartbeat last!
     ANALYTICS.setupChartbeat();
 }
@@ -60,7 +61,8 @@ const checkConditionalLogic = function() {
         internal_link = true;
     }
     // Local tests
-    if (url.hostname == 'localhost') {
+    console.log(url.hostname);
+    if (url.hostname == 'localhost' || url.hostname == '127.0.0.1') {
         let found = _.find(AVAILABLE_EPISODES, function(e) {
             return document.referrer.indexOf(e) !== -1 ? true : false;
         })
@@ -434,6 +436,21 @@ const videoLeave = function(e) {
         let player = players[containerId];
         // player.stop();
     }
+}
+
+const addAppListeners = function() {
+    let episodeNav = document.getElementById('episode-nav');
+    episodeNav.addEventListener("mouseenter", function( event ) {
+        // highlight the mouseover target
+        event.target.style.color = "orange";
+        let menu = episodeNav.querySelector('.menu');
+        menu.classList.remove('hide');
+    }, false);
+    episodeNav.addEventListener("mouseout", function( event ) {
+        // highlight the mouseover target
+        let menu = episodeNav.querySelector('.menu');
+        menu.classList.add('hide');
+    }, false);
 }
 
 window.onload = onWindowLoaded;
