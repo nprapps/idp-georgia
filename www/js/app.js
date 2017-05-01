@@ -237,6 +237,8 @@ const initVideo = function(el) {
         videoTag = document.createElement('video');
         if (muted != null) {
             videoTag.setAttribute('muted','');
+            // Hack around muted on Firefox
+            videoTag.muted = true;
         }
         if (loop != null) {
             videoTag.setAttribute('loop','');
@@ -253,7 +255,6 @@ const initVideo = function(el) {
             }
             videoTag.setAttribute('playsinline','');
         }
-
         videoTag.setAttribute('poster',poster);
         videoTag.setAttribute('width',width);
         // Check if iPhone with no playsinline support
