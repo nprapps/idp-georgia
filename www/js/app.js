@@ -4,6 +4,7 @@ import URL from 'url-parse';
 
 const LAZYLOAD_AHEAD = 1;
 const AVAILABLE_EPISODES = ['irakli', 'ana', 'veriko'];
+let url = null;
 let scrollController = null;
 let current_episode = null;
 let internal_link = false;
@@ -39,7 +40,7 @@ var onWindowLoaded = function(e) {
 }
 
 const parseUrl = function() {
-    const url = new URL(window.location, window.location, true);
+    url = new URL(window.location, window.location, true);
     let bits = url.pathname.split('/');
     if (bits) {
         current_episode = bits.slice(-1)[0].replace('.html','').toLowerCase();
@@ -52,15 +53,19 @@ const parseUrl = function() {
 
 // CHECK CONDITIONAL LOGIC
 const checkConditionalLogic = function() {
-    const referrer = new URL(document.referrer, window.location, true);
-    if (referrer.pathname.indexOf('idp-georgia/') !== -1) {
+    console.log("document.referrer:", document.referrer);
+    if(document.referrer.indexOf('idp-georgia/') !== -1) {
         internal_link = true;
     }
     // Local tests
-    if (referrer.hostname == 'localhost') {
-        internal_link = _.find(AVAILABLE_EPISODES, function(e) {
-            return referrer.pathname.indexOf(e) !== -1 ? true : false;
+    if (url.hostname == 'localhost') {
+        let found = _.find(AVAILABLE_EPISODES, function(e) {
+            return document.referrer.indexOf(e) !== -1 ? true : false;
         })
+        if (found !== undefined) {
+            internal_link = true;
+        }
+
     }
 }
 
