@@ -8,6 +8,8 @@ let url = null;
 let scrollController = null;
 let current_episode = null;
 let internal_link = false;
+// Support multiple player instances
+let players = {};
 
 
 // Returns true with the exception of iPhones with no playsinline support
@@ -220,12 +222,47 @@ const animateBodyOpacity = function(e) {
     }
 }
 
+const createPlayerInstance = function(containerId, media, poster, width, ratio,
+                                      muted, loop, controls, autoplay) {
+    // Assign default values
+    width = width || '100%';
+    ratio = ratio || "16:9";
+    muted = muted === null ? false : true;
+    loop = loop === null ? false : true;
+    controls = controls === null ? false : true;
+    const stretching = "fill";
+    autoplay = autoplay === null ? false : true;
+
+    let player = jwplayer(containerId);
+    player.setup({
+        file: media,
+        mediaid: "xxxxYYYY",
+        image: poster,
+        width: width,
+        aspectratio: ratio,
+        mute: muted,
+        repeat: loop,
+        controls: controls,
+        stretching: stretching
+    });
+
+    // Autostart for touch devices
+    if (Modernizr.touchevents) {
+        if (autoplay) {
+            player.setup({autostart: autoplay})
+        }
+    }
+
+    return player
+}
+
 const initVideo = function(el) {
     let videoTag = null;
     const src = el.getAttribute("data-src");
     const poster = el.getAttribute("data-poster");
     const mime = el.getAttribute("data-mime");
     const width = el.getAttribute("data-width");
+    const ratio = el.getAttribute("data-ratio");
     const height = el.getAttribute("data-height");
     const loop = el.getAttribute("data-loop");
     const muted = el.getAttribute("data-muted");
@@ -234,51 +271,65 @@ const initVideo = function(el) {
     const preload = el.getAttribute("data-preload");
     const containerId = el.getAttribute("id");
     if (!el.classList.contains('loaded')) {
-        videoTag = document.createElement('video');
-        if (muted != null) {
-            videoTag.setAttribute('muted','');
-            // Hack around muted on Firefox
-            videoTag.muted = true;
-        }
-        if (loop != null) {
-            videoTag.setAttribute('loop','');
-        }
-        if (controls != null) {
-            videoTag.setAttribute('controls','');
-        }
-        if (preload != null) {
-            videoTag.setAttribute('preload', preload);
-        }
-        if (Modernizr.touchevents) {
-            if (autoplay != null) {
-                videoTag.setAttribute('autoplay','');
+        if (el.classList.contains('jw')) {
+            // JWPlayer managed video
+            let childId = containerId+'-child';
+            let videoDiv = document.createElement('div');
+            videoDiv.setAttribute('id', containerId+'-child');
+            el.append(videoDiv);
+            let player = createPlayerInstance(childId, src, poster, width,
+                                              ratio, muted, loop, controls,
+                                              autoplay);
+            players[containerId] = player;
+        } else {
+            // HTML5 native video tag
+            videoTag = document.createElement('video');
+            if (muted != null) {
+                videoTag.setAttribute('muted','');
+                // Hack around muted on Firefox
+                videoTag.muted = true;
             }
-            videoTag.setAttribute('playsinline','');
-        }
-        videoTag.setAttribute('poster',poster);
-        videoTag.setAttribute('width',width);
-        // Check if iPhone with no playsinline support
-        if (Modernizr.iphonewoplaysinline) {
-            let source = document.createElement('source');
-            source.setAttribute('src',src);
-            videoTag.append(source);
-        }
-        el.append(videoTag);
-        // Check if intro video has loaded
-        if (el.classList.contains('intro')) {
-            videoTag.oncanplay = animateBodyOpacity;
-            const sources = videoTag.querySelectorAll('source');
-            if (sources.length !== 0) {
-                var lastSource = sources[sources.length-1];
-                lastSource.addEventListener('error', function() {
-                    //TODO show error message?
+            if (loop != null) {
+                videoTag.setAttribute('loop','');
+            }
+            if (controls != null) {
+                videoTag.setAttribute('controls','');
+            }
+            if (preload != null) {
+                videoTag.setAttribute('preload', preload);
+            }
+            if (Modernizr.touchevents) {
+                if (autoplay != null) {
+                    videoTag.setAttribute('autoplay','');
+                }
+                videoTag.setAttribute('playsinline','');
+            }
+            videoTag.setAttribute('poster',poster);
+            videoTag.setAttribute('width',width);
+            // Check if iPhone with no playsinline support
+            if (Modernizr.iphonewoplaysinline) {
+                let source = document.createElement('source');
+                source.setAttribute('src',src);
+                videoTag.append(source);
+            }
+            el.append(videoTag);
+            // Check if intro video has loaded
+            if (el.classList.contains('intro')) {
+                videoTag.oncanplay = animateBodyOpacity;
+                const sources = videoTag.querySelectorAll('source');
+                if (sources.length !== 0) {
+                    var lastSource = sources[sources.length-1];
+                    lastSource.addEventListener('error', function() {
+                        //TODO show error message?
+                        animateBodyOpacity();
+                    });
+                }
+                else {
                     animateBodyOpacity();
-                });
-            }
-            else {
-                animateBodyOpacity();
+                }
             }
         }
+        // Finally mark the videoWrapper as loaded
         el.classList.add('loaded');
     }
 }
@@ -332,38 +383,56 @@ const sectionEnter = function(e) {
 
 const videoEnter = function(e) {
     console.log("videoEnter");
-    if (!Modernizr.touchevents) {
-        const el = this.triggerElement();
-        if (el.classList.contains('loaded')) {
-            let video = el.querySelector('video');
-            if (video.getAttribute('controls') == null) {
-                console.log('video does not have controls');
-                video.play().catch((error) => {
-                    // Ignore play errors using poster as fallback
-                    console.log("error in playback", error);
-                });
-            } else {
-                console.log('video has controls, ignore');
+    const el = this.triggerElement();
+    const containerId = el.getAttribute("id");
+    // Ignore video play if it is an interview, let user control it
+    if (!el.classList.contains('jw')) {
+        if (!Modernizr.touchevents) {
+            if (el.classList.contains('loaded')) {
+                let video = el.querySelector('video');
+                if (video.getAttribute('controls') == null) {
+                    console.log('video does not have controls');
+                    video.play().catch((error) => {
+                        // Ignore play errors using poster as fallback
+                        console.log("error in playback", error);
+                    });
+                } else {
+                    console.log('video has controls, ignore');
+                }
+            }
+            else {
+                console.error("video not loaded");
             }
         }
-        else {
-            console.error("video not loaded");
+    } else {
+        if (el.classList.contains('loaded')) {
+            // We could tweak the player to our needs once it is visible here
+            let player = players[containerId];
+            // player.play();
         }
     }
 }
 
 const videoLeave = function(e) {
     console.log("videoLeave");
-    if (!Modernizr.touchevents) {
-        const el = this.triggerElement();
-        let video = el.querySelector('video');
-        if (video.getAttribute('controls') == null) {
-            console.log('video does not have controls');
-            video.pause();
-            video.currentTime = 0;
-        } else {
-            console.log('video has controls, ignore');
+    const el = this.triggerElement();
+    const containerId = el.getAttribute("id");
+    // Ignore video pause if it is an interview, let user control it
+    if (!el.classList.contains('jw')) {
+        if (!Modernizr.touchevents) {
+            let video = el.querySelector('video');
+            if (video.getAttribute('controls') == null) {
+                console.log('video does not have controls');
+                video.pause();
+                video.currentTime = 0;
+            } else {
+                console.log('video has controls, ignore');
+            }
         }
+    } else {
+        // We could tweak the player to our needs once it is no longer visible here
+        let player = players[containerId];
+        // player.stop();
     }
 }
 

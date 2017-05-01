@@ -1,4 +1,7 @@
 {% extends '_base.html' %}
+{% block extra_head %}
+<script src="js/lib/jwplayer/jwplayer.js"></script>
+{% endblock %}
 
 {% block content %}
 {% set intro_video_src = COPY.content.intro_video %}
