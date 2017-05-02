@@ -63,26 +63,31 @@ a {
 }
 
 .top-nav {
+    .gotham();
     display: none;
     opacity: 0;
-    background-color: @textgray;
+    background-color: #fff;
     position: fixed;
     top: 0;
     line-height: 50px;
     min-height: 50px;
     width: 100%;
     z-index: 10;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, .2);
 
     img {
         padding: 0 1em;
         vertical-align: middle;
+        opacity: .4;
+        max-width: 7rem;
     }
 
     span {
         display: inline-block;
         vertical-align: middle;
-        color: @brightwhite;
-        font-size: 1.5rem;
+        color: #888;
+        font-size: 1.2rem;
+        font-weight: bold;
     }
 
     &.active {
@@ -93,7 +98,7 @@ a {
         -ms-transition: opacity .5s ease;
         -o-transition: opacity .5s ease;
         transition: opacity .5s ease;
-        opacity: .8;
+        opacity: 1;
     }
 
     .menu {
@@ -124,12 +129,12 @@ a {
 
     }
 
-    &:hover {
-        .menu {
-            border-top: 1px solid rgba(255,255,255,0.5);
-            display: block;
-        }
-    }
+    // &:hover {
+    //     .menu {
+    //         border-top: 1px solid rgba(255,255,255,0.5);
+    //         display: block;
+    //     }
+    // }
 }
 
 
