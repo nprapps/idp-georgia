@@ -105,15 +105,16 @@ a {
         display: none;
         position: absolute;
         line-height: normal;
-        background-color: @textgray;
+        background-color: #fff;;
         min-width: 50%;
         z-index: 10;
         padding: 0 1em;
 
         * {
-            color: @brightwhite;
+            color: #888;
             margin-bottom: 0px;
             font-size: 1.2rem;
+            font-weight: bold;
 
             &:hover {
                 cursor: pointer;
@@ -124,17 +125,17 @@ a {
         .separator {
             width: 100px;
             margin-left: 0px;
-            border-bottom: 1px solid rgba(255,255,255,0.5);
+            border-bottom: 1px solid rgba(136,136,136,0.5);
         }
 
     }
 
-    // &:hover {
-    //     .menu {
-    //         border-top: 1px solid rgba(255,255,255,0.5);
-    //         display: block;
-    //     }
-    // }
+    &:hover {
+        .menu {
+            border-top: 1px solid rgba(136,136,136,0.5);
+            display: block;
+        }
+    }
 }
 
 
