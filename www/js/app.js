@@ -60,7 +60,8 @@ const checkConditionalLogic = function() {
         internal_link = true;
     }
     // Local tests
-    if (url.hostname == 'localhost') {
+    console.log(url.hostname);
+    if (url.hostname == 'localhost' || url.hostname == '127.0.0.1') {
         let found = _.find(AVAILABLE_EPISODES, function(e) {
             return document.referrer.indexOf(e) !== -1 ? true : false;
         })
