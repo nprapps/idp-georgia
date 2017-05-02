@@ -170,6 +170,8 @@ def deploy(remote='origin', reload=False):
 
     update()
     render.render_all()
+    # Render episodes as well
+    render.render_episodes()
 
     # Clear files that should never be deployed
     local('rm -rf www/live-data')
@@ -193,7 +195,6 @@ def deploy(remote='origin', reload=False):
         }
     )
 
-    render.render_episodes()
     flat.deploy_folder(
         app_config.S3_BUCKET,
         '.episodes',
