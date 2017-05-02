@@ -87,20 +87,12 @@ const adaptPageToSessionStatus = function() {
 
 const initScroller = function() {
     scrollController = new ScrollMagic.Controller();
-
-    // Intro Background Video pinning at page load
-    var introScene = new ScrollMagic.Scene({
-            duration: '100%'
-        })
-        .setPin('#title-bg-container', {pushFollowers: false})
-        .addTo(scrollController);
-
     /*
         TODO since most of this is panel specific, we can probably
         take a lot of it out of the for loop
     */
     // Intro scroll navigation
-    document.querySelectorAll('.panel-intro').forEach(function(d,i) {
+    _.each(document.querySelectorAll('.panel-intro'), function(d, i) {
         var innerText = d.querySelector('.text-wrapper');
         var assetWrapper = d.querySelector('.asset-wrapper');
 
@@ -204,7 +196,7 @@ const initScroller = function() {
     });
 
     // Section viewport tracking to lazyload assets
-    document.querySelectorAll('.section').forEach(function(d,i) {
+    _.each(document.querySelectorAll('.section'), function(d,i) {
         var innerText = d.querySelector('.text-wrapper');
 
         var scrollScene = new ScrollMagic.Scene({
@@ -216,7 +208,7 @@ const initScroller = function() {
     });
 
     // Video viewport tracking to play and pause videos
-    document.querySelectorAll('.video-wrapper').forEach(function(d,i) {
+    _.each(document.querySelectorAll('.video-wrapper'), function(d,i) {
         // Initialize players and preload videos
         initVideo(d);
 
@@ -228,6 +220,13 @@ const initScroller = function() {
         .on('leave', videoLeave)
         .addTo(scrollController);
     });
+
+    // Intro Background Video pinning at page load
+    var introScene = new ScrollMagic.Scene({
+            duration: '100%'
+        })
+        .setPin('#title-bg-container', {pushFollowers: false})
+        .addTo(scrollController);
 
 };
 
@@ -295,7 +294,7 @@ const initVideo = function(el) {
             let childId = containerId+'-child';
             let videoDiv = document.createElement('div');
             videoDiv.setAttribute('id', containerId+'-child');
-            el.append(videoDiv);
+            el.appendChild(videoDiv);
             let player = createPlayerInstance(childId, src, poster, width,
                                               ratio, muted, loop, controls,
                                               autoplay);
@@ -329,11 +328,13 @@ const initVideo = function(el) {
             if (Modernizr.iphonewoplaysinline) {
                 let source = document.createElement('source');
                 source.setAttribute('src',src);
-                videoTag.append(source);
+                videoTag.appendChild(source);
             }
-            el.append(videoTag);
+            videoTag.setAttribute('data-object-fit','');
+            el.appendChild(videoTag);
             // Check if intro video has loaded
             if (el.classList.contains('intro')) {
+                objectFitPolyfill();
                 videoTag.oncanplay = animateBodyOpacity;
                 const sources = videoTag.querySelectorAll('source');
                 if (sources.length !== 0) {

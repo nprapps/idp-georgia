@@ -3,14 +3,14 @@
 
 <head>
     <title>{{ COPY.content.title}}</title>
+
+    <!-- META TAGS -->
+    {% include '_meta.html' %}
+
     <!-- CHARTBEAT -->
     <script type="text/javascript">
         var _sf_startpt=(new Date()).getTime();
     </script>
-
-
-    <!-- META TAGS -->
-    {% include '_meta.html' %}
 
     <!-- FONTS -->
     {% include '_fonts.html' %}
@@ -39,6 +39,7 @@
     {{ JS.push('js/lib/gsap/TimelineLite.min.js') }}
     {{ JS.push('js/lib/ScrollMagic.js') }}
     {{ JS.push('js/lib/gsap/animation.gsap.js') }}
+    {{ JS.push('js/lib/objectFitPolyfill.basic.js') }}
     {{ JS.render('js/app-header.min.js') }}
 
     {% block content %}
