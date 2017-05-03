@@ -331,17 +331,16 @@ const initVideo = function(el) {
                 source.setAttribute('src',src);
                 videoTag.appendChild(source);
             }
-            videoTag.setAttribute('data-object-fit','');
             el.appendChild(videoTag);
             // Check if intro video has loaded
             if (el.classList.contains('intro')) {
+                videoTag.setAttribute('data-object-fit','');
                 objectFitPolyfill();
                 videoTag.oncanplay = animateBodyOpacity;
                 const sources = videoTag.querySelectorAll('source');
                 if (sources.length !== 0) {
                     var lastSource = sources[sources.length-1];
                     lastSource.addEventListener('error', function() {
-                        //TODO show error message?
                         animateBodyOpacity();
                     });
                 }
@@ -408,21 +407,13 @@ const videoEnter = function(e) {
     const containerId = el.getAttribute("id");
     // Ignore video play if it is an interview, let user control it
     if (!el.classList.contains('jw')) {
-        if (!Modernizr.touchevents) {
-            if (el.classList.contains('loaded')) {
-                let video = el.querySelector('video');
-                if (video.getAttribute('controls') == null) {
-                    console.log('video does not have controls');
-                    video.play().catch((error) => {
-                        // Ignore play errors using poster as fallback
-                        console.log("error in playback", error);
-                    });
-                } else {
-                    console.log('video has controls, ignore');
-                }
-            }
-            else {
-                console.error("video not loaded");
+        if (el.classList.contains('loaded')) {
+            let video = el.querySelector('video');
+            if (video.getAttribute('controls') == null) {
+                video.play().catch((error) => {
+                    // Ignore play errors using poster as fallback
+                    console.log("error in playback", error);
+                });
             }
         }
     } else {
@@ -440,15 +431,13 @@ const videoLeave = function(e) {
     const containerId = el.getAttribute("id");
     // Ignore video pause if it is an interview, let user control it
     if (!el.classList.contains('jw')) {
-        if (!Modernizr.touchevents) {
-            let video = el.querySelector('video');
-            if (video.getAttribute('controls') == null) {
-                console.log('video does not have controls');
-                video.pause();
-                video.currentTime = 0;
-            } else {
-                console.log('video has controls, ignore');
-            }
+        let video = el.querySelector('video');
+        if (video.getAttribute('controls') == null) {
+            console.log('video does not have controls');
+            video.pause();
+            video.currentTime = 0;
+        } else {
+            console.log('video has controls, ignore');
         }
     } else {
         // We could tweak the player to our needs once it is no longer visible here
