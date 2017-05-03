@@ -47,6 +47,12 @@
       "css": "volume-off",
       "code": 59398,
       "src": "fontawesome"
+    },
+    {
+      "uid": "e4dde1992f787163e2e2b534b8c8067d",
+      "css": "angle-down",
+      "code": 61703,
+      "src": "fontawesome"
     }
   ]
 }

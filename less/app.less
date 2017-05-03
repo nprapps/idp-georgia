@@ -69,6 +69,7 @@ a {
     background-color: #fff;
     position: fixed;
     top: 0;
+    left: 0;
     line-height: 50px;
     min-height: 50px;
     width: 100%;
@@ -90,50 +91,92 @@ a {
         font-weight: bold;
     }
 
-    &.active {
-        cursor: pointer;
-        display: block;
-        -webkit-transition: opacity .5s ease;
-        -moz-transition: opacity .5s ease;
-        -ms-transition: opacity .5s ease;
-        -o-transition: opacity .5s ease;
-        transition: opacity .5s ease;
-        opacity: 1;
+    .nav-text {
+        padding: 0 1em;
+        display: inline-block;
+    }
+
+    .nav-head {
+        &::after {
+            padding: 5px;
+            font-family: npr-app-template;
+            content: '\f107';
+        }
+    }
+
+    .menu-open-overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: transparent;
+        pointer-events: none;
+        z-index: -1;
     }
 
     .menu {
         display: none;
         position: absolute;
         line-height: normal;
-        background-color: #fff;;
-        min-width: 50%;
+        background-color: #fff;
         z-index: 10;
         padding: 0 1em;
 
-        * {
+        .episode-link {
             color: #888;
             margin-bottom: 0px;
             font-size: 1.2rem;
             font-weight: bold;
-
-            &:hover {
-                cursor: pointer;
-                color: @black;
-            }
         }
 
         .separator {
-            width: 100px;
+            width: 100%;
             margin-left: 0px;
             border-bottom: 1px solid rgba(136,136,136,0.5);
         }
 
     }
 
-    &:hover {
-        .menu {
-            border-top: 1px solid rgba(136,136,136,0.5);
-            display: block;
+    &.active {
+        display: block;
+        -webkit-transition: opacity .5s ease;
+        -moz-transition: opacity .5s ease;
+        -ms-transition: opacity .5s ease;
+        -o-transition: opacity .5s ease;
+        transition: opacity .5s ease;
+        opacity: .7;
+
+        // Use hover only to signal interaction
+        .nav-text:hover {
+            cursor: pointer;
+
+            span {
+                color: @black;
+            }
+        }
+
+        // &.menu-visible, &:not(.menu-visible)&:hover {
+        &.menu-visible {
+            transition: opacity .5s ease;
+            opacity: 1;
+
+            .menu {
+                display: block;
+
+                .episode-link {
+                    &:hover {
+                        cursor: pointer;
+                        color: @black;
+                    }
+                }
+            }
+
+            .menu-open-overlay {
+                background: rgba(255,255,255,0.7);
+                transition: background .5s ease;
+                pointer-events: auto;
+            }
         }
     }
 }

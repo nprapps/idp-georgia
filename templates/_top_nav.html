@@ -1,24 +1,28 @@
 <div id="episode-nav" class="top-nav">
     <img class="top-nav-logo" src="assets/npr-black.png">
-    <span>{{ COPY[episode].nav_text }}</span>
+    <div class="nav-text">
+        <span class="nav-head">{{ COPY[episode].nav_head }}</span>
+        <span class="nav-subhead">{{ COPY[episode].nav_subhead }}</span>
+    </div>
     <div class="menu">
-    <div class="menu-episode">
-        <a class="episode-link" data-episode="1" data-position="nav" href="irakli.html">
-            <p class="menu-title">Episode 1: IRAKLI &ndash; Paradise Lost</p>
+        <div class="menu-episode">
+            <a class="episode-link" data-episode="1" data-position="nav" href="irakli.html">
+                <p class="menu-title">Episode 1: IRAKLI &ndash; Paradise Lost</p>
+            </a>
             <span class="separator"></span>
-        </a>
-    </div>
-    <div class="menu-episode">
-        <a class="episode-link" data-episode="1" data-position="nav" href="ana.html">
-            <p class="menu-title">Episode 2: ANA &ndash; Permanently Temporary</p>
+        </div>
+        <div class="menu-episode">
+            <a class="episode-link" data-episode="1" data-position="nav" href="ana.html">
+                <p class="menu-title">Episode 2: ANA &ndash; Permanently Temporary</p>
+            </a>
             <span class="separator"></span>
-        </a>
+        </div>
+        <div class="menu-episode">
+            <a class="episode-link" data-episode="1" data-position="nav" href="veriko.html">
+                <p class="menu-title">Episode 3: VERIKO &ndash; A foot in two worlds</p>
+                <span></span>
+            </a>
+        </div>
     </div>
-    <div class="menu-episode">
-        <a class="episode-link" data-episode="1" data-position="nav" href="veriko.html">
-            <p class="menu-title">Episode 3: VERIKO &ndash; A foot in two worlds</p>
-            <span></span>
-        </a>
-    </div>
-</div>
+    <div class="menu-open-overlay"></div>
 </div>
