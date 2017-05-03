@@ -317,11 +317,9 @@ const initVideo = function(el) {
             if (preload != null) {
                 videoTag.setAttribute('preload', preload);
             }
-            if (Modernizr.touchevents) {
-                if (autoplay != null) {
+            if ((Modernizr.touchevents) && (autoplay != null)) {
                     videoTag.setAttribute('autoplay','');
-                }
-                videoTag.setAttribute('playsinline','');
+                    videoTag.setAttribute('playsinline','');
             }
             videoTag.setAttribute('poster',poster);
             videoTag.setAttribute('width',width);
@@ -409,11 +407,15 @@ const videoEnter = function(e) {
     if (!el.classList.contains('jw')) {
         if (el.classList.contains('loaded')) {
             let video = el.querySelector('video');
-            if (video.getAttribute('controls') == null) {
-                video.play().catch((error) => {
-                    // Ignore play errors using poster as fallback
-                    console.log("error in playback", error);
-                });
+            if (video.querySelectorAll('source').length) {
+                if (video.getAttribute('controls') == null) {
+                    let playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(function(error) {
+                            console.log('playback error');
+                        });
+                    }
+                }
             }
         }
     } else {
@@ -432,12 +434,11 @@ const videoLeave = function(e) {
     // Ignore video pause if it is an interview, let user control it
     if (!el.classList.contains('jw')) {
         let video = el.querySelector('video');
-        if (video.getAttribute('controls') == null) {
-            console.log('video does not have controls');
-            video.pause();
-            video.currentTime = 0;
-        } else {
-            console.log('video has controls, ignore');
+        if (video.querySelectorAll('source').length) {
+            if (video.getAttribute('controls') == null) {
+                video.pause();
+                video.currentTime = 0;
+            }
         }
     } else {
         // We could tweak the player to our needs once it is no longer visible here
