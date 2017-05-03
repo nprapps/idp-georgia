@@ -459,16 +459,19 @@ const videoLeave = function(e) {
 
 // EVENT LISTENERS
 const toggleTopNavigation = function(e) {
-    if (this.classList.contains('menu-visible')) {
-        this.classList.remove('menu-visible');
+    let nav = document.getElementById('episode-nav');
+    if (nav.classList.contains('menu-visible')) {
+        nav.classList.remove('menu-visible');
     } else {
-        this.classList.add('menu-visible');
+        nav.classList.add('menu-visible');
     }
 }
 
 const addAppListeners = function() {
-    let nav = document.getElementById('episode-nav');
+    let nav = document.getElementById('nav-text');
+    let overlay = document.getElementById('nav-overlay');
     nav.onclick = toggleTopNavigation;
+    overlay.onclick = toggleTopNavigation;
 }
 
 window.onload = onWindowLoaded;

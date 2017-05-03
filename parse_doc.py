@@ -197,7 +197,7 @@ def parse(doc):
             inline_intro = sections.pop(idx)
             inline_intro = process_extracted_contents(inline_intro)
         else:
-            logger.error("Did not find the footer section on the document")
+            logger.error("Did not find the inline intro section on the document")
         logger.info('Number of sections: %s' % len(sections))
         parsed_document['sections'] = sections
         parsed_document['inline_intro'] = inline_intro
