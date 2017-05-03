@@ -457,6 +457,7 @@ const videoLeave = function(e) {
     }
 }
 
+// EVENT LISTENERS
 const toggleTopNavigation = function(e) {
     if (this.classList.contains('menu-visible')) {
         this.classList.remove('menu-visible');
@@ -468,8 +469,6 @@ const toggleTopNavigation = function(e) {
 const addAppListeners = function() {
     let nav = document.getElementById('episode-nav');
     nav.onclick = toggleTopNavigation;
-    // Remove for desktop if mouse leaves the nav area
-    // nav.onmouseout = function() { this.classList.remove('menu-visible');}
 }
 
 window.onload = onWindowLoaded;
