@@ -443,7 +443,7 @@ const videoLeave = function(e) {
     } else {
         // We could tweak the player to our needs once it is no longer visible here
         let player = players[containerId];
-        // player.stop();
+        player.pause(true);
     }
 }
 
