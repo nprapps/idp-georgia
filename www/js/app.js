@@ -10,6 +10,8 @@ let current_episode = null;
 let internal_link = false;
 // Support multiple player instances
 let players = {};
+// ANALYTICS
+let topNavClicked = false;
 
 
 // Returns true with the exception of iPhones with no playsinline support
@@ -288,17 +290,24 @@ const initVideo = function(el) {
     const autoplay = el.getAttribute("data-autoplay");
     const controls = el.getAttribute("data-controls");
     const preload = el.getAttribute("data-preload");
+    let trackId = el.getAttribute("data-analytics");
     const containerId = el.getAttribute("id");
     if (!el.classList.contains('loaded')) {
         if (el.classList.contains('jw')) {
             // JWPlayer managed video
-            let childId = containerId+'-child';
             let videoDiv = document.createElement('div');
-            videoDiv.setAttribute('id', containerId+'-child');
+            if (trackId == null) {
+                trackId = containerId+'-child';
+            }
+            videoDiv.setAttribute('id', trackId);
             el.appendChild(videoDiv);
-            let player = createPlayerInstance(childId, src, poster, width,
+            let player = createPlayerInstance(trackId, src, poster, width,
                                               ratio, muted, loop, controls,
                                               autoplay);
+            // ANALYTICS track if video has been played
+            player.once('play', function(e) {
+                ANALYTICS.trackEvent('video-play', player.id);
+            })
             players[containerId] = player;
         } else {
             // HTML5 native video tag
@@ -420,7 +429,6 @@ const videoEnter = function(e) {
         }
     } else {
         if (el.classList.contains('loaded')) {
-            // We could tweak the player to our needs once it is visible here
             let player = players[containerId];
             // player.play();
         }
@@ -441,7 +449,6 @@ const videoLeave = function(e) {
             }
         }
     } else {
-        // We could tweak the player to our needs once it is no longer visible here
         let player = players[containerId];
         player.pause(true);
     }
@@ -449,6 +456,10 @@ const videoLeave = function(e) {
 
 // EVENT LISTENERS
 const toggleTopNavigation = function(e) {
+    if (!topNavClicked) {
+        ANALYTICS.trackEvent('top-nav-click');
+        topNavClicked = true;
+    }
     let nav = document.getElementById('episode-nav');
     if (nav.classList.contains('menu-visible')) {
         nav.classList.remove('menu-visible');
@@ -462,6 +473,18 @@ const addAppListeners = function() {
     let overlay = document.getElementById('nav-overlay');
     nav.onclick = toggleTopNavigation;
     overlay.onclick = toggleTopNavigation;
+
+    // Analytics
+    // TODO should we track the use of the different navigation options?
+    // document.querySelector(".utility-nav").addEventListener('click', function(e) {
+    //     ANALYTICS.trackEvent('utility-nav-click')
+    // });
+    // document.querySelector(".menu").addEventListener('click', function(e) {
+    //     ANALYTICS.trackEvent('menu-nav-click')
+    // });
+    // document.querySelector(".footer-question").addEventListener('click', function(e) {
+    //     ANALYTICS.trackEvent('footer-nav-click')
+    // });
 }
 
 window.onload = onWindowLoaded;
