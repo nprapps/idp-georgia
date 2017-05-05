@@ -454,6 +454,86 @@ a {
         margin-bottom: 1.2em;
         color: #333;
     }
+
+    .graphic-wrapper {
+        .story-well-sizing();
+
+        &#graphic-population {
+            .chart-wrapper {
+                position: relative;
+            }
+
+            .chart-row {
+                @label-width: 20%;
+                @bar-width: 80%;
+                @bar-height: 30px;
+
+                display: table;
+                width: 100%;
+                height: @bar-height;
+                margin-bottom: 3px;
+                .clearfix();
+                .sans-serif();
+                font-size: 12px;
+                color: #999;
+
+                span {
+                    height: 100%;
+                    line-height: 1;
+                }
+
+                .row-label {
+                    padding-right: 8px;
+                    width: @label-width;
+                    text-align: right;
+                }
+
+                .row-bar-wrapper {
+                    width: @bar-width;
+                    position: relative;
+                    height: @bar-height;
+
+                    .row-bar {
+                        display: block;
+                        height: 100%;
+                        background: #ccc;
+                    }
+
+                    .row-value {
+                        position: absolute;
+                        padding-right: 5px;
+                        text-align: left;
+                    }
+                }
+            }
+        }
+
+        h4 {
+            .gotham();
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 0 0.5em;
+            color: #666;
+        }
+
+        p.graphic-text {
+            .sans-serif();
+            font-size: 1.4rem;
+            margin: 0 0 0.5em;
+            padding: 0;
+            color: #777;
+        }
+
+        p.source {
+            .sans-serif();
+            font-size: 1rem;
+            font-style: italic;
+            line-height: 1.7;
+            margin: 0 0 0.5em;
+            padding: 0;
+            color: #777;
+        }
+    }
 }
 
 // MEDIA TYPES
