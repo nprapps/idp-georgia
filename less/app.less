@@ -468,7 +468,6 @@ a {
                 @bar-width: 80%;
                 @bar-height: 30px;
 
-                display: table;
                 width: 100%;
                 height: @bar-height;
                 margin-bottom: 3px;
@@ -480,6 +479,7 @@ a {
                 span {
                     height: 100%;
                     line-height: 1;
+                    float: left;
                 }
 
                 .row-label {
@@ -526,10 +526,10 @@ a {
 
         p.source {
             .sans-serif();
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-style: italic;
             line-height: 1.7;
-            margin: 0 0 0.5em;
+            margin: 0.5em 0 0.5em;
             padding: 0;
             color: #777;
         }
