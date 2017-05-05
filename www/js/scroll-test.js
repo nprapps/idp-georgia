@@ -15,6 +15,9 @@ const initScrollElements = function() {
             var irakliText = d.querySelector('.irakli-bio');
             var anaText = d.querySelector('.ana-bio');
             var verikoText = d.querySelector('.veriko-bio');
+            var irakliImage = d.querySelector('.char-irakli');
+            var anaImage = d.querySelector('.char-ana');
+            var verikoImage = d.querySelector('.char-veriko');
             var wrapText = d.querySelector('.wrap-bio');
             var timeline = new TimelineLite()
                 .to(innerText, 1, { opacity: 1 })
@@ -52,12 +55,16 @@ const initScrollElements = function() {
                     onComplete:function() {
                         irakliText.classList.add('hide');
                         anaText.classList.remove('hide');
+                        irakliImage.classList.add('not-active')
+                        anaImage.classList.remove('not-active')
                     }
                 })
                 .to(anaText, 1, { opacity: 1,
                      onReverseComplete:function() {
                         anaText.classList.add('hide');
                         irakliText.classList.remove('hide');
+                        irakliImage.classList.remove('not-active')
+                        anaImage.classList.add('not-active')
                     }
                 });
 
@@ -80,12 +87,16 @@ const initScrollElements = function() {
                     onComplete:function() {
                         anaText.classList.add('hide');
                         verikoText.classList.remove('hide');
+                        anaImage.classList.add('not-active')
+                        verikoImage.classList.remove('not-active')
                     }
                 })
                 .to(verikoText, 1, { opacity: 1,
                     onReverseComplete:function() {
                         verikoText.classList.add('hide');
                         anaText.classList.remove('hide');
+                        verikoImage.classList.add('not-active')
+                        anaImage.classList.remove('not-active')
                     }
                 });
 
@@ -109,12 +120,17 @@ const initScrollElements = function() {
                     onComplete:function() {
                         verikoText.classList.add('hide');
                         wrapText.classList.remove('hide');
+                        irakliImage.classList.remove('not-active')
+                        verikoImage.classList.remove('not-active')
+                        anaImage.classList.remove('not-active')
                     }
                 })
                 .to(wrapText, 1, { opacity: 1 ,
                     onReverseComplete:function() {
                         wrapText.classList.add('hide');
                         verikoText.classList.remove('hide');
+                        irakliImage.classList.add('not-active')
+                        anaImage.classList.add('not-active')
                     }
                 });
 
