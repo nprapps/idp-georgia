@@ -1,0 +1,138 @@
+@import "variables.less";
+
+.story-well-sizing() {
+    max-width: 680px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// Content
+// -------------------------
+html {
+    font-size: 62.5%;
+    line-height: 1.7;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    padding: 0;
+    margin: 0 auto;
+
+    * {
+        box-sizing: border-box;
+    }
+}
+
+img {
+    max-width: 100%;
+}
+
+.hide {
+    display:none;
+}
+
+#intro-wrap {
+    position: relative;
+    .gotham();
+
+    .panel2 {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+
+        .text-wrapper {
+            width: 100%;
+        }
+    }
+
+    .panel {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+
+        &.panel-characters {
+            height: 400vh;
+            background-color: #fafafa;
+        }
+
+        .text-wrapper {
+            position: absolute;
+            opacity: 0;
+            top: 50vh;
+            width: 100%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+
+            p {
+                font-size: 2rem;
+                line-height: 1.6;
+                max-width: 680px;
+                margin: 0 auto 1em;
+                text-align: center;
+
+                @media @screen-small {
+                    font-size: 1.4rem;
+                }
+
+                @media @screen-landscape {
+                    font-size: 1.3rem;
+                    max-width: 480px;
+                }
+            }
+
+            #bio-wrapper {
+                position: relative;
+                text-align: bottom;
+                height: 20vh;
+                overflow: hidden;
+            }
+
+            .bio {
+                opacity: 0;
+            }
+        }
+
+        .asset-wrapper {
+            .clearfix();
+            .story-well-sizing();
+            text-align: center;
+            opacity: 1;
+
+            .char-wrapper {
+                display: inline-block;
+                position: relative;
+                text-align: center;
+                width: 33%;
+                padding: 0 0.5em;
+                opacity: 1;
+                transition: opacity 1s ease-in;
+
+                &.not-active {
+                    opacity: 0;
+                    transition: opacity 1s ease-out;
+                }
+
+                img {
+                    display: block;
+                }
+
+                span {
+                    display: inline-block;
+                    margin: 0 auto;
+                    color: @brightwhite;
+                    text-transform: uppercase;
+                    font-size: 1.6rem;
+                    font-weight: bold;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                }
+            }
+        }
+    }
+}
+

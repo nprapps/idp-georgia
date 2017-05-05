@@ -15,7 +15,7 @@
     {% include '_fonts.html' %}
 
     <!-- CSS -->
-    {{ CSS.push('less/app.less') }}
+    {{ CSS.push('less/test.less') }}
     {% block extra_css %}{% endblock extra_css %}
     {{ CSS.render('css/rendered/app.min.css') }}
 
@@ -33,35 +33,42 @@
     {{ JS.push('js/lib/gsap/TweenLite.min.js') }}
     {{ JS.push('js/lib/gsap/TimelineLite.min.js') }}
     {{ JS.push('js/lib/ScrollMagic.js') }}
+    {{ JS.push('js/lib/debug.addindicators.js') }}
     {{ JS.push('js/lib/gsap/animation.gsap.js') }}
     {{ JS.push('js/app_config.js') }}
     {{ JS.push('js/analytics.js') }}
     {{ JS.render('js/app-header.min.js') }}
 
     <div id="intro-wrap">
-        <div class="bg-img bg-1"></div>
         <div class="panel">
-            <div class="text-wrapper">
-                <h1>Title screen</h1>
-            </div>
-        </div>
-        <div class="panel" id="panel-1">
             <div id="panel-text-1" class="text-wrapper">
                 <p>They fled bombs and bullets and destruction. Their friends and relatives died. They lost everything.</p>
                 <p>They are internally displaced people, or IDPs.</p>
             </div>
         </div>
-        <div class="panel">
+        <div class="panel panel-characters">
             <div id="panel-text-2" class="text-wrapper">
-                <p> IDPs have never crossed an international border. Instead they are stuck in their own countries, sometimes just miles from where their journeys began, unable to go back to their homes, but also often unable to move on. </p>
+                <div id="bio-wrapper">
+                    <p class="bio irakli-bio"> Irakli Salakaia fled Abkhazia over snowy mountain passes at age 17 in 1993. His father, who refused to leave the grave of one of his other children, was later executed BY WHO. </p>
+                    <p class="bio ana-bio hide"> Ana Sabashvili, a 50-year-old seamstress, left South Ossetia in 2008 and now lives in a settlement just a few miles from her hometown. She pines for her old house, reduced to ashes after Georgia’s five-day war with Russia. </p>
+                    <p class="bio veriko-bio hide"> Veriko Ekhvaia, 29, attended grade school in Abkhazia amid Georgian tanks before her family fled. She’s now a DJ at a Georgian radio station that broadcasts to Abkhazia. </p>
+                    <p class="bio wrap-bio hide"> All three live on the fringes of Georgian society [[TRUE OF VERIKO?]]. Unable to return home, struggling to plan for the future, they are stuck -- frozen in permanent limbo. Here are their stories. </p>
+                </div>
+                <div class="asset-wrapper">
+                    <div class="char-wrapper char-irakli">
+                        <img src="../assets/intro-char-irakli.jpg" /><span>Irakli</span>
+                    </div>
+                    <div class="char-wrapper char-ana">
+                        <img src="../assets/intro-char-ana.jpg" /><span>Ana</span>
+                    </div>
+                    <div class="char-wrapper char-veriko">
+                        <img src="../assets/intro-char-veriko.jpg" /><span>Veriko</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div id="story-wrap" style="height: 2000px; width: 100%;"></div>
-
-    {# uncomment both files to use simpleStorage #}
-    {{ JS.push('js/lib/simpleStorage.js') }}
-    {{ JS.push('js/storage.js') }}
+    <div id="story-wrap" style="height: 4000px; width: 100%;"></div>
 
     {{ JS.push('js/copy.js') }}
     {{ JS.push('js/templates.js') }}
