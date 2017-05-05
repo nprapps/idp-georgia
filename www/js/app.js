@@ -136,6 +136,8 @@ const initScroller = function() {
                 .addTo(scrollController);
             }
 
+            /*
+            // Fade out all assets as they leave view
             if (assetWrapper) {
                 var activeCharScene = new ScrollMagic.Scene({
                     duration: '50%',
@@ -144,6 +146,7 @@ const initScroller = function() {
                 .setTween(assetWrapper, { opacity: 0, ease: Power1.easeOut })
                 .addTo(scrollController);
             }
+               */
 
             // First panel of intro text will fade out the intro background
             if (d.classList.contains('bg-fade-out')) {

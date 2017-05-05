@@ -16,6 +16,9 @@
             {{ content.html }}
         </div>
         {% endif %}
+        {% if content.text_after_assets %}
+            {{ content.text_after_assets }}
+        {% endif %}
     </div>
 </div>
 {% endfor %}

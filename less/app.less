@@ -283,20 +283,6 @@ a {
             }
         }
 
-        img.intro-map {
-            width: 100%;
-            margin: 0 auto;
-            display: block;
-
-            @media @screen-small {
-                max-width: 360px;
-            }
-
-            @media @screen-landscape and (min-width: 421px) {
-                max-width: 280px;
-            }
-        }
-
         &.title-panel {
             .text-wrapper {
                 padding-left: 30px;
@@ -333,8 +319,30 @@ a {
 
         &.panel-map {
             .asset-wrapper {
-                max-width: 400px;
                 margin: 0 auto;
+            }
+
+            .map-wrapper {
+                position: relative;
+                margin: 0 auto;
+                max-width: 900px;
+
+                @media @screen-large {
+                    max-width: 800px;
+                }
+
+                img.intro-map {
+                    width: 100%;
+                    margin: 0 auto;
+                    display: block;
+                }
+
+                img.inset-map {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    max-width: 25%;
+                }
             }
         }
 
