@@ -9,7 +9,7 @@
 </div>
 {% for content in COPY.intro_panels %}
 <div class="panel-intro {{ content.class }} panel-intro-{{ loop.index0 }}{% if loop.first %} bg-fade-out{% endif %}{% if loop.last %} final-panel{% endif %}">
-    <div class="text-wrapper">
+    <div {% if content.childid %} id={{content.childid}}{% endif %} class="text-wrapper">
         {{ content.text }}
         {% if content.html %}
         <div class="asset-wrapper">
