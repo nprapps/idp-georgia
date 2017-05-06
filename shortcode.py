@@ -5,6 +5,7 @@ import datetime
 import logging
 import requests
 import shortcodes
+from render_utils import make_context
 
 from PIL import Image
 from StringIO import StringIO
@@ -33,6 +34,7 @@ SHORTCODE_DICT = {
         'credit': 'Graphic credit',
         'width': '100%'
     },
+    'idpgraphic': {},
     'video': {},
 }
 
@@ -60,8 +62,6 @@ def _get_extra_context(id, tag):
     """
     extra = dict()
     if tag in IMAGE_TYPES:
-        extra.update(_get_image_context(id))
-    elif tag in COLLAGE_TYPES:
         extra.update(_get_image_context(id))
     return extra
 
@@ -93,6 +93,8 @@ def _handler(context, content, pargs, kwargs, tag, defaults):
             template_context.update(extra_context)
     else:
         template_context = dict()
+        if tag == 'idpgraphic':
+            template_context.update(make_context())
     template_context.update(defaults)
     template_context.update(kwargs)
     template = env.get_template('%s.html' % tag)

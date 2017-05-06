@@ -496,12 +496,16 @@ a {
                     .row-bar {
                         display: block;
                         height: 100%;
-                        background: #ccc;
+                        background: @row-gray;
+
+                        &.row-conflict {
+                            background-color: @row-conflict-gold;
+                        }
                     }
 
                     .row-value {
                         position: absolute;
-                        padding-right: 5px;
+                        padding-left: 5px;
                         text-align: left;
                     }
                 }

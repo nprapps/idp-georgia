@@ -29,36 +29,6 @@
 {% for section in sections %}
     <section class='section' id='{{section.slug}}'>
         <div class='section-contents'>
-            <!-- TESTING A GRAPHIC HERE -->
-            <div class="graphic-wrapper" id="graphic-population">
-                <h4>Headline about IDPs</h4>
-                <p class="graphic-text">Here is some intro about the graphic.</p>
-                <div class="chart-wrapper">
-                    <div class="chart-row">
-                        <span class="row-label">Country with max value</span>
-                        <span class="row-bar-wrapper">
-                            <span class="row-bar" style="width: 100%;"></span>
-                            <span class="row-value">35.6%</span>
-                        </span>
-                    </div>
-                    <div class="chart-row">
-                        <span class="row-label">Next country</span>
-                        <span class="row-bar-wrapper">
-                            <span class="row-bar" style="width: 82%;"></span>
-                            <span class="row-value">29.1%</span>
-                        </span>
-                    </div>
-                    <div class="chart-row">
-                        <span class="row-label">Georgia</span>
-                        <span class="row-bar-wrapper">
-                            <span class="row-bar" style="width: 16.85%;"></span>
-                            <span class="row-value">6.0%</span>
-                        </span>
-                    </div>
-                </div>
-                <p class="source"><a href="http://www.internal-displacement.org/database/">Internal Displacement Monitoring Center</a>, UN.</p>
-            </div>
-            <!-- END GRAPHIC TEST -->
             {{section.contents|safe}}
         </div>
     </section>

@@ -1,0 +1,16 @@
+<div class="graphic-wrapper" id="graphic-population">
+    <h4>{{ head }}</h4>
+    <p class="graphic-text">{{ subhead }}</p>
+    <div class="chart-wrapper">
+        {% for row in COPY.graphic_data %}
+        <div class="chart-row">
+            <span class="row-label">{{ row.country }}</span>
+            <span class="row-bar-wrapper">
+                <span class="row-bar{% if row.has_conflict == 'True' %} row-conflict{% endif %}" style="width: {{row.pct_of_width }}%;"></span>
+                <span class="row-value">{{ row.pct_population}}</span>
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+    <p class="source"><a href="{{ source_link }}">{{ source_text }}</p>
+</div>
