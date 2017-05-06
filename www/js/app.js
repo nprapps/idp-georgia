@@ -316,6 +316,13 @@ const initScroller = function() {
                         triggerElement: d
                     })
                     .setTween('#title-bg-container', { opacity: 0, ease: Power1.easeOut })
+                    .on('end', function(e) {
+                        if (e.scrollDirection == 'REVERSE') {
+                            document.querySelector('#title-bg-container').classList.add('bg-active');
+                        } else {
+                            document.querySelector('#title-bg-container').classList.remove('bg-active');
+                        }
+                    })
                     .addTo(scrollController);
             }
         }
@@ -346,14 +353,6 @@ const initScroller = function() {
         .on('leave', videoLeave)
         .addTo(scrollController);
     });
-
-    // Intro Background Video pinning at page load
-    var introScene = new ScrollMagic.Scene({
-            duration: '100%'
-        })
-        .setPin('#title-bg-container', {pushFollowers: false})
-        .addTo(scrollController);
-
 };
 
 // VIDEO
@@ -537,15 +536,17 @@ const videoEnter = function(e) {
     const containerId = el.getAttribute("id");
     // Ignore video play if it is an interview, let user control it
     if (!el.classList.contains('jw')) {
-        if (el.classList.contains('loaded')) {
-            let video = el.querySelector('video');
-            if (video.querySelectorAll('source').length) {
-                if (video.getAttribute('controls') == null) {
-                    let playPromise = video.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(function(error) {
-                            console.log('playback error');
-                        });
+        if (!Modernizr.touchevents) {
+            if (el.classList.contains('loaded')) {
+                let video = el.querySelector('video');
+                if (video.querySelectorAll('source').length) {
+                    if (video.getAttribute('controls') == null) {
+                        let playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(function(error) {
+                                console.log('playback error');
+                            });
+                        }
                     }
                 }
             }
@@ -564,11 +565,13 @@ const videoLeave = function(e) {
     const containerId = el.getAttribute("id");
     // Ignore video pause if it is an interview, let user control it
     if (!el.classList.contains('jw')) {
-        let video = el.querySelector('video');
-        if (video.querySelectorAll('source').length) {
-            if (video.getAttribute('controls') == null) {
-                video.pause();
-                video.currentTime = 0;
+        if (!Modernizr.touchevents) {
+            let video = el.querySelector('video');
+            if (video.querySelectorAll('source').length) {
+                if (video.getAttribute('controls') == null) {
+                    video.pause();
+                    video.currentTime = 0;
+                }
             }
         }
     } else {
