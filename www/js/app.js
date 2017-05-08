@@ -144,6 +144,13 @@ const initScroller = function() {
                         triggerElement: d
                     })
                     .setTween('#title-bg-container', { opacity: 0, ease: Power1.easeOut })
+                    .on('end', function(e) {
+                        if (e.scrollDirection == 'REVERSE') {
+                            document.querySelector('#title-bg-container').classList.add('bg-active');
+                        } else {
+                            document.querySelector('#title-bg-container').classList.remove('bg-active');
+                        }
+                    })
                     .addTo(scrollController);
             } else if (d.classList.contains('final-panel')) {
             // Final panel in the intro will fade in the episode poster
@@ -156,6 +163,13 @@ const initScroller = function() {
                         triggerElement: d
                     })
                     .setTween(bgTimeline)
+                    .on('start', function(e) {
+                        if (e.scrollDirection == 'REVERSE') {
+                            document.querySelector('#bg-container').classList.remove('bg-active');
+                        } else {
+                            document.querySelector('#bg-container').classList.add('bg-active');
+                        }
+                    })
                     .on('end', function(e) {
                         let topNav = document.getElementById('episode-nav');
                         if (e.scrollDirection == 'REVERSE') {
@@ -217,14 +231,6 @@ const initScroller = function() {
         .on('leave', videoLeave)
         .addTo(scrollController);
     });
-
-    // Intro Background Video pinning at page load
-    var introScene = new ScrollMagic.Scene({
-            duration: '100%'
-        })
-        .setPin('#title-bg-container', {pushFollowers: false})
-        .addTo(scrollController);
-
 };
 
 // VIDEO
