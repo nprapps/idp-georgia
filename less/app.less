@@ -83,20 +83,27 @@ a {
         max-width: 7rem;
     }
 
-    span {
-        display: inline-block;
-        vertical-align: middle;
-        color: #777;
-        font-size: 1.2rem;
-        font-weight: bold;
-    }
+    // span {
+    //     display: inline-block;
+    //     vertical-align: middle;
+    //     color: #777;
+    //     font-size: 1.2rem;
+    //     font-weight: bold;
+    // }
 
     .nav-text {
         padding: 0;
         display: inline-block;
+        color: #777;
     }
 
     .nav-head {
+        font-weight: bold;
+        text-transform: uppercase;
+        padding-right: .5rem;
+    }
+
+    .nav-subhead {
         &::after {
             padding: 5px;
             font-family: npr-app-template;
@@ -118,23 +125,22 @@ a {
     .menu {
         display: none;
         position: absolute;
+        width: 100vw;
+        height: 100vh;
         line-height: normal;
-        background-color: #fff;
+        background-color: rgba(255,255,255,.9);
         z-index: 10;
         padding: 0 1em;
 
         .episode-link {
-            color: #888;
+            color: #555;
             margin-bottom: 0px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            font-size: 1.4rem;
         }
 
-        .separator {
-            width: 100%;
-            margin-left: 0px;
-            border-bottom: 1px solid rgba(136,136,136,0.5);
-        }
+        // .menu-episode {
+        //     margin-left: .5rem;
+        // }
 
     }
 
@@ -182,16 +188,16 @@ a {
                 .episode-link {
                     &:hover {
                         cursor: pointer;
-                        color: @black;
+                        color: #000;
                     }
                 }
             }
 
-            .menu-open-overlay {
-                background: rgba(255,255,255,0.7);
-                transition: background .5s ease;
-                pointer-events: auto;
-            }
+            // .menu-open-overlay {
+            //     background: rgba(255,255,255,0.7);
+            //     transition: background .5s ease;
+            //     pointer-events: auto;
+            // }
         }
     }
 }
