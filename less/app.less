@@ -255,14 +255,10 @@ a {
 
             &.bg-ana {
                 background-image: url('https://media.npr.org/idp-georgia/ana.jpg');
-                // background-size: cover;
-                // background-position: center;
             }
 
             &.bg-veriko {
                 background-image: url('https://media.npr.org/idp-georgia/veriko.jpg');
-                // background-size: cover;
-                // background-position: center;
             }
         }
     }
@@ -328,7 +324,7 @@ a {
                 li {
                     font-size: 1.8rem;
                     text-align: left;
-                    margin-bottom: 1em;
+                    margin-bottom: .6em;
 
                     @media @screen-small {
                     font-size: 1.3rem;
@@ -525,12 +521,13 @@ a {
         }
 
         .chart-row {
-            @label-width: 20%;
-            @bar-width: 80%;
+            @label-width: 25%;
+            @bar-width: 75%;
             @bar-height: 30px;
 
             width: 100%;
             height: @bar-height;
+            line-height: @bar-height;
             margin-bottom: 3px;
             .clearfix();
             .sans-serif();
@@ -539,8 +536,9 @@ a {
 
             span {
                 height: 100%;
-                line-height: 1;
+                line-height: inherit;
                 float: left;
+                vertical-align: middle;
             }
 
             .row-label {
@@ -571,32 +569,34 @@ a {
                 }
             }
         }
-    }
 
-    h4 {
-        .gotham();
-        font-size: 1.8rem;
-        font-weight: bold;
-        margin: 0 0 0.5em;
-        color: #666;
-    }
+        h4 {
+            .gotham();
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 0 0.5em;
+            color: #666;
+        }
 
-    p.graphic-text {
-        .sans-serif();
-        font-size: 1.4rem;
-        margin: 0 0 0.5em;
-        padding: 0;
-        color: #777;
-    }
+        p.graphic-text {
+            .sans-serif();
+            text-align: left;
+            font-size: 1.4rem;
+            margin: 0 0 0.2em;
+            padding: 0;
+            color: #777;
+        }
 
-    p.source {
-        .sans-serif();
-        font-size: 1.1rem;
-        font-style: italic;
-        line-height: 1.7;
-        margin: 0.5em 0 0.5em;
-        padding: 0;
-        color: #777;
+        p.source {
+            .sans-serif();
+            text-align: left;
+            font-size: 1.1rem;
+            font-style: italic;
+            line-height: 1.7;
+            margin: 0.5em 0 0.5em;
+            padding: 0;
+            color: #777;
+        }
     }
 }
 

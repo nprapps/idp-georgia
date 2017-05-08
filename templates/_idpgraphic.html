@@ -1,6 +1,6 @@
 <div class="graphic-wrapper" id="graphic-population">
-    <h4>{{ head }}</h4>
-    <p class="graphic-text">{{ subhead }}</p>
+    <h4>{{ COPY.content.graphic_title }}</h4>
+    <p class="graphic-text">{{ COPY.content.graphic_explainer }}</p>
     <div class="chart-wrapper">
         {% for row in COPY.graphic_data %}
         <div class="chart-row">
@@ -12,5 +12,5 @@
         </div>
         {% endfor %}
     </div>
-    <p class="source"><a href="{{ source_link }}">{{ source_text }}</a></p>
+    <p class="source"><a href="{{ COPY.content.graphic_source_link }}">{{ COPY.content.graphic_source_text }}</a></p>
 </div>
