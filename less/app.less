@@ -70,8 +70,8 @@ a {
     position: fixed;
     top: 0;
     left: 0;
-    line-height: 50px;
-    min-height: 50px;
+    line-height: 33px;
+    min-height: 38px;
     width: 100%;
     z-index: 10;
     box-shadow: 0 2px 7px rgba(0, 0, 0, .2);
@@ -79,24 +79,31 @@ a {
     img {
         padding: 0 1em;
         vertical-align: middle;
-        opacity: .4;
+        opacity: .6;
         max-width: 7rem;
     }
 
-    span {
-        display: inline-block;
-        vertical-align: middle;
-        color: #888;
-        font-size: 1.2rem;
-        font-weight: bold;
-    }
+    // span {
+    //     display: inline-block;
+    //     vertical-align: middle;
+    //     color: #777;
+    //     font-size: 1.2rem;
+    //     font-weight: bold;
+    // }
 
     .nav-text {
-        padding: 0 1em;
+        padding: 0;
         display: inline-block;
+        color: #777;
     }
 
     .nav-head {
+        font-weight: bold;
+        text-transform: uppercase;
+        padding-right: .5rem;
+    }
+
+    .nav-subhead {
         &::after {
             padding: 5px;
             font-family: npr-app-template;
@@ -118,34 +125,48 @@ a {
     .menu {
         display: none;
         position: absolute;
+        width: 100vw;
+        height: 100vh;
         line-height: normal;
-        background-color: #fff;
+        background-color: rgba(255,255,255,.9);
         z-index: 10;
         padding: 0 1em;
 
         .episode-link {
-            color: #888;
+            color: #555;
             margin-bottom: 0px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            font-size: 1.4rem;
         }
 
-        .separator {
-            width: 100%;
-            margin-left: 0px;
-            border-bottom: 1px solid rgba(136,136,136,0.5);
-        }
+        // .menu-episode {
+        //     margin-left: .5rem;
+        // }
 
     }
 
     &.active {
         display: block;
-        -webkit-transition: opacity .5s ease;
-        -moz-transition: opacity .5s ease;
-        -ms-transition: opacity .5s ease;
-        -o-transition: opacity .5s ease;
-        transition: opacity .5s ease;
-        opacity: .7;
+        opacity: 1;
+        // -webkit-transition: opacity 3s ease;
+        // -moz-transition: opacity 3s ease;
+        // -ms-transition: opacity 3s ease;
+        // -o-transition: opacity 3s ease;
+        // transition: opacity 3s ease;
+        //
+        animation-duration: 1.1s;
+        animation-fill-mode: both;
+        animation-name: slideInDown;
+
+        @keyframes slideInDown {
+          from {
+            transform: translate3d(0, -100%, 0);
+            visibility: visible;
+          }
+
+          to {
+            transform: translate3d(0, 0, 0);
+          }
+        }
 
         // Use hover only to signal interaction
         .nav-text:hover {
@@ -167,16 +188,16 @@ a {
                 .episode-link {
                     &:hover {
                         cursor: pointer;
-                        color: @black;
+                        color: #000;
                     }
                 }
             }
 
-            .menu-open-overlay {
-                background: rgba(255,255,255,0.7);
-                transition: background .5s ease;
-                pointer-events: auto;
-            }
+            // .menu-open-overlay {
+            //     background: rgba(255,255,255,0.7);
+            //     transition: background .5s ease;
+            //     pointer-events: auto;
+            // }
         }
     }
 }
