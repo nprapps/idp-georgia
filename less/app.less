@@ -181,6 +181,8 @@ a {
     }
 }
 
+
+
 // INTRO
 #intro {
     position: relative;
@@ -188,22 +190,21 @@ a {
     .bg-img {
         width: 100%;
         height: 100vh;
-        position: fixed;
+        position: absolute;
         background-size: cover;
         background-position: center;
 
-        &.bg-fixed {
-            display: none;
+        &.bg-static {
+            /*display: none;*/
             opacity: 0;
-            bottom: 0;
             position: fixed;
-
-            &.bg-title {
-                opacity: 1;
-            }
 
             &.bg-active {
                 display: block;
+            }
+
+            &.bg-title {
+                opacity: 1;
             }
 
             &.bg-end {
@@ -242,6 +243,7 @@ a {
     .panel-intro {
         position: relative;
         width: 100%;
+        height: 100%;
         height: 100vh;
 
         .text-wrapper {
@@ -281,21 +283,6 @@ a {
                 @media @screen-landscape {
                     font-size: 1.3rem;
                     max-width: 480px;
-                }
-            }
-
-            #bio-wrapper {
-                position: relative;
-                text-align: bottom;
-                height: 20vh;
-                overflow: hidden;
-            }
-
-            .bio {
-                opacity: 0;
-
-                &.irakli-bio {
-                    opacity: 1;
                 }
             }
         }
@@ -364,11 +351,6 @@ a {
         }
 
         &.panel-characters {
-            height: 400vh;
-
-            .text-wrapper {
-                top: 50vh;
-            }
             .asset-wrapper {
                 .clearfix();
                 .story-well-sizing();
@@ -379,15 +361,10 @@ a {
                     display: inline-block;
                     position: relative;
                     text-align: center;
-                    width: 30%;
+                    width: 33%;
                     padding: 0 0.5em;
                     opacity: 1;
                     transition: opacity 1s ease-in;
-
-                    &.faded {
-                        opacity: 0.15;
-                        transition: opacity 1s ease-out;
-                    }
 
                     &.not-active {
                         opacity: 0;
@@ -417,8 +394,13 @@ a {
 
     &#intro-custom {
         .text-wrapper {
-            top: 35vh;
+            top: auto;
+            bottom: 5%;
             position: absolute;
+
+            &.pinned {
+                position: fixed;
+            }
         }
 
         h2 {
@@ -527,8 +509,8 @@ a {
 
                     .row-value {
                         position: absolute;
-                        margin-left: -9%;
-                        text-align: right;
+                        padding-left: 5px;
+                        text-align: left;
                     }
                 }
             }
