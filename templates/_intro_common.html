@@ -13,7 +13,12 @@
         {{ content.text }}
         {% if content.html %}
         <div class="asset-wrapper">
-            {{ content.html }}
+            {% if content.asset_class == 'graphic' %}
+                {% include '_idpgraphic.html' %}
+            {% else %}
+                {{ content.html }}
+            {% endif %}
+            }
         </div>
         {% endif %}
         {% if content.text_after_assets %}
