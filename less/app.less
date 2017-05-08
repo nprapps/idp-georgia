@@ -108,6 +108,8 @@ a {
             padding: 5px;
             font-family: npr-app-template;
             content: '\f107';
+            display: inline-block;
+            transform: rotate(270deg);
         }
     }
 
@@ -126,16 +128,27 @@ a {
         display: none;
         position: absolute;
         width: 100vw;
-        height: 100vh;
         line-height: normal;
-        background-color: rgba(255,255,255,.9);
+        background-color: #fff;
         z-index: 10;
         padding: 0 1em;
+        border-bottom: 1px solid #ddd;
+
+        .menu-episode {
+            float: left;
+            margin-right: 2rem;
+            font-size: 1rem;
+
+            .menu-title {
+                margin-top: .3rem;
+            }
+        }
 
         .episode-link {
             color: #555;
             margin-bottom: 0px;
-            font-size: 1.4rem;
+
+
         }
 
         // .menu-episode {
@@ -193,11 +206,12 @@ a {
                 }
             }
 
-            // .menu-open-overlay {
-            //     background: rgba(255,255,255,0.7);
-            //     transition: background .5s ease;
-            //     pointer-events: auto;
-            // }
+            .nav-subhead {
+                font-weight: bold;
+                &::after {
+                    transform: rotate(0deg);
+                }
+            }
         }
     }
 }
