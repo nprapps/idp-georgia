@@ -37,7 +37,8 @@ var onWindowLoaded = function(e) {
     adaptPageToSessionStatus();
     // Init scrollmagic controller
     initScroller();
-    // Force first section load of assets
+    // Force first section and inline intro load of assets
+    lazyload_assets(document.querySelector(".inline-intro"), 0);
     lazyload_assets(document.querySelector(".section"), 0);
     addAppListeners();
     // Setup Chartbeat last!
