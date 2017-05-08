@@ -181,8 +181,10 @@ const initScroller = function() {
 
                 var otherChars = assetWrapper.querySelectorAll('.char-wrapper:not(.char-' + current_episode + ')');
                 var characterTransitionScene = new ScrollMagic.Scene({
+                    offset: -window.innerHeight*.2,
                     duration: 0,
-                    triggerElement: assetWrapper
+                    triggerElement: assetWrapper,
+                    triggerHook: 'onLeave'
                 })
                 .setClassToggle(otherChars, 'not-active')
                 .addTo(scrollController);

@@ -320,6 +320,25 @@ a {
                     max-width: 480px;
                 }
             }
+
+            ul {
+                .story-well-sizing();
+                list-style: none;
+                li {
+                    font-size: 1.8rem;
+                    text-align: left;
+                    margin-bottom: 1em;
+
+                    @media @screen-small {
+                    font-size: 1.3rem;
+                    }
+
+                    @media @screen-landscape {
+                        font-size: 1.2rem;
+                        max-width: 480px;
+                    }
+                }
+            }
         }
 
         &.title-panel {
