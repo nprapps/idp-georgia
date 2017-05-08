@@ -6,27 +6,12 @@ const LAZYLOAD_AHEAD = 1;
 const AVAILABLE_EPISODES = ['irakli', 'ana', 'veriko'];
 let url = null;
 let scrollController = null;
-const wh = window.innerHeight;
 let current_episode = null;
 let internal_link = false;
 // Support multiple player instances
 let players = {};
 // ANALYTICS
 let topNavClicked = false;
-let charactersAssets = {
-    'irakli': {
-        'image': null,
-        'text': null,
-    },
-    'ana': {
-        'image': null,
-        'text': null,
-    },
-    'veriko': {
-        'image': null,
-        'text': null,
-    }
-};
 
 
 // Returns true with the exception of iPhones with no playsinline support
@@ -49,11 +34,11 @@ var onWindowLoaded = function(e) {
     parseUrl();
     // Check conditional logic for our customized intro
     checkConditionalLogic();
-    adaptPageToReferrer();
-    storeCharactersReferences();
+    adaptPageToSessionStatus();
     // Init scrollmagic controller
     initScroller();
-    // Force first section load of assets
+    // Force first section and inline intro load of assets
+    lazyload_assets(document.querySelector(".inline-intro"), 0);
     lazyload_assets(document.querySelector(".section"), 0);
     addAppListeners();
     // Setup Chartbeat last!
@@ -80,7 +65,7 @@ const checkConditionalLogic = function() {
     }
     // Local tests
     console.log(url.hostname);
-    if (url.hostname == 'localhost' || url.hostname == '127.0.0.1') {
+    if (url.hostname == 'localhost' || url.hostname == '127.0.0.1') {
         let found = _.find(AVAILABLE_EPISODES, function(e) {
             return document.referrer.indexOf(e) !== -1 ? true : false;
         })
@@ -91,7 +76,8 @@ const checkConditionalLogic = function() {
     }
 }
 
-const adaptPageToReferrer = function() {
+// APPLY STATUS TO PAGE
+const adaptPageToSessionStatus = function() {
     // add current episode class to the body
     document.body.classList.add(current_episode);
     // if coming from an internal link
@@ -103,197 +89,39 @@ const adaptPageToReferrer = function() {
     }
 }
 
-const storeCharactersReferences = function() {
-    const panelCharacters = document.querySelector('#panel-characters');
-    _.each(AVAILABLE_EPISODES, function(episode) {
-        charactersAssets[episode]['text'] = panelCharacters.querySelector('.'+episode+'-bio');
-        charactersAssets[episode]['image'] = panelCharacters.querySelector('.char-'+episode);
-    });
-}
-
-const focusCharacter = function(char, focus) {
-    if (focus) {
-        charactersAssets[char]['text'].classList.remove('hide');
-        charactersAssets[char]['image'].classList.remove('faded');
-    } else {
-        charactersAssets[char]['text'].classList.add('hide');
-        charactersAssets[char]['image'].classList.add('faded');
-    }
-
-}
-
-
 const initScroller = function() {
     scrollController = new ScrollMagic.Controller();
-
+    /*
+        TODO since most of this is panel specific, we can probably
+        take a lot of it out of the for loop
+    */
     // Intro scroll navigation
     _.each(document.querySelectorAll('.panel-intro'), function(d, i) {
-        let innerText = d.querySelector('.text-wrapper');
-        let assetWrapper = d.querySelector('.asset-wrapper');
+        var innerText = d.querySelector('.text-wrapper');
+        var assetWrapper = d.querySelector('.asset-wrapper');
 
-        // Custom Panel
-        if (d.classList.contains('panel-custom')) {
+        // Fade in and manually pin the episode titling in the last panel
+        if (d.classList.contains('panel-pin')) {
             // Fade in episode titling
             var introScene = new ScrollMagic.Scene({
                     duration: '50%',
-                    triggerElement: d,
+                    triggerElement: d
                 })
-                .setPin('#episode-title',{pushFollowers: false})
                 .setTween(innerText, { opacity: 1, ease: Power1.easeIn })
                 .addTo(scrollController);
-        } else if (d.classList.contains('panel-characters')) {
-            var wrapText = d.querySelector('.wrap-bio');
-            var timeline = new TimelineLite()
-                .to(innerText, 1, { opacity: 1 })
 
-            new ScrollMagic.Scene({
-                duration: '50%',
-                triggerElement: d,
-            })
-            .setTween(timeline)
-            .addTo(scrollController);
-
-            var timeline = new TimelineLite()
-                .to(charactersAssets['irakli']['text'], 1, { opacity: 0,
-                    onComplete:function() {
-                        focusCharacter('irakli', false);
-                        focusCharacter('ana', true);
-
-                    }
-                })
-                .to(charactersAssets['ana']['text'], 1, { opacity: 1,
-                     onReverseComplete:function() {
-                        focusCharacter('ana', false);
-                        focusCharacter('irakli' ,true);
-                    }
-                });
-
-            new ScrollMagic.Scene({
-                offset: wh*.5,
-                duration: '100%',
-                triggerElement: d,
-            })
-            .setPin('#panel-characters', {pushFollowers: false})
-            .setTween(timeline)
-            .addTo(scrollController);
-
-            var timeline = new TimelineLite()
-                .to(charactersAssets['ana']['text'], 1, { opacity: 0,
-                    onComplete:function() {
-                        focusCharacter('ana', false);
-                        focusCharacter('veriko', true);
-                    }
-                })
-                .to(charactersAssets['veriko']['text'], 1, { opacity: 1,
-                    onReverseComplete:function() {
-                        focusCharacter('veriko', false);
-                        focusCharacter('ana', true);
-                    }
-                });
-
-            new ScrollMagic.Scene({
-                offset: wh*1.5,
-                duration: '100%',
-                triggerElement: d,
-            })
-            .setTween(timeline)
-            .setPin('#panel-characters', {pushFollowers: false})
-            .addTo(scrollController);
-
-            var timeline = new TimelineLite()
-                .to(charactersAssets['veriko']['text'], 1, { opacity: 0,
-                    onComplete:function() {
-                        charactersAssets['veriko']['text'].classList.add('hide');
-                        wrapText.classList.remove('hide');
-                        _.each(charactersAssets, function(char) {
-                            char['image'].classList.remove('faded');
-                        });
-                    }
-                })
-                .to(wrapText, 1, { opacity: 1 ,
-                    onReverseComplete:function() {
-                        wrapText.classList.add('hide');
-                        charactersAssets['veriko']['text'].classList.remove('hide');
-                        charactersAssets['irakli']['image'].classList.add('faded');
-                        charactersAssets['ana']['image'].classList.add('faded');
-                    }
-                });
-
-            new ScrollMagic.Scene({
-                offset: wh*2.5,
-                duration: '100%',
-                triggerElement: d,
-            })
-            .setTween(timeline)
-            .setPin('#panel-characters', {pushFollowers: false})
-            .addTo(scrollController);
-
-            var timeline = new TimelineLite()
-                .to(innerText, 1, { opacity: 0});
-
-            new ScrollMagic.Scene({
-                offset: wh*3.5,
-                duration: '50%',
-                triggerElement: d,
-            })
-            .setTween(timeline)
-            .on("enter leave", function(e) {
-                if (e.type == 'enter' && e.scrollDirection == 'FORWARD') {
-                    _.each(charactersAssets, function(char, key) {
-                        if (key !== current_episode) {
-                            char['image'].classList.add('not-active');
-                        }
-                    });
-                } else if (e.type == 'leave' && e.scrollDirection == 'REVERSE') {
-                    _.each(charactersAssets, function(char, key) {
-                        if (key !== current_episode) {
-                            char['image'].classList.remove('not-active');
-                        }
-                    });
-                }
-            })
-            .addTo(scrollController);
-
-            var bgTimeline = new TimelineLite()
-                    .to('#bg-container', 1, { opacity: 1, ease: Power1.easeIn });
-
-            var bgScene = new ScrollMagic.Scene({
-                    offset: wh*3.5,
-                    duration: '50%',
-                    triggerElement: d
-                })
-                .setTween(bgTimeline)
-                .on('end', function(e) {
-                    let topNav = document.getElementById('episode-nav');
-                    if (e.scrollDirection == 'REVERSE') {
-                        topNav.classList.remove('active');
-                    } else {
-                        topNav.classList.add('active');
-                    }
-                })
-                .on('start', function(e) {
-                    if (e.scrollDirection == 'REVERSE') {
-                        document.querySelector('#bg-container').classList.remove('bg-active');
-                    } else {
-                        document.querySelector('#bg-container').classList.add('bg-active');
-                    }
-                })
-                .addTo(scrollController);
-
+            // Pin episode titling, then unpin to correspond with natural scroll
             var introScene = new ScrollMagic.Scene({
-                    offset: wh*4,
                     duration: '50%',
                     triggerElement: d
                 })
-               .on('end', function(e) {
-                    if (e.scrollDirection == 'REVERSE') {
-                        document.querySelector('#bg-container').classList.remove('bg-end');
-                    } else {
-                        document.querySelector('#bg-container').classList.add('bg-end');
-                    }
+                .on('enter', function(e) {
+                    innerText.classList.add('pinned');
+                })
+                .on('leave', function(e) {
+                    innerText.classList.remove('pinned');
                 })
                 .addTo(scrollController);
-
         } else {
             // Fade in/out all text as it comes into view
             if (innerText) {
@@ -316,14 +144,48 @@ const initScroller = function() {
                         triggerElement: d
                     })
                     .setTween('#title-bg-container', { opacity: 0, ease: Power1.easeOut })
+                    .addTo(scrollController);
+            } else if (d.classList.contains('final-panel')) {
+            // Final panel in the intro will fade in the episode poster
+                var bgTimeline = new TimelineLite()
+                    .to('#bg-container', 1, { opacity: 0, ease: Power1.easeOut })
+                    .to('#bg-container', 1, { opacity: 1, ease: Power1.easeIn });
+
+                var bgScene = new ScrollMagic.Scene({
+                        duration: '100%',
+                        triggerElement: d
+                    })
+                    .setTween(bgTimeline)
                     .on('end', function(e) {
+                        let topNav = document.getElementById('episode-nav');
                         if (e.scrollDirection == 'REVERSE') {
-                            document.querySelector('#title-bg-container').classList.add('bg-active');
+                            topNav.classList.remove('active');
                         } else {
-                            document.querySelector('#title-bg-container').classList.remove('bg-active');
+                            topNav.classList.add('active');
                         }
                     })
                     .addTo(scrollController);
+
+                var introScene = new ScrollMagic.Scene({
+                        duration: '150%',
+                        triggerElement: d
+                    })
+                   .on('end', function(e) {
+                        if (e.scrollDirection == 'REVERSE') {
+                            document.querySelector('#bg-container').classList.remove('bg-end');
+                        } else {
+                            document.querySelector('#bg-container').classList.add('bg-end');
+                        }
+                    })
+                    .addTo(scrollController);
+
+                var otherChars = assetWrapper.querySelectorAll('.char-wrapper:not(.char-' + current_episode + ')');
+                var characterTransitionScene = new ScrollMagic.Scene({
+                    duration: 0,
+                    triggerElement: assetWrapper
+                })
+                .setClassToggle(otherChars, 'not-active')
+                .addTo(scrollController);
             }
         }
     });
@@ -353,6 +215,14 @@ const initScroller = function() {
         .on('leave', videoLeave)
         .addTo(scrollController);
     });
+
+    // Intro Background Video pinning at page load
+    var introScene = new ScrollMagic.Scene({
+            duration: '100%'
+        })
+        .setPin('#title-bg-container', {pushFollowers: false})
+        .addTo(scrollController);
+
 };
 
 // VIDEO
@@ -368,7 +238,7 @@ const animateBodyOpacity = function(e) {
 const createPlayerInstance = function(containerId, media, poster, width, ratio,
                                       muted, loop, controls, autoplay) {
     // Assign default values
-    width = width || '100%';
+    width = width || '100%';
     ratio = ratio || "16:9";
     muted = muted === null ? false : true;
     loop = loop === null ? false : true;
