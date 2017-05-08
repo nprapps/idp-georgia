@@ -20,7 +20,7 @@ NAMES
 """
 # Project name to be used in urls
 # Use dashes, not underscores!
-PROJECT_SLUG = 'idp-georgia'
+PROJECT_SLUG = 'idp-georgia-test'
 
 # Project name to be used in file paths
 PROJECT_FILENAME = 'idp_georgia'
@@ -92,7 +92,7 @@ DEBUG = True
 """
 COPY EDITING
 """
-COPY_GOOGLE_DOC_KEY = '1gJhFN8SGWNPmqxnXXlAHNyWK0kS_R58zReU-SpQI228'
+COPY_GOOGLE_DOC_KEY = '1DBx_qZGLq6hjsUQWngAhSWntR3f7huJD9l5LCam_r1Q'
 COPY_PATH = 'data/copy.xlsx'
 
 """
