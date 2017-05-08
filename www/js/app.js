@@ -75,7 +75,7 @@ const parseUrl = function() {
 // CHECK CONDITIONAL LOGIC
 const checkConditionalLogic = function() {
     console.log("document.referrer:", document.referrer);
-    if(document.referrer.indexOf('idp-georgia/') !== -1) {
+    if(document.referrer.indexOf('/idp-georgia') !== -1) {
         internal_link = true;
     }
     // Local tests
