@@ -753,18 +753,23 @@ a {
     &.video-background {
         position: relative;
 
-        .video-caption {
-            position: absolute;
-            top: 5%;
-            width: 100%;
-            margin:0 auto;
-            text-align: center;
-            font-size: 4rem;
-            margin: 0 auto;
-            color: @brightwhite;
+        h3 {
+            max-width: 100%; // Override story-well-sizing max-width
+            font-size: 3.5rem;
             font-weight: bold;
+            line-height: 1;
             text-transform: uppercase;
+            color: @brightwhite;
+            margin: 0 auto 1rem;
             text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+            text-align: center;
+
+            &.video-caption {
+                position: absolute;
+                bottom: 15%;
+                width: 100%;
+                margin:0 auto;
+            }
         }
     }
 }
