@@ -19,20 +19,13 @@ COLLAGE_TYPES = ['collage2']
 SHORTCODE_DICT = {
     'image': {
         'caption': '',
-        'credit': '',
         'width': '100%',
         'format': 'centered'
     },
     'collage2': {
         'caption': '',
-        'credit': 'Image credit',
         'width': '100%',
         'format': 'centered'
-    },
-    'graphic': {
-        'caption': 'Graphic caption',
-        'credit': 'Graphic credit',
-        'width': '100%'
     },
     'asset-image': {
         'class': 'asset-image'
