@@ -470,7 +470,6 @@ const addAppListeners = function() {
     let nav = document.getElementById('nav-text');
     let overlay = document.getElementById('nav-overlay');
     nav.onclick = toggleTopNavigation;
-    overlay.onclick = toggleTopNavigation;
 
     // Analytics
     // TODO should we track the use of the different navigation options?

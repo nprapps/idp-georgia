@@ -508,9 +508,7 @@ a {
             border: 1px solid #ddd;
 
             p.image-caption {
-                text-align: center;
                 font-size: 1.2rem;
-                font-style: normal;
                 line-height: 1.7;
                 margin: 0 auto 2px;
                 padding: 12px 0 0;
@@ -749,6 +747,24 @@ a {
         video {
             height: 100%;
             object-fit: cover;
+        }
+    }
+
+    &.video-background {
+        position: relative;
+
+        .video-caption {
+            position: absolute;
+            top: 5%;
+            width: 100%;
+            margin:0 auto;
+            text-align: center;
+            font-size: 4rem;
+            margin: 0 auto;
+            color: @brightwhite;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
         }
     }
 }

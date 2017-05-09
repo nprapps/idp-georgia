@@ -1,9 +1,12 @@
-<div id='{{ container_id }}' class='video-wrapper{% if extra_classes %} {{extra_classes}}{% endif %}' data-src='{{ src }}'
-     data-poster='{{ poster }}' data-mime='{{ mime }}' data-width='{{ width }}'
-     data-height='{{ height }}' data-preload='{{ preload }}'
-     {% if loop %} data-loop {% endif %}
-     {% if muted %} data-muted {% endif %}
-     {% if autoplay %} data-autoplay {% endif %}
-     {% if controls %} data-controls {% endif %}
-     {% if analytics %} data-analytics='{{ analytics }}' {% endif %}
-></div>
+<div id='{{ container_id }}' class='video-wrapper{% if caption %} video-background{% endif %}{% if extra_classes %} {{extra_classes}}{% endif %}' data-src='{{ src }}'
+    data-poster='{{ poster }}' data-mime='{{ mime }}' data-width='{{ width }}'
+    data-height='{{ height }}' data-preload='{{ preload }}'
+    {% if loop %} data-loop {% endif %}
+    {% if muted %} data-muted {% endif %}
+    {% if autoplay %} data-autoplay {% endif %}
+    {% if controls %} data-controls {% endif %}
+    {% if analytics %} data-analytics='{{ analytics }}' {% endif %}>
+    {% if caption %}
+        <div class="video-caption">{{caption}}</div>
+    {% endif %}
+</div>
