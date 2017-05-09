@@ -136,9 +136,16 @@ a {
         border-bottom: 1px solid #ddd;
 
         .menu-episode {
-            float: left;
-            margin-right: 2rem;
             font-size: 1rem;
+            border-top: 1px solid #eee;
+            padding: 1rem 0;
+
+            @media @screen-small-above {
+                border-top: none;
+                float: left;
+                margin-right: 2rem;
+                padding: 0;
+            }
 
             .menu-title {
                 margin-top: .3rem;
