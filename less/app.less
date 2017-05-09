@@ -746,8 +746,8 @@ a {
 }
 
 #footer {
-    background-color: #eee;
-    border-top: 1px solid #ddd;
+    // background-color: #eee;
+    // border-top: 1px solid #ddd;
     margin-top: 3rem;
     .gotham();
 
@@ -759,15 +759,16 @@ a {
         @media @screen-tiny-above {
             width: 25rem;
             float: left;
-            margin-bottom: 2rem;
+            margin-bottom: 5rem;
         }
     }
 
     .footer-question {
-        padding: 2rem 15px 0 15px;
+        padding: 5rem 15px 0 15px;
         max-width: 30rem;
         margin: 0 auto;
         padding-bottom: 2rem;
+        border-top: 3px solid #eee;
 
         @media @screen-tiny-above {
             max-width: 680px;
@@ -804,15 +805,16 @@ a {
     }
 
     .boilerplate {
-        max-width: 680px;
-        margin: 0 auto;
-        padding: 0 15px;
+        border-top: 1px solid #ddd;
+        background: #eee;
         clear: both;
     }
 
     .utility-nav {
+        max-width: 680px;
+        margin: 0 auto;
         margin-top: 2rem;
-        border-top: 1px solid #ddd;
+        padding: 0 15px;
         padding-top: 1rem;
 
         p {
@@ -823,14 +825,20 @@ a {
 
 
             a {
+                font-size: 1.2rem;
                 padding-right: 2rem;
                 color: #888;
                 text-decoration: none;
+                display: block;
 
                 &:hover {
                     .no-touchevents & {
                         color: #666;
                     }
+                }
+
+                @media @screen-small-above {
+                    display: inline-block;
                 }
             }
 
@@ -859,11 +867,10 @@ a {
                 text-transform: uppercase;
                 display: block;
                 padding-right: 2rem;
-                color: #666;
 
-                @media @screen-landscape-above {
-                    display: inline;
-                }
+                // @media @screen-landscape-above {
+                //     display: inline;
+                // }
             }
         }
     }
@@ -871,8 +878,9 @@ a {
     .credits {
         clear: both;
         max-width: 680px;
+        margin: 0 auto;
         margin-top: 1rem;
-        padding-bottom: 2rem;
+        padding: 0 15px 2rem 15px;
 
         p {
             color: #888;
