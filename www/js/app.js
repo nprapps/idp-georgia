@@ -121,6 +121,13 @@ const initScroller = function() {
                 .on('leave', function(e) {
                     innerText.classList.remove('pinned');
                 })
+                .on('end', function(e) {
+                    if (e.scrollDirection == 'REVERSE') {
+                        document.querySelector('#bg-container').classList.remove('bg-end');
+                    } else {
+                        document.querySelector('#bg-container').classList.add('bg-end');
+                    }
+                })
                 .addTo(scrollController);
         } else {
             // Fade in/out all text as it comes into view
@@ -176,19 +183,6 @@ const initScroller = function() {
                             topNav.classList.remove('active');
                         } else {
                             topNav.classList.add('active');
-                        }
-                    })
-                    .addTo(scrollController);
-
-                var introScene = new ScrollMagic.Scene({
-                        duration: '150%',
-                        triggerElement: d
-                    })
-                   .on('end', function(e) {
-                        if (e.scrollDirection == 'REVERSE') {
-                            document.querySelector('#bg-container').classList.remove('bg-end');
-                        } else {
-                            document.querySelector('#bg-container').classList.add('bg-end');
                         }
                     })
                     .addTo(scrollController);
