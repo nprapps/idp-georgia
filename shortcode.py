@@ -34,6 +34,9 @@ SHORTCODE_DICT = {
         'credit': 'Graphic credit',
         'width': '100%'
     },
+    'asset-image': {
+        'class': 'asset-image'
+    },
     'idpgraphic': {},
     'video': {},
 }
