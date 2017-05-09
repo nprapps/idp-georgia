@@ -334,7 +334,7 @@ const initVideo = function(el) {
             }
             el.appendChild(videoTag);
             // Check if intro video has loaded
-            if (el.classList.contains('intro')) {
+            if (el.classList.contains('cover')) {
                 videoTag.setAttribute('data-object-fit','');
                 objectFitPolyfill();
                 videoTag.oncanplay = animateBodyOpacity;
