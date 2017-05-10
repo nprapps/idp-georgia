@@ -20,7 +20,7 @@ NAMES
 """
 # Project name to be used in urls
 # Use dashes, not underscores!
-PROJECT_SLUG = 'idp-georgia-autoplay'
+PROJECT_SLUG = 'idp-georgia'
 
 # Project name to be used in file paths
 PROJECT_FILENAME = 'idp_georgia'
