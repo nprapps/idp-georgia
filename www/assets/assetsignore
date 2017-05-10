@@ -3,3 +3,5 @@
 assetsignore
 poster/.DS_Store
 video/.DS_Store
+jwplayer/.DS_Store
+jwplayer/skins/.DS_Store
