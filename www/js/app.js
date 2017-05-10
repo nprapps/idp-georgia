@@ -10,8 +10,6 @@ let current_episode = null;
 let internal_link = false;
 // Support multiple player instances
 let players = {};
-// ANALYTICS
-let topNavClicked = false;
 
 
 // Returns true with the exception of iPhones with no playsinline support
@@ -37,8 +35,7 @@ var onWindowLoaded = function(e) {
     adaptPageToSessionStatus();
     // Init scrollmagic controller
     initScroller();
-    // Force first section and inline intro load of assets
-    lazyload_assets(document.querySelector(".inline-intro"), 0);
+    // Force first section load of assets
     lazyload_assets(document.querySelector(".section"), 0);
     addAppListeners();
     // Setup Chartbeat last!
@@ -299,7 +296,7 @@ const initVideo = function(el) {
                                               ratio, muted, loop, controls,
                                               autoplay);
             // ANALYTICS track if video has been played
-            player.once('play', function(e) {
+            player.on('play', function(e) {
                 ANALYTICS.trackEvent('video-play', player.id);
             })
             players[containerId] = player;
@@ -423,11 +420,6 @@ const videoEnter = function(e) {
                 }
             }
         }
-    } else {
-        if (el.classList.contains('loaded')) {
-            let player = players[containerId];
-            // player.play();
-        }
     }
 }
 
@@ -454,10 +446,6 @@ const videoLeave = function(e) {
 
 // EVENT LISTENERS
 const toggleTopNavigation = function(e) {
-    if (!topNavClicked) {
-        ANALYTICS.trackEvent('top-nav-click');
-        topNavClicked = true;
-    }
     let nav = document.getElementById('episode-nav');
     if (nav.classList.contains('menu-visible')) {
         nav.classList.remove('menu-visible');
@@ -467,21 +455,21 @@ const toggleTopNavigation = function(e) {
 }
 
 const addAppListeners = function() {
-    let nav = document.getElementById('nav-text');
-    let overlay = document.getElementById('nav-overlay');
-    nav.onclick = toggleTopNavigation;
+    let nav = document.querySelector('#nav-text').addEventListener('click', toggleTopNavigation);
 
     // Analytics
-    // TODO should we track the use of the different navigation options?
-    // document.querySelector(".utility-nav").addEventListener('click', function(e) {
-    //     ANALYTICS.trackEvent('utility-nav-click')
-    // });
-    // document.querySelector(".menu").addEventListener('click', function(e) {
-    //     ANALYTICS.trackEvent('menu-nav-click')
-    // });
-    // document.querySelector(".footer-question").addEventListener('click', function(e) {
-    //     ANALYTICS.trackEvent('footer-nav-click')
-    // });
+    document.querySelector(".utility-nav").addEventListener('click', function(e) {
+        debugger;
+        ANALYTICS.trackEvent('utility-nav-click');
+    });
+    document.querySelector(".menu").addEventListener('click', function(e) {
+        debugger;
+        ANALYTICS.trackEvent('menu-nav-click');
+    });
+    document.querySelector(".footer-question").addEventListener('click', function(e) {
+        debugger;
+        ANALYTICS.trackEvent('call-to-action-click');
+    });
 }
 
 window.onload = onWindowLoaded;

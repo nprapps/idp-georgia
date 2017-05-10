@@ -4,4 +4,5 @@ assetsignore
 poster/.DS_Store
 video/.DS_Store
 jwplayer/.DS_Store
+jwplayer/.placeholder
 jwplayer/skins/.DS_Store
