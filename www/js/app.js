@@ -33,10 +33,10 @@ var onWindowLoaded = function(e) {
     // Check conditional logic for our customized intro
     checkConditionalLogic();
     adaptPageToReferrer();
-    // Init scrollmagic controller
-    initScroller();
     // Init intro background video
     initBackgroundVideo(document.querySelector('#intro-vid'));
+    // Init scrollmagic controller
+    initScroller();
     // Force first section load of assets
     lazyload_assets(document.querySelector(".section"), 0);
     addAppListeners();
@@ -58,12 +58,12 @@ const parseUrl = function() {
 
 // CHECK CONDITIONAL LOGIC
 const checkConditionalLogic = function() {
-    console.log("document.referrer:", document.referrer);
+    // console.log("document.referrer:", document.referrer);
     if(document.referrer.indexOf('idp-georgia/') !== -1) {
         internal_link = true;
     }
     // Local tests
-    console.log(url.hostname);
+    // console.log(url.hostname);
     if (url.hostname == 'localhost' || url.hostname == '127.0.0.1') {
         let found = _.find(AVAILABLE_EPISODES, function(e) {
             return document.referrer.indexOf(e) !== -1 ? true : false;
