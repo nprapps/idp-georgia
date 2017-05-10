@@ -115,6 +115,8 @@ Then in your main terminal run:
 fab data.bootstrap_db
 ```
 
+**Important Note**: At NPR we are using our licensed version of [JWPlayer](https://www.jwplayer.com/) for the longer interview videos that way we can profit from the adaptive streaming that the player can handle to optimize to the users bandwith and screensize. If you would like to reuse this project you would need to provide your own hosted JWPlayer and add it to `www/assets/jwplayer/` folder.
+
 **Problems installing requirements?** You may need to run the pip command as ``ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future pip install -r requirements.txt`` to work around an issue with OSX.
 
 Hide project secrets
