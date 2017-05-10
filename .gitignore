@@ -55,6 +55,10 @@ data/copy.xlsx
 data/*.html
 www/assets/*
 !www/assets/assetsignore
+!www/assets/jwplayer/
+www/assets/jwplayer/*
+!www/assets/jwplayer/.placeholder
+
 www/live-data/*
 
 #Logs
