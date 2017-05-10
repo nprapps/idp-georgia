@@ -105,13 +105,6 @@ const initScroller = function() {
                     triggerElement: d
                 })
                 .setTween(innerText, { opacity: 1, ease: Power1.easeIn })
-                .addTo(scrollController);
-
-            // Pin episode titling, then unpin to correspond with natural scroll
-            var introScene = new ScrollMagic.Scene({
-                    duration: '50%',
-                    triggerElement: d
-                })
                 .on('enter', function(e) {
                     innerText.classList.add('pinned');
                 })
