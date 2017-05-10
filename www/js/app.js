@@ -89,7 +89,7 @@ const adaptPageToReferrer = function() {
 }
 
 const initScroller = function() {
-    scrollController = new ScrollMagic.Controller();
+    scrollController = new ScrollMagic.Controller({refreshInterval: 0});
     /*
         TODO since most of this is panel specific, we can probably
         take a lot of it out of the for loop
