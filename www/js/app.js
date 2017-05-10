@@ -10,8 +10,6 @@ let current_episode = null;
 let internal_link = false;
 // Support multiple player instances
 let players = {};
-// ANALYTICS
-let topNavClicked = false;
 
 
 // Returns true with the exception of iPhones with no playsinline support
@@ -34,11 +32,12 @@ var onWindowLoaded = function(e) {
     parseUrl();
     // Check conditional logic for our customized intro
     checkConditionalLogic();
-    adaptPageToSessionStatus();
+    adaptPageToReferrer();
+    // Init intro background video
+    initBackgroundVideo(document.querySelector('#intro-vid'));
     // Init scrollmagic controller
     initScroller();
-    // Force first section and inline intro load of assets
-    lazyload_assets(document.querySelector(".inline-intro"), 0);
+    // Force first section load of assets
     lazyload_assets(document.querySelector(".section"), 0);
     addAppListeners();
     // Setup Chartbeat last!
@@ -59,12 +58,12 @@ const parseUrl = function() {
 
 // CHECK CONDITIONAL LOGIC
 const checkConditionalLogic = function() {
-    console.log("document.referrer:", document.referrer);
+    // console.log("document.referrer:", document.referrer);
     if(document.referrer.indexOf('idp-georgia/') !== -1) {
         internal_link = true;
     }
     // Local tests
-    console.log(url.hostname);
+    // console.log(url.hostname);
     if (url.hostname == 'localhost' || url.hostname == '127.0.0.1') {
         let found = _.find(AVAILABLE_EPISODES, function(e) {
             return document.referrer.indexOf(e) !== -1 ? true : false;
@@ -77,7 +76,7 @@ const checkConditionalLogic = function() {
 }
 
 // APPLY STATUS TO PAGE
-const adaptPageToSessionStatus = function() {
+const adaptPageToReferrer = function() {
     // add current episode class to the body
     document.body.classList.add(current_episode);
     // if coming from an internal link
@@ -108,13 +107,6 @@ const initScroller = function() {
                     triggerElement: d
                 })
                 .setTween(innerText, { opacity: 1, ease: Power1.easeIn })
-                .addTo(scrollController);
-
-            // Pin episode titling, then unpin to correspond with natural scroll
-            var introScene = new ScrollMagic.Scene({
-                    duration: '50%',
-                    triggerElement: d
-                })
                 .on('enter', function(e) {
                     innerText.classList.add('pinned');
                 })
@@ -212,17 +204,16 @@ const initScroller = function() {
         .addTo(scrollController);
     });
 
-    // Video viewport tracking to play and pause videos
-    _.each(document.querySelectorAll('.video-wrapper'), function(d,i) {
+    // Video viewport tracking to pause interview videos
+    _.each(document.querySelectorAll('.video-interview'), function(d,i) {
         // Initialize players and preload videos
-        initVideo(d);
+        initJWPlayerVideo(d);
 
         var scrollScene = new ScrollMagic.Scene({
             duration: '100%',
             triggerElement: d
         })
-        .on('enter', videoEnter)
-        .on('leave', videoLeave)
+        .on('leave', videoInterviewLeave)
         .addTo(scrollController);
     });
 };
@@ -245,8 +236,8 @@ const createPlayerInstance = function(containerId, media, poster, width, ratio,
     muted = muted === null ? false : true;
     loop = loop === null ? false : true;
     controls = controls === null ? false : true;
-    const stretching = "fill";
     autoplay = autoplay === null ? false : true;
+    const stretching = "fill";
 
     let player = jwplayer(containerId);
     player.setup({
@@ -261,98 +252,96 @@ const createPlayerInstance = function(containerId, media, poster, width, ratio,
         stretching: stretching
     });
 
-    // Autostart for touch devices
-    if (Modernizr.touchevents) {
-        if (autoplay) {
-            player.setup({autostart: autoplay})
-        }
-    }
-
     return player
 }
 
-const initVideo = function(el) {
-    let videoTag = null;
+const initJWPlayerVideo = function(el) {
     const src = el.getAttribute("data-src");
     const poster = el.getAttribute("data-poster");
-    const mime = el.getAttribute("data-mime");
     const width = el.getAttribute("data-width");
     const ratio = el.getAttribute("data-ratio");
-    const height = el.getAttribute("data-height");
     const loop = el.getAttribute("data-loop");
     const muted = el.getAttribute("data-muted");
-    const autoplay = el.getAttribute("data-autoplay");
     const controls = el.getAttribute("data-controls");
     const preload = el.getAttribute("data-preload");
     let trackId = el.getAttribute("data-analytics");
     const containerId = el.getAttribute("id");
     if (!el.classList.contains('loaded')) {
-        if (el.classList.contains('jw')) {
-            // JWPlayer managed video
-            let videoDiv = document.createElement('div');
-            if (trackId == null) {
-                trackId = containerId+'-child';
-            }
-            videoDiv.setAttribute('id', trackId);
-            el.appendChild(videoDiv);
-            let player = createPlayerInstance(trackId, src, poster, width,
-                                              ratio, muted, loop, controls,
-                                              autoplay);
-            // ANALYTICS track if video has been played
-            player.once('play', function(e) {
-                ANALYTICS.trackEvent('video-play', player.id);
-            })
-            players[containerId] = player;
-        } else {
-            // HTML5 native video tag
-            videoTag = document.createElement('video');
-            if (muted != null) {
-                videoTag.setAttribute('muted','');
-                // Hack around muted on Firefox
-                videoTag.muted = true;
-            }
-            if (loop != null) {
-                videoTag.setAttribute('loop','');
-            }
-            if (controls != null) {
-                videoTag.setAttribute('controls','');
-            }
-            if (preload != null) {
-                videoTag.setAttribute('preload', preload);
-            }
-            if ((Modernizr.touchevents) && (autoplay != null)) {
-                    videoTag.setAttribute('autoplay','');
-                    videoTag.setAttribute('playsinline','');
-            }
-            videoTag.setAttribute('poster',poster);
-            videoTag.setAttribute('width',width);
-            // Check if iPhone with no playsinline support
-            if (Modernizr.iphonewoplaysinline) {
-                let source = document.createElement('source');
-                source.setAttribute('src',src);
-                videoTag.appendChild(source);
-            }
-            el.appendChild(videoTag);
-            // Check if intro video has loaded
-            if (el.classList.contains('cover')) {
-                videoTag.setAttribute('data-object-fit','');
-                objectFitPolyfill();
-                videoTag.oncanplay = animateBodyOpacity;
-                const sources = videoTag.querySelectorAll('source');
-                if (sources.length !== 0) {
-                    var lastSource = sources[sources.length-1];
-                    lastSource.addEventListener('error', function() {
-                        animateBodyOpacity();
-                    });
-                }
-                else {
+        // JWPlayer managed video
+        let videoDiv = document.createElement('div');
+        if (trackId == null) {
+            trackId = containerId+'-child';
+        }
+        videoDiv.setAttribute('id', trackId);
+        el.appendChild(videoDiv);
+        let player = createPlayerInstance(trackId, src, poster, width,
+                                          ratio, muted, loop, controls);
+        // ANALYTICS track if video has been played
+        player.on('play', function(e) {
+            ANALYTICS.trackEvent('video-play', player.id);
+        })
+        players[containerId] = player;
+
+        // Finally mark the videoWrapper as loaded
+        el.classList.add('loaded');
+    }
+}
+
+const initBackgroundVideo = function(el) {
+    let videoTag = null;
+    const src = el.getAttribute("data-src");
+    const poster = el.getAttribute("data-poster");
+    const width = el.getAttribute("data-width");
+    const loop = el.getAttribute("data-loop");
+    const muted = el.getAttribute("data-muted");
+    const autoplay = el.getAttribute("data-autoplay");
+    const preload = el.getAttribute("data-preload");
+    const containerId = el.getAttribute("id");
+    if (!el.classList.contains('loaded')) {
+        // HTML5 native video tag
+        videoTag = document.createElement('video');
+        if (muted != null) {
+            videoTag.setAttribute('muted','');
+            // Hack around muted on Firefox
+            videoTag.muted = true;
+        }
+        if (loop != null) {
+            videoTag.setAttribute('loop','');
+        }
+        if (preload != null) {
+            videoTag.setAttribute('preload', preload);
+        }
+        videoTag.setAttribute('autoplay','');
+        videoTag.setAttribute('playsinline','');
+        videoTag.setAttribute('poster',poster);
+        videoTag.setAttribute('width',width);
+        // Check if iPhone with no playsinline support
+        if (Modernizr.iphonewoplaysinline) {
+            let source = document.createElement('source');
+            source.setAttribute('src',src);
+            videoTag.appendChild(source);
+        }
+        el.appendChild(videoTag);
+        // Check if intro video has loaded
+        if (el.classList.contains('video-intro')) {
+            videoTag.setAttribute('data-object-fit','');
+            objectFitPolyfill();
+            videoTag.oncanplay = animateBodyOpacity;
+            const sources = videoTag.querySelectorAll('source');
+            if (sources.length !== 0) {
+                var lastSource = sources[sources.length-1];
+                lastSource.addEventListener('error', function() {
                     animateBodyOpacity();
-                }
+                });
+            }
+            else {
+                animateBodyOpacity();
             }
         }
         // Finally mark the videoWrapper as loaded
         el.classList.add('loaded');
     }
+
 }
 
 // IMAGES
@@ -375,7 +364,7 @@ const renderImage = function(imageWrapper) {
 }
 
 const lazyload_images = function(section) {
-    const images = section.querySelectorAll(".image-wrapper[data-src], .embed-graphic[data-src]");
+    const images = section.querySelectorAll(".image-wrapper[data-src]");
     const imagesArray = Array.prototype.slice.call(images);
     imagesArray.map(image => renderImage(image))
     if (imagesArray.length) {
@@ -386,11 +375,16 @@ const lazyload_images = function(section) {
 
 }
 
+const lazyload_videos = function(section) {
+    _.each(section.querySelectorAll(".video-wrapper[data-src]"), initBackgroundVideo);
+}
+
 // Lazy loading of images
 const lazyload_assets = function(section, stop) {
     stop = stop || 0;
     // Lazyload images
     lazyload_images(section);
+    lazyload_videos(section);
     if (stop < LAZYLOAD_AHEAD && section.nextElementSibling) {
         lazyload_assets(section.nextElementSibling, stop + 1);
     }
@@ -402,51 +396,12 @@ const sectionEnter = function(e) {
     this.remove();
 }
 
-const videoEnter = function(e) {
-    const el = this.triggerElement();
-    const containerId = el.getAttribute("id");
-    console.log("videoEnter", containerId);
-    // Ignore video play if it is an interview, let user control it
-    if (!el.classList.contains('jw')) {
-        if (!Modernizr.touchevents) {
-            if (el.classList.contains('loaded')) {
-                let video = el.querySelector('video');
-                if (video.querySelectorAll('source').length) {
-                    if (video.getAttribute('controls') == null) {
-                        let playPromise = video.play();
-                        if (playPromise !== undefined) {
-                            playPromise.catch(function(error) {
-                                console.log('playback error');
-                            });
-                        }
-                    }
-                }
-            }
-        }
-    } else {
-        if (el.classList.contains('loaded')) {
-            let player = players[containerId];
-            // player.play();
-        }
-    }
-}
-
-const videoLeave = function(e) {
+const videoInterviewLeave = function(e) {
     const el = this.triggerElement();
     const containerId = el.getAttribute("id");
     console.log("videoLeave", containerId);
-    // Ignore video pause if it is an interview, let user control it
-    if (!el.classList.contains('jw')) {
-        if (!Modernizr.touchevents) {
-            let video = el.querySelector('video');
-            if (video.querySelectorAll('source').length) {
-                if (video.getAttribute('controls') == null) {
-                    video.pause();
-                    video.currentTime = 0;
-                }
-            }
-        }
-    } else {
+    // Pause if it is an interview with controls
+    if (el.classList.contains('jw')) {
         let player = players[containerId];
         player.pause(true);
     }
@@ -454,10 +409,6 @@ const videoLeave = function(e) {
 
 // EVENT LISTENERS
 const toggleTopNavigation = function(e) {
-    if (!topNavClicked) {
-        ANALYTICS.trackEvent('top-nav-click');
-        topNavClicked = true;
-    }
     let nav = document.getElementById('episode-nav');
     if (nav.classList.contains('menu-visible')) {
         nav.classList.remove('menu-visible');
@@ -467,21 +418,18 @@ const toggleTopNavigation = function(e) {
 }
 
 const addAppListeners = function() {
-    let nav = document.getElementById('nav-text');
-    let overlay = document.getElementById('nav-overlay');
-    nav.onclick = toggleTopNavigation;
+    let nav = document.querySelector('#nav-text').addEventListener('click', toggleTopNavigation);
 
     // Analytics
-    // TODO should we track the use of the different navigation options?
-    // document.querySelector(".utility-nav").addEventListener('click', function(e) {
-    //     ANALYTICS.trackEvent('utility-nav-click')
-    // });
-    // document.querySelector(".menu").addEventListener('click', function(e) {
-    //     ANALYTICS.trackEvent('menu-nav-click')
-    // });
-    // document.querySelector(".footer-question").addEventListener('click', function(e) {
-    //     ANALYTICS.trackEvent('footer-nav-click')
-    // });
+    document.querySelector(".utility-nav").addEventListener('click', function(e) {
+        ANALYTICS.trackEvent('utility-nav-click');
+    });
+    document.querySelector(".menu").addEventListener('click', function(e) {
+        ANALYTICS.trackEvent('menu-nav-click');
+    });
+    document.querySelector(".footer-question").addEventListener('click', function(e) {
+        ANALYTICS.trackEvent('call-to-action-click');
+    });
 }
 
 window.onload = onWindowLoaded;

@@ -475,12 +475,7 @@ The Google Analytics events tracked in this application are:
 
 |Category|Action|Label|Value|
 |--------|------|-----|-----|
-|idp-georgia|tweet|`location`||
-|idp-georgia|facebook|`location`||
-|idp-georgia|email|`location`||
-|idp-georgia|new-comment||
-|idp-georgia|open-share-discuss||
-|idp-georgia|close-share-discuss||
-|idp-georgia|summary-copied||
-|idp-georgia|featured-tweet-action|`action`|
-|idp-georgia|featured-facebook-action|`action`|
+|idp-georgia|video-play|video-id||
+|idp-georgia|menu-nav-click|||
+|idp-georgia|call-to-action-click|||
+|idp-georgia|utility-nav-click|||

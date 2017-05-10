@@ -1,6 +1,6 @@
 <div class="{{class}}{%if extra_classes %} {{ extra_classes }}{% endif %}">
     <img width="100%" height="auto" src="{{id}}">
     {% if caption != None and caption != '' %}
-    <p class="caption image-caption">{{ caption }}</p>
+    <p class="caption image-caption">{{ caption|safe }}</p>
     {% endif %}
 </div>
