@@ -403,9 +403,9 @@ const sectionEnter = function(e) {
 }
 
 const videoEnter = function(e) {
-    console.log("videoEnter");
     const el = this.triggerElement();
     const containerId = el.getAttribute("id");
+    console.log("videoEnter", containerId);
     // Ignore video play if it is an interview, let user control it
     if (!el.classList.contains('jw')) {
         if (!Modernizr.touchevents) {
@@ -432,9 +432,9 @@ const videoEnter = function(e) {
 }
 
 const videoLeave = function(e) {
-    console.log("videoLeave");
     const el = this.triggerElement();
     const containerId = el.getAttribute("id");
+    console.log("videoLeave", containerId);
     // Ignore video pause if it is an interview, let user control it
     if (!el.classList.contains('jw')) {
         if (!Modernizr.touchevents) {
