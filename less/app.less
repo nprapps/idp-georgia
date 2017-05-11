@@ -379,21 +379,22 @@ a {
             .map-wrapper {
                 position: relative;
                 margin: 0 auto;
-                max-width: 800px;
+                max-width: 80%;
+                height: 50vh;
+                max-height: 466px;
+                width: auto;
 
-                @media screen and (max-width: 1400px) {
+                @media @screen-landscape {
                     max-width: 700px;
-                }
-
-                @media screen and (max-height: 500px) {
-                    max-width: 400px;
                 }
 
                 img.intro-map {
-                    width: 100%;
+                    width: auto;
                     margin: 0 auto;
                     display: block;
+                    height: 50vh;
                     max-width: 700px;
+                    max-height: 466px;
                 }
 
                 img.inset-map {
@@ -402,6 +403,19 @@ a {
                     right: 0;
                     max-width: 25%;
                 }
+
+                & .panel-portrait {
+                    height: auto;
+                    width: 80%;
+                    max-width: 700px;
+
+                    img.intro-map {
+                        height: auto;
+                        width: 100%;
+                    }
+
+                }
+
             }
         }
 
