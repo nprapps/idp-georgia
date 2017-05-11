@@ -248,15 +248,32 @@ a {
             }
 
             &.bg-irakli {
-                background-image: url('https://media.npr.org/idp-georgia/irakli.jpg');
+                // background-image: url('https://media.npr.org/idp-georgia/irakli.jpg');
+                background-image: url('https://media.npr.org/idp-georgia/irakli-still-web.jpg');
+
+                @media @screen-small {
+                    background-position: center;
+                }
             }
 
             &.bg-ana {
                 background-image: url('https://media.npr.org/idp-georgia/ana.jpg');
+
+                @media @screen-small {
+                    background-position: center;
+                }
             }
 
             &.bg-veriko {
-                background-image: url('https://media.npr.org/idp-georgia/veriko.jpg');
+                // background-image: url('https://media.npr.org/idp-georgia/veriko.jpg');
+                // background-image: url('https://media.npr.org/idp-georgia/portrait_tests/20170316-GEORGIA_DSC4023_edit.jpg');
+                // background-image: url('https://media.npr.org/idp-georgia/portrait_tests/20170316-GEORGIA_DSC3605_edit.jpg');
+                background-image: url('https://media.npr.org/idp-georgia/veriko2-web.jpg');
+
+
+                @media @screen-small {
+                    background-position: center left 20%;
+                }
             }
         }
     }
@@ -478,6 +495,10 @@ a {
             &.pinned {
                 position: fixed;
             }
+
+            @media @screen-small {
+                bottom: -5%;
+            }
         }
 
         h2 {
@@ -489,6 +510,10 @@ a {
             margin: 0 auto 1rem;
             text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
             text-align: center;
+
+            @media @screen-small {
+                font-size: 3rem;
+            }
         }
 
         p {
@@ -500,6 +525,11 @@ a {
             line-height: 1.7;
             text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
             text-align: center;
+
+            @media @screen-small {
+                font-size: 1.6rem;
+                line-height: 1.2;
+            }
         }
     }
 }
