@@ -71,7 +71,25 @@ const checkConditionalLogic = function() {
         if (found !== undefined) {
             internal_link = true;
         }
+    }
 
+    // check for device orientation
+    checkOrientation();
+}
+
+const checkOrientation = function() {
+    if (window.innerHeight >= window.innerWidth){
+        console.log('portrait');
+        if (!document.body.classList.contains('panel-portrait')) {
+            document.body.classList.remove('panel-landscape');
+            document.body.classList.add('panel-portrait');
+        }
+    } else {
+        console.log('landscape');
+        if (!document.body.classList.contains('panel-landscape')) {
+            document.body.classList.remove('panel-portrait');
+            document.body.classList.add('panel-landscape');
+        }
     }
 }
 
@@ -430,6 +448,10 @@ const addAppListeners = function() {
     document.querySelector(".footer-question").addEventListener('click', function(e) {
         ANALYTICS.trackEvent('call-to-action-click');
     });
+
+    let throttled = _.throttle(checkOrientation, 100);
+
+    window.addEventListener("resize", throttled);
 }
 
 window.onload = onWindowLoaded;
