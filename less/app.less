@@ -598,6 +598,10 @@ a {
         -webkit-font-smoothing: antialiased;
         margin-bottom: 1.2em;
         color: #333;
+
+        @media @screen-small {
+            font-size: 1.3rem;
+        }
     }
 }
 
@@ -860,13 +864,15 @@ a {
 
     .footer-question {
         padding: 5rem 15px 0 15px;
-        //max-width: 30rem;
-        margin: 0 auto;
+        margin: 0 15px;
         padding-bottom: 2rem;
-        border-top: 3px solid #eee;
+        border-top: 1px solid #eee;
 
-        @media @screen-tiny-above {
+        @media @screen-small-above {
+            margin: 0 auto;
             max-width: 680px;
+            border-top: 3px solid #eee;
+
         }
 
         .next-story-action {
