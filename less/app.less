@@ -497,7 +497,7 @@ a {
             }
 
             @media @screen-small {
-                bottom: -12%;
+                bottom: -8%;
             }
         }
 
@@ -541,10 +541,21 @@ a {
         margin: 0 auto 6em;
         border-bottom: 5px solid #eee;
 
+        @media @screen-small {
+            padding: 2em 0;
+            border-bottom: 2px solid #eee;
+            margin: 0 15px;
+        }
+
         p {
             font-style: italic;
             font-size: 2rem;
             text-align: center;
+
+            @media @screen-small {
+                font-size: 1.3rem;
+            }
+
         }
 
         .char-map {
