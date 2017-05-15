@@ -433,249 +433,249 @@ a {
             }
         }
     }
-}
 
-.intro-wrapper {
-    position: relative;
-    .gotham();
-
-    // * {
-    //     box-sizing: border-box;
-    // }
-
-    .panel-intro {
-        border: 2px solid black;
+    .intro-wrapper {
         position: relative;
-        width: 100%;
-        height: 100%;
-        height: 100vh;
+        .gotham();
 
-        .text-wrapper {
-            display: block;
-            opacity: 0;
-            position: absolute;
-            left: 0;
-            top: 50%;
+        // * {
+        //     box-sizing: border-box;
+        // }
+
+        .panel-intro {
+            border: 2px solid black;
+            position: relative;
             width: 100%;
-            -webkit-transform: translateY(-50%);
-            -ms-transform: translateY(-50%);
-            transform: translateY(-50%);
-            // text-align: center;
-            padding: 0 1em;
-            color: @black;
+            height: 100%;
+            height: 100vh;
 
-            h1 {
-                color: @brightwhite;
-                font-size: 7rem;
-                font-weight: bold;
-                text-transform: uppercase;
-                text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
-                margin: 0;
-            }
-
-            p {
-                font-size: 2rem;
-                line-height: 1.6;
-                max-width: 680px;
-                margin: 0 auto 1em;
-                text-align: center;
-
-                @media @screen-small {
-                    font-size: 1.4rem;
-                }
-
-                @media @screen-landscape {
-                    font-size: 1.3rem;
-                    max-width: 480px;
-                }
-            }
-        }
-
-        &.title-panel {
             .text-wrapper {
-                padding-left: 30px;
-                text-align: left;
-                -webkit-transform: translateY(0);
-                -ms-transform: translateY(0);
-                transform: translateY(0);
-                top: auto;
-                bottom: 10%;
-                color: #fff;
-                text-shadow: 1px 1px 1px rgba(0, 0, 0, .6);
+                display: block;
+                opacity: 0;
+                position: absolute;
+                left: 0;
+                top: 50%;
+                width: 100%;
+                -webkit-transform: translateY(-50%);
+                -ms-transform: translateY(-50%);
+                transform: translateY(-50%);
+                // text-align: center;
+                padding: 0 1em;
+                color: @black;
 
                 h1 {
-                    font-size: 5rem;
-                    color: #fff;
-                    line-height: 1;
-                    margin: .5rem 0 2rem 0;
-                }
-
-                h5 {
-                    font-size: 1.4rem;
-                    margin: 3rem 0 0 0;
+                    color: @brightwhite;
+                    font-size: 7rem;
+                    font-weight: bold;
                     text-transform: uppercase;
+                    text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+                    margin: 0;
                 }
-
 
                 p {
-                    margin: 0 0 1rem 0;
-                    max-width: 800px;
+                    font-size: 2rem;
+                    line-height: 1.6;
+                    max-width: 680px;
+                    margin: 0 auto 1em;
+                    text-align: center;
+
+                    @media @screen-small {
+                        font-size: 1.4rem;
+                    }
+
+                    @media @screen-landscape {
+                        font-size: 1.3rem;
+                        max-width: 480px;
+                    }
+                }
+            }
+
+            //TITLE-PANEL- Title card for the project that appears before the episode title card for each episode.
+            &.title-panel {
+                .text-wrapper {
+                    padding-left: 30px;
                     text-align: left;
+                    -webkit-transform: translateY(0);
+                    -ms-transform: translateY(0);
+                    transform: translateY(0);
+                    top: auto;
+                    bottom: 10%;
+                    color: #fff;
+                    text-shadow: 1px 1px 1px rgba(0, 0, 0, .6);
+
+                    h1 {
+                        font-size: 5rem;
+                        color: #fff;
+                        line-height: 1;
+                        margin: .5rem 0 2rem 0;
+                    }
+
+                    h5 {
+                        font-size: 1.4rem;
+                        margin: 3rem 0 0 0;
+                        text-transform: uppercase;
+                    }
+
+                    p {
+                        margin: 0 0 1rem 0;
+                        max-width: 800px;
+                        text-align: left;
+                    }
                 }
             }
-        }
 
-        &.panel-map {
-            .asset-wrapper {
-                margin: 0 auto;
-            }
-
-            .map-wrapper {
-                position: relative;
-                margin: 0 auto;
-                max-width: 80%;
-                height: 50vh;
-                max-height: 466px;
-                width: auto;
-
-                @media @screen-landscape-above {
-                    max-width: 700px;
-                }
-
-                img.intro-map {
-                    width: auto;
+            //PANEL-MAP- Georgia locator map
+            &.panel-map {
+                .asset-wrapper {
                     margin: 0 auto;
-                    display: block;
+                }
+
+                .map-wrapper {
+                    position: relative;
+                    margin: 0 auto;
+                    max-width: 80%;
                     height: 50vh;
-                    max-width: 700px;
                     max-height: 466px;
-                }
+                    width: auto;
 
-                img.inset-map {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    max-width: 25%;
-                }
-
-                .panel-portrait & {
-                    height: auto;
-                    width: 80%;
-                    max-width: 700px;
+                    @media @screen-landscape-above {
+                        max-width: 700px;
+                    }
 
                     img.intro-map {
+                        width: auto;
+                        margin: 0 auto;
+                        display: block;
+                        height: 50vh;
+                        max-width: 700px;
+                        max-height: 466px;
+                    }
+
+                    img.inset-map {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        max-width: 25%;
+                    }
+
+                    .panel-portrait & {
                         height: auto;
-                        width: 100%;
+                        width: 80%;
+                        max-width: 700px;
+
+                        img.intro-map {
+                            height: auto;
+                            width: 100%;
+                        }
+
                     }
 
                 }
-
             }
-        }
 
-        &.panel-characters {
-            .asset-wrapper {
-                .clearfix();
-                .story-well-sizing();
-                text-align: center;
-                opacity: 1;
-
-                .char-wrapper {
-                    display: inline-block;
-                    position: relative;
+            //PANEL-CHARACTERS- panel with thumbnail images of the characters in each episode
+            &.panel-characters {
+                .asset-wrapper {
+                    .clearfix();
+                    .story-well-sizing();
                     text-align: center;
-                    width: 33%;
-                    padding: 0 0.5em;
                     opacity: 1;
-                    transition: opacity 1s ease-in;
 
-                    &.not-active {
-                        opacity: 0;
-                        transition: opacity 1s ease-out;
-                    }
-
-                    img {
-                        display: block;
-                    }
-
-                    span {
+                    .char-wrapper {
                         display: inline-block;
-                        margin: 0 auto;
-                        color: #222;
-                        text-transform: uppercase;
-                        font-size: 1rem;
-                        font-weight: bold;
-                        line-height: 1;
-                        padding-top: 1rem;
+                        position: relative;
+                        text-align: center;
+                        width: 33%;
+                        padding: 0 0.5em;
+                        opacity: 1;
+                        transition: opacity 1s ease-in;
 
-                        @media @screen-tiny-above {
-                            font-size: 1.6rem;
-                            padding-top: 0;
-                            color: @brightwhite;
-                            position: absolute;
-                            bottom: 15px;
-                            left: 0;
-                            right: 0;
+                        &.not-active {
+                            opacity: 0;
+                            transition: opacity 1s ease-out;
+                        }
+
+                        img {
+                            display: block;
+                        }
+
+                        span {
+                            display: inline-block;
+                            margin: 0 auto;
+                            color: #222;
+                            text-transform: uppercase;
+                            font-size: 1rem;
+                            font-weight: bold;
+                            line-height: 1;
+                            padding-top: 1rem;
+
+                            @media @screen-tiny-above {
+                                font-size: 1.6rem;
+                                padding-top: 0;
+                                color: @brightwhite;
+                                position: absolute;
+                                bottom: 15px;
+                                left: 0;
+                                right: 0;
+                            }
                         }
                     }
                 }
             }
+
+
         }
 
+        &#intro-custom {
+            .text-wrapper {
+                top: auto;
+                bottom: 0;
+                position: absolute;
 
-    }
-
-    &#intro-custom {
-        .text-wrapper {
-            top: auto;
-            bottom: 0;
-            position: absolute;
-
-            &.pinned {
-                position: fixed;
+                &.pinned {
+                    position: fixed;
+                }
             }
 
-            // @media @screen-small {
-            //     bottom: -8%;
-            // }
-        }
+            h2 {
+                font-size: 4.5rem;
+                font-weight: bold;
+                line-height: 1;
+                text-transform: uppercase;
+                color: @brightwhite;
+                margin: 0 auto 1rem;
+                text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+                text-align: center;
 
-        h2 {
-            font-size: 4.5rem;
-            font-weight: bold;
-            line-height: 1;
-            text-transform: uppercase;
-            color: @brightwhite;
-            margin: 0 auto 1rem;
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
-            text-align: center;
-
-            @media @screen-small {
-                font-size: 2.5rem;
+                @media @screen-small {
+                    font-size: 2.5rem;
+                }
             }
-        }
 
-        p {
-            color: @brightwhite;
-            max-width: 600px;
-            padding-left: 15px;
-            padding-right: 15px;
-            margin-left: auto;
-            margin-right: auto;
-            -webkit-font-smoothing: antialiased;
-            font-size: 1.8rem;
-            font-style: italic;
-            line-height: 1.7;
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
-            text-align: center;
+            p {
+                color: @brightwhite;
+                max-width: 600px;
+                padding-left: 15px;
+                padding-right: 15px;
+                margin-left: auto;
+                margin-right: auto;
+                -webkit-font-smoothing: antialiased;
+                font-size: 1.8rem;
+                font-style: italic;
+                line-height: 1.7;
+                text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+                text-align: center;
 
-            @media @screen-small {
-                font-size: 1.3rem;
-                // line-height: 1.5;
+                @media @screen-small {
+                    font-size: 1.3rem;
+                    // line-height: 1.5;
+                }
             }
         }
     }
 }
+
+
 
 // .episode-content is a wrapper div for the main content of each episode. It includes all content after the episode title card (#episode-title) and befire the footer (#footer)
 
