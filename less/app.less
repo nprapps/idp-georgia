@@ -758,17 +758,8 @@ a {
     .gotham();
 
 
-    img {
-        border: 1px solid #ddd;
 
-
-        @media @screen-tiny-above {
-            width: 25rem;
-            float: left;
-            margin-bottom: 5rem;
-        }
-    }
-
+    //call to action to visit the next story
     .footer-question {
         padding: 5rem 15px 0 15px;
         margin: 0 15px;
@@ -782,6 +773,19 @@ a {
 
         }
 
+        //episode image
+        img {
+            border: 1px solid #ddd;
+
+
+            @media @screen-tiny-above {
+                width: 25rem;
+                float: left;
+                margin-bottom: 5rem;
+            }
+        }
+
+        // text  to the right of the
         .next-story-action {
 
             @media @screen-tiny-above {
@@ -802,7 +806,6 @@ a {
                 line-height: 1.2;
                 margin: 0 0 0 0;
                 padding: 0;
-                // float: right;
             }
 
 
@@ -854,10 +857,6 @@ a {
                 text-transform: uppercase;
                 display: block;
                 padding-right: 2rem;
-
-                // @media @screen-landscape-above {
-                //     display: inline;
-                // }
             }
         }
     }
