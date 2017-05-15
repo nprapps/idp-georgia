@@ -404,11 +404,15 @@ a {
 
             &.bg-irakli {
                 // background-image: url('https://media.npr.org/idp-georgia/irakli.jpg');
-                background-image: url('https://media.npr.org/idp-georgia/irakli-still-web.jpg');
+                background-image: url('https://media.npr.org/idp-georgia/irakli-title-crop.jpg');
 
-                @media @screen-small {
+                background-position: bottom;
+
+                .touchevents & {
                     background-position: center;
+                    background-image: url('https://media.npr.org/idp-georgia/irakli-title-mobile.jpg');
                 }
+
             }
 
             &.bg-ana {
@@ -420,14 +424,11 @@ a {
             }
 
             &.bg-veriko {
-                // background-image: url('https://media.npr.org/idp-georgia/veriko.jpg');
-                // background-image: url('https://media.npr.org/idp-georgia/portrait_tests/20170316-GEORGIA_DSC4023_edit.jpg');
-                // background-image: url('https://media.npr.org/idp-georgia/portrait_tests/20170316-GEORGIA_DSC3605_edit.jpg');
-                background-image: url('https://media.npr.org/idp-georgia/veriko2-web.jpg');
+                background-image: url('https://media.npr.org/idp-georgia/veriko-title-crop.jpg');
 
 
                 @media @screen-small {
-                    background-position: center left 20%;
+                    background-position: top left 30%;
                 }
             }
         }
@@ -486,25 +487,6 @@ a {
                 @media @screen-landscape {
                     font-size: 1.3rem;
                     max-width: 480px;
-                }
-            }
-
-            ul {
-                .story-well-sizing();
-                list-style: none;
-                li {
-                    font-size: 1.8rem;
-                    text-align: left;
-                    margin-bottom: .6em;
-
-                    @media @screen-small {
-                    font-size: 1.3rem;
-                    }
-
-                    @media @screen-landscape {
-                        font-size: 1.2rem;
-                        max-width: 480px;
-                    }
                 }
             }
         }
@@ -653,9 +635,9 @@ a {
                 position: fixed;
             }
 
-            @media @screen-small {
-                bottom: -8%;
-            }
+            // @media @screen-small {
+            //     bottom: -8%;
+            // }
         }
 
         h2 {
@@ -675,7 +657,11 @@ a {
 
         p {
             color: @brightwhite;
-            .story-well-sizing();
+            max-width: 600px;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-left: auto;
+            margin-right: auto;
             -webkit-font-smoothing: antialiased;
             font-size: 1.8rem;
             font-style: italic;
@@ -762,8 +748,6 @@ a {
             font-size: 1.3rem;
         }
     }
-
-
 }
 
 //FOOTER- the footer contains the question at the end of each episode (.footer-question) that links to the next episode, boilerplate info, and project credits.
