@@ -2,6 +2,10 @@
 
 // Content
 // -------------------------
+
+
+//Global styles
+
 html {
     font-size: 62.5%;
     line-height: 1.7;
@@ -62,6 +66,160 @@ a {
     display: none;
 }
 
+
+// SHORT CODES- these styles correspond to the shortcode markup that is generated from the google doc. This content lives inside the episode-wrapper div and in the intro.
+
+.image-wrapper {
+    background-color: #f1f1f1;
+    &:after {
+        content: 'loading';
+        display: block;
+        .gotham();
+        padding: 1.5em 0;
+        text-align: center;
+        font-size: 14px;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: #c3c3c3;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
+.embed-image, .embed-graphic {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+
+    &.full {
+        margin: 2em 0;
+        width: 100%;
+    }
+
+    &.centered {
+        .story-well-sizing();
+    }
+
+    .collage2 {
+        width: 49%;
+        float: left;
+
+        &:first-child {
+            margin-right: 2%;
+        }
+    }
+
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .image-wrapper {
+        width: 100%;
+        padding-bottom: 56.5%;
+        position: relative;
+        background-color: #f1f1f1;
+        margin: 0 auto;
+
+        > * {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        &.loaded {
+            img {
+                display: block;
+            }
+            &:after {
+                content: none;
+            }
+        }
+    }
+
+    img {
+        display: none;
+    }
+
+    &.loaded {
+        img {
+            display: block;
+        }
+        .image-wrapper {
+            &:after {
+                content: none;
+            }
+        }
+    }
+
+    p {
+        .sans-serif();
+        -webkit-font-smoothing: auto;
+        color: @textgray;
+
+        &.image-caption {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            margin: 0 auto 2px;
+            padding: 12px 0 0;
+        }
+
+        &.image-credit {
+            font-size: 1rem;
+            font-style: italic;
+            line-height: 1.7;
+            padding: 0;
+            margin: 0;
+        }
+    }
+}
+
+.video-wrapper {
+    width: 100%;
+
+    &.centered {
+        .story-well-sizing();
+    }
+
+    &.video-intro {
+        height: 100vh;
+        video {
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &.video-background {
+        position: relative;
+
+        h3 {
+            max-width: 100%; // Override story-well-sizing max-width
+            font-size: 3.5rem;
+            font-weight: bold;
+            line-height: 1;
+            text-transform: uppercase;
+            color: @brightwhite;
+            margin: 0 auto 1rem;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+            text-align: center;
+
+            &.video-caption {
+                position: absolute;
+                bottom: 15%;
+                width: 100%;
+                margin:0 auto;
+            }
+        }
+    }
+}
+
+
+/////////// TOP-NAV Fixed position nav that appears upon entering the title card for each character ////////////////
+
 .top-nav {
     .gotham();
     display: none;
@@ -100,10 +258,6 @@ a {
             display: inline-block;
             transform: rotate(270deg);
         }
-    }
-
-    .nav-subhead {
-
     }
 
     .menu {
@@ -216,8 +370,7 @@ a {
 }
 
 
-
-// INTRO
+// Project intro and title card for each episode
 #intro {
     position: relative;
 
@@ -246,6 +399,8 @@ a {
                 position: absolute;
                 bottom: 0;
             }
+
+            //episode title cards
 
             &.bg-irakli {
                 // background-image: url('https://media.npr.org/idp-georgia/irakli.jpg');
@@ -283,9 +438,9 @@ a {
     position: relative;
     .gotham();
 
-    * {
-        box-sizing: border-box;
-    }
+    // * {
+    //     box-sizing: border-box;
+    // }
 
     .panel-intro {
         border: 2px solid black;
@@ -484,6 +639,8 @@ a {
                 }
             }
         }
+
+
     }
 
     &#intro-custom {
@@ -533,6 +690,8 @@ a {
         }
     }
 }
+
+// .episode-content is a wrapper div for the main content of each episode. It includes all content after the episode title card (#episode-title) and befire the footer (#footer)
 
 .episode-content {
     .inline-intro {
@@ -603,247 +762,11 @@ a {
             font-size: 1.3rem;
         }
     }
+
+
 }
 
-// EMBEDDED GRAPHIC
-.graphic-wrapper {
-    .story-well-sizing();
-
-    &#graphic-population {
-        .chart-wrapper {
-            position: relative;
-        }
-
-        .chart-row {
-            @label-width: 25%;
-            @bar-width: 75%;
-            @bar-height: 30px;
-
-            width: 100%;
-            height: @bar-height;
-            line-height: @bar-height;
-            margin-bottom: 3px;
-            .clearfix();
-            .sans-serif();
-            font-size: 12px;
-            color: #999;
-
-            span {
-                height: 100%;
-                line-height: inherit;
-                float: left;
-                vertical-align: middle;
-            }
-
-            .row-label {
-                padding-right: 8px;
-                width: @label-width;
-                text-align: right;
-            }
-
-            .row-bar-wrapper {
-                width: @bar-width;
-                position: relative;
-                height: @bar-height;
-
-                .row-bar {
-                    display: block;
-                    height: 100%;
-                    background: @row-gray;
-
-                    &.row-conflict {
-                        background-color: @row-conflict-gold;
-                    }
-                }
-
-                .row-value {
-                    position: absolute;
-                    margin-left: -45px;
-                    text-align: right;
-                }
-            }
-        }
-
-        h4 {
-            .gotham();
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 0 0 0.5em;
-            color: #666;
-        }
-
-        p.graphic-text {
-            .sans-serif();
-            text-align: left;
-            font-size: 1.4rem;
-            margin: 0 0 0.2em;
-            padding: 0;
-            color: #777;
-        }
-
-        p.source {
-            .sans-serif();
-            text-align: left;
-            font-size: 1.1rem;
-            font-style: italic;
-            line-height: 1.7;
-            margin: 0.5em 0 0.5em;
-            padding: 0;
-            color: #777;
-        }
-    }
-}
-
-// MEDIA TYPES
-
-.image-wrapper {
-    background-color: #f1f1f1;
-    &:after {
-        content: 'loading';
-        display: block;
-        .gotham();
-        padding: 1.5em 0;
-        text-align: center;
-        font-size: 14px;
-        text-transform: uppercase;
-        font-weight: bold;
-        color: #c3c3c3;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-}
-
-.embed-image, .embed-graphic {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-
-    &.full {
-        margin: 2em 0;
-        width: 100%;
-    }
-
-    &.centered {
-        .story-well-sizing();
-    }
-
-    .collage2 {
-        width: 49%;
-        float: left;
-
-        &:first-child {
-            margin-right: 2%;
-        }
-    }
-
-    .clearfix::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-
-    .image-wrapper {
-        width: 100%;
-        padding-bottom: 56.5%;
-        position: relative;
-        background-color: #f1f1f1;
-        margin: 0 auto;
-
-        > * {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        &.loaded {
-            img {
-                display: block;
-            }
-            &:after {
-                content: none;
-            }
-        }
-    }
-
-    img {
-        display: none;
-    }
-
-    &.loaded {
-        img {
-            display: block;
-        }
-        .image-wrapper {
-            &:after {
-                content: none;
-            }
-        }
-    }
-
-    p {
-        .sans-serif();
-        -webkit-font-smoothing: auto;
-        color: @textgray;
-
-        &.image-caption {
-            font-size: 1.2rem;
-            line-height: 1.7;
-            margin: 0 auto 2px;
-            padding: 12px 0 0;
-        }
-
-        &.image-credit {
-            font-size: 1rem;
-            font-style: italic;
-            line-height: 1.7;
-            padding: 0;
-            margin: 0;
-        }
-    }
-}
-
-.video-wrapper {
-    width: 100%;
-
-    &.centered {
-        .story-well-sizing();
-    }
-
-    &.video-intro {
-        height: 100vh;
-        video {
-            height: 100%;
-            object-fit: cover;
-        }
-    }
-
-    &.video-background {
-        position: relative;
-
-        h3 {
-            max-width: 100%; // Override story-well-sizing max-width
-            font-size: 3.5rem;
-            font-weight: bold;
-            line-height: 1;
-            text-transform: uppercase;
-            color: @brightwhite;
-            margin: 0 auto 1rem;
-            text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
-            text-align: center;
-
-            &.video-caption {
-                position: absolute;
-                bottom: 15%;
-                width: 100%;
-                margin:0 auto;
-            }
-        }
-    }
-}
-
+//FOOTER- the footer contains the question at the end of each episode (.footer-question) that links to the next episode, boilerplate info, and project credits.
 #footer {
     // background-color: #eee;
     // border-top: 1px solid #ddd;
