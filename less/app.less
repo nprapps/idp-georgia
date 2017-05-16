@@ -55,6 +55,14 @@ a {
 }
 
 .story-well-sizing() {
+    max-width: 800px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inset-sizing() {
     max-width: 680px;
     padding-left: 15px;
     padding-right: 15px;
@@ -731,7 +739,7 @@ a {
 
     //INLINE-INTRO is a div that contains prelude text that appears below the episode title card. It is paired with a locator map that shows the location of displacement for the current character.
     .inline-intro {
-        .story-well-sizing();
+        .inset-sizing();
         padding: 4em 0;
         margin: 0 auto 6em;
         border-bottom: 5px solid #eee;
@@ -817,7 +825,7 @@ a {
 
         @media @screen-small-above {
             margin: 0 auto;
-            max-width: 680px;
+            max-width: 800px;
             border-top: 3px solid #eee;
         }
 
@@ -883,7 +891,7 @@ a {
 
     //UTILITY-NAV- links to each episode in the project
     .utility-nav {
-        max-width: 680px;
+        max-width: 800px;
         margin: 0 auto;
         margin-top: 2rem;
         padding: 0 15px;
@@ -925,7 +933,7 @@ a {
     //CREDITS- project credits
     .credits {
         clear: both;
-        max-width: 680px;
+        max-width: 800px;
         margin: 0 auto;
         margin-top: 1rem;
         padding: 0 15px 2rem 15px;
