@@ -824,6 +824,7 @@ a {
         //next episode thumbnail
         img {
             border: 1px solid #ddd;
+            margin-bottom: 1rem;
 
 
             @media @screen-tiny-above {
@@ -841,19 +842,29 @@ a {
             }
 
             h4 {
-                font-size: 1.5rem;
-                line-height: 1.2;
+                font-size: 1.2rem;
+                line-height: 1.5;
+                font-weight: normal;
                 color: #555;
-                margin: 0 0 3rem 0;
+                margin: 0 0 1rem 0;
                 padding: 0;
+
+                @media @screen-tiny-above {
+                    font-size: 1.3rem;
+                }
+
             }
 
             h3 {
                 font-weight: bold;
-                font-size: 1.7rem;
+                font-size: 1.3rem;
                 line-height: 1.2;
                 margin: 0 0 0 0;
                 padding: 0;
+
+                @media @screen-tiny-above {
+                    font-size: 1.5rem;
+                }
             }
 
 
