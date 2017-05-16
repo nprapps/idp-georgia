@@ -4,7 +4,7 @@
 // -------------------------
 
 
-//Global styles
+///// Global styles /////
 
 html {
     font-size: 62.5%;
@@ -66,9 +66,7 @@ a {
     display: none;
 }
 
-
-// SHORT CODES- these styles correspond to the shortcode markup that is generated from the google doc. This content lives inside the episode-wrapper div and in the intro.
-
+////// SHORT CODES- these styles correspond to the shortcode markup that is generated from the google doc. This content lives inside the episode-wrapper div and in the intro. ///////
 .image-wrapper {
     background-color: #f1f1f1;
     &:after {
@@ -178,6 +176,7 @@ a {
     }
 }
 
+/////VIDEO-WRAPPER- used for both the title card video and full width looping background videos in the content well/////
 .video-wrapper {
     width: 100%;
 
@@ -219,7 +218,6 @@ a {
 
 
 /////////// TOP-NAV Fixed position nav that appears upon entering the title card for each character ////////////////
-
 .top-nav {
     .gotham();
     display: none;
@@ -370,10 +368,11 @@ a {
 }
 
 
-// Project intro and title card for each episode
+/////////// INTRO- Wrapper div for all intro and episode title card panels. ///////////
 #intro {
     position: relative;
 
+    //BG-IMG divs contain the background images for the project title card and episode title cards. The positioning of the background images is dynamically assigned based on what is currently visible in the user's viewport. The titlecard text can be found nested inside the intro-wrapper div
     .bg-img {
         width: 100%;
         height: 100vh;
@@ -381,33 +380,37 @@ a {
         background-size: cover;
         background-position: center;
 
+        //bg-static is the default class
         &.bg-static {
             visibility: hidden;
             opacity: 0;
             position: fixed;
 
+            //bg-active is used on the project titlecard and episode titlecards when they are in visible in the user's viewport
             &.bg-active {
                 visibility: visible;
             }
 
+            //bg-title is only used on the project titlecard that appears before the common intro across all 3 episodes
             &.bg-title {
                 opacity: 1;
                 bottom: 0;
             }
 
+            //Class that is applied to an episode title card once the title card enters the viewport
             &.bg-end {
                 position: absolute;
                 bottom: 0;
             }
 
-            //episode title cards
+            //////Episode title card images////////////
 
             &.bg-irakli {
-                // background-image: url('https://media.npr.org/idp-georgia/irakli.jpg');
                 background-image: url('https://media.npr.org/idp-georgia/irakli-title-crop.jpg');
 
                 background-position: bottom;
 
+                // use a different Irakli image on touch devices to accommodate narrow portrait and shallow landscape viewports
                 .touchevents & {
                     background-position: center;
                     background-image: url('https://media.npr.org/idp-georgia/irakli-title-mobile.jpg');
@@ -434,14 +437,12 @@ a {
         }
     }
 
+    /////INTRO-WRAPPER is a wrapper div that houses all content in the intro that is not a background image/video
     .intro-wrapper {
         position: relative;
         .gotham();
 
-        // * {
-        //     box-sizing: border-box;
-        // }
-
+        //PANEL-INTRO is a generic intro class that is assigned to each panel in the intro regarless of its contents.
         .panel-intro {
             border: 2px solid black;
             position: relative;
@@ -449,6 +450,7 @@ a {
             height: 100%;
             height: 100vh;
 
+            //TEXT-WRAPPER is a generic intro class that positions the main content of a panel inside a panel-intro div.
             .text-wrapper {
                 display: block;
                 opacity: 0;
@@ -490,7 +492,7 @@ a {
                 }
             }
 
-            //TITLE-PANEL- Title card for the project that appears before the episode title card for each episode.
+            //TITLE-PANEL- A unique class for the title card of the project.
             &.title-panel {
                 .text-wrapper {
                     padding-left: 30px;
@@ -524,7 +526,7 @@ a {
                 }
             }
 
-            //PANEL-MAP- Georgia locator map
+            //PANEL-MAP- A unique class for the Georgia locator map panel
             &.panel-map {
                 .asset-wrapper {
                     margin: 0 auto;
@@ -573,7 +575,7 @@ a {
                 }
             }
 
-            //PANEL-CHARACTERS- panel with thumbnail images of the characters in each episode
+            //PANEL-CHARACTERS- A unique class for the panel containing thumbnail images of the characters in each episode
             &.panel-characters {
                 .asset-wrapper {
                     .clearfix();
@@ -626,6 +628,7 @@ a {
 
         }
 
+        //INTRO-CUSTOM is an ID that is assigned to the episode title card for each episode. The background image for the panel lives in a separate div with a class of bg-img
         &#intro-custom {
             .text-wrapper {
                 top: auto;
@@ -677,9 +680,11 @@ a {
 
 
 
-// .episode-content is a wrapper div for the main content of each episode. It includes all content after the episode title card (#episode-title) and befire the footer (#footer)
+// EPISODE-CONTENT is the wrapper div for the main content of each episode. It includes all content after the episode title card (#episode-title) and befire the footer (#footer)
 
 .episode-content {
+
+
     .inline-intro {
         .story-well-sizing();
         padding: 4em 0;
@@ -703,6 +708,7 @@ a {
 
         }
 
+        //CHAR-MAP is the 
         .char-map {
             padding: 0 15px;
             margin-left: auto;
