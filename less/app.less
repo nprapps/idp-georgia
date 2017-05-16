@@ -395,6 +395,15 @@ a {
             &.bg-title {
                 opacity: 1;
                 bottom: 0;
+                background: #000;
+
+                #intro-vid {
+                    opacity: .6;
+
+                    @media @screen-small-above {
+                        opacity: .8;
+                    }
+                }
             }
 
             //Class that is applied to an episode title card once the title card enters the viewport
@@ -494,6 +503,7 @@ a {
 
             //TITLE-PANEL- A unique class for the title card of the project.
             &.title-panel {
+
                 .text-wrapper {
                     top: 50%;
                     text-align: center;
