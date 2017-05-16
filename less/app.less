@@ -391,7 +391,7 @@ a {
                 visibility: visible;
             }
 
-            //bg-title is only used on the project titlecard that appears before the common intro across all 3 episodes
+            //bg-title is only used on the project titlecard
             &.bg-title {
                 opacity: 1;
                 bottom: 0;
@@ -495,33 +495,71 @@ a {
             //TITLE-PANEL- A unique class for the title card of the project.
             &.title-panel {
                 .text-wrapper {
-                    padding-left: 30px;
-                    text-align: left;
-                    -webkit-transform: translateY(0);
-                    -ms-transform: translateY(0);
-                    transform: translateY(0);
-                    top: auto;
-                    bottom: 10%;
+                    top: 50%;
+                    text-align: center;
                     color: #fff;
                     text-shadow: 1px 1px 1px rgba(0, 0, 0, .6);
 
+                    .top-nav-logo {
+                        max-width: 7rem;
+                    }
+
                     h1 {
-                        font-size: 5rem;
+                        font-size: 3.5rem;
                         color: #fff;
                         line-height: 1;
                         margin: .5rem 0 2rem 0;
                     }
 
                     h5 {
-                        font-size: 1.4rem;
-                        margin: 3rem 0 0 0;
+                        font-size: 1.2rem;
+                        margin: 1rem 0 0 0;
                         text-transform: uppercase;
+                        font-style: italic;
                     }
 
                     p {
-                        margin: 0 0 1rem 0;
-                        max-width: 800px;
+                        font-size: 1.3rem;
+                        max-width: 31rem;
+                        margin-bottom: 1rem;
+                    }
+
+                    @media @screen-tiny-above {
+
+                        p {
+                            font-size: 1.6rem;
+                            max-width: 800px;
+                        }
+                    }
+
+                    @media @screen-small-above {
+                        -webkit-transform: translateY(0);
+                        -ms-transform: translateY(0);
+                        transform: translateY(0);
+                        top: auto;
+                        bottom: 10%;
                         text-align: left;
+                        padding-left: 30px;
+
+                        .top-nav-logo {
+                            max-width: 8rem;
+
+                        }
+
+                        h1 {
+                            font-size: 5rem;
+                        }
+
+                        h5 {
+                            font-size: 1.4rem;
+                            margin: 1rem 0 0 0;
+                        }
+
+                        p {
+                            font-size: 2rem;
+                            margin: 0 0 1rem 0;
+                            text-align: left;
+                        }
                     }
                 }
             }
@@ -625,7 +663,6 @@ a {
                 }
             }
 
-
         }
 
         //INTRO-CUSTOM is an ID that is assigned to the episode title card for each episode. The background image for the panel lives in a separate div with a class of bg-img
@@ -681,10 +718,9 @@ a {
 
 
 // EPISODE-CONTENT is the wrapper div for the main content of each episode. It includes all content after the episode title card (#episode-title) and befire the footer (#footer)
-
 .episode-content {
 
-
+    //INLINE-INTRO is a div that contains prelude text that appears below the episode title card. It is paired with a locator map that shows the location of displacement for the current character.
     .inline-intro {
         .story-well-sizing();
         padding: 4em 0;
@@ -708,7 +744,7 @@ a {
 
         }
 
-        //CHAR-MAP is the 
+        //CHAR-MAP is a div that contains the locator map and caption that shows the location of displacement for the current character.
         .char-map {
             padding: 0 15px;
             margin-left: auto;
@@ -763,8 +799,6 @@ a {
     margin-top: 3rem;
     .gotham();
 
-
-
     //call to action to visit the next story
     .footer-question {
         padding: 5rem 15px 0 15px;
@@ -776,10 +810,9 @@ a {
             margin: 0 auto;
             max-width: 680px;
             border-top: 3px solid #eee;
-
         }
 
-        //episode image
+        //next episode thumbnail
         img {
             border: 1px solid #ddd;
 
@@ -791,7 +824,7 @@ a {
             }
         }
 
-        // text  to the right of the
+        // text  to the right of the episode thumbnail
         .next-story-action {
 
             @media @screen-tiny-above {
@@ -821,12 +854,14 @@ a {
 
     }
 
+    //BOILERPLATE- shared footer links and credits that appear across all episodes
     .boilerplate {
         border-top: 1px solid #ddd;
         background: #eee;
         clear: both;
     }
 
+    //UTILITY-NAV- links to each episode in the project
     .utility-nav {
         max-width: 680px;
         margin: 0 auto;
@@ -867,6 +902,7 @@ a {
         }
     }
 
+    //CREDITS- project credits
     .credits {
         clear: both;
         max-width: 680px;
