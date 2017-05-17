@@ -113,7 +113,10 @@ def process_shortcode(tag):
     """
     # Replace unicode <br>
     # Replace rquote to normal quotation marks
-    text = tag.get_text().replace(u'\xa0', u' ').replace(u'\u201D', u'"')
+    text = tag.get_text()
+    text = text.replace(u'\xa0', u' ')
+    text = text.replace(u'\u201D', u'"')
+    text = text.replace(u'\u201C', u'"')
     try:
         return parser.parse(text)
     except shortcodes.RenderingError as e:

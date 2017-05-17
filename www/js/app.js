@@ -21,14 +21,6 @@ Modernizr.addTest('iphonewoplaysinline', function () {
  * Run on page load.
  */
 var onWindowLoaded = function(e) {
-    // Cache jQuery references
-    if (Modernizr.touchevents) {
-        console.log('touch device detected');
-    }
-    else {
-        console.log('non-touch device');
-    }
-
     parseUrl();
     // Check conditional logic for our customized intro
     checkConditionalLogic();
@@ -63,7 +55,6 @@ const checkConditionalLogic = function() {
         internal_link = true;
     }
     // Local tests
-    // console.log(url.hostname);
     if (url.hostname == 'localhost' || url.hostname == '127.0.0.1') {
         let found = _.find(AVAILABLE_EPISODES, function(e) {
             return document.referrer.indexOf(e) !== -1 ? true : false;
@@ -79,13 +70,11 @@ const checkConditionalLogic = function() {
 
 const checkOrientation = function() {
     if (window.innerHeight >= window.innerWidth){
-        console.log('portrait');
         if (!document.body.classList.contains('panel-portrait')) {
             document.body.classList.remove('panel-landscape');
             document.body.classList.add('panel-portrait');
         }
     } else {
-        console.log('landscape');
         if (!document.body.classList.contains('panel-landscape')) {
             document.body.classList.remove('panel-portrait');
             document.body.classList.add('panel-landscape');
@@ -224,6 +213,7 @@ const initScroller = function() {
 
     // Video viewport tracking to pause interview videos
     _.each(document.querySelectorAll('.video-interview'), function(d,i) {
+        debugger;
         // Initialize players and preload videos
         initJWPlayerVideo(d);
 
@@ -417,7 +407,6 @@ const sectionEnter = function(e) {
 const videoInterviewLeave = function(e) {
     const el = this.triggerElement();
     const containerId = el.getAttribute("id");
-    console.log("videoLeave", containerId);
     // Pause if it is an interview with controls
     if (el.classList.contains('jw')) {
         let player = players[containerId];
