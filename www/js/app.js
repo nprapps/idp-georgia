@@ -213,7 +213,6 @@ const initScroller = function() {
 
     // Video viewport tracking to pause interview videos
     _.each(document.querySelectorAll('.video-interview'), function(d,i) {
-        debugger;
         // Initialize players and preload videos
         initJWPlayerVideo(d);
 
