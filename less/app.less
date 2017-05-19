@@ -105,15 +105,19 @@ a {
 
     &.centered {
         .story-well-sizing();
+
+        &.bottom {
+            margin-top: -2rem;
+        }
     }
 
     .composition {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
 
         .collage2 {
-            width: 49%;
-            margin: auto;
+            width: 49.5%;
         }
 
         @media @screen-small {
@@ -130,8 +134,7 @@ a {
         &.scale {
             flex-direction: row;
             .collage2 {
-                width: 49%;
-                margin: auto;
+                width: 49.5%;
             }
         }
     }
