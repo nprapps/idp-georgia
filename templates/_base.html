@@ -26,6 +26,7 @@
     {% endblock extra_head %}
 </head>
 <body>
+    <div id="story-wrapper">
     <!-- ANALYTICS JAVASCRIPT -->
     {{ JS.push('js/lib/modernizr.js') }}
     {{ JS.push('js/lib/cookie.js') }}
@@ -59,5 +60,6 @@
 
     {% block extra_foot %}
     {% endblock extra_foot %}
+    </div>
 </body>
 </html>
