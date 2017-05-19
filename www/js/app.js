@@ -328,7 +328,8 @@ const initBackgroundVideo = function(el) {
             source.setAttribute('src',src);
             videoTag.appendChild(source);
         }
-        el.appendChild(videoTag);
+
+        el.insertBefore(videoTag, el.querySelector(".video-caption"));
         // Check if intro video has loaded
         if (el.classList.contains('video-intro')) {
             videoTag.setAttribute('data-object-fit','');
