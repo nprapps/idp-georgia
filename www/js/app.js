@@ -362,7 +362,12 @@ const renderImage = function(imageWrapper) {
     var filenameExtension = parts.length - 1;
     if (parts[filenameExtension].toLowerCase() !== 'gif') {
         if (document.body.clientWidth > 800) {
-            parts[filenamePosition] += '-s1500-c85';
+            if (imageWrapper.parentElement.classList.contains('full')) {
+                parts[filenamePosition] += '-s2000-c85';
+            } else {
+                parts[filenamePosition] += '-s1000-c85';
+            }
+
         } else {
             parts[filenamePosition] += '-s800-c80';
         }
