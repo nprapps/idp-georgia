@@ -362,9 +362,9 @@ const renderImage = function(imageWrapper) {
     var filenameExtension = parts.length - 1;
     if (parts[filenameExtension].toLowerCase() !== 'gif') {
         if (document.body.clientWidth > 800) {
-            parts[filenamePosition] += '-s800-c80';
+            parts[filenamePosition] += '-s1500-c85';
         } else {
-            parts[filenamePosition] += '-s600-c70';
+            parts[filenamePosition] += '-s800-c80';
         }
     }
     const newSrc = parts.join('.');
