@@ -10,11 +10,18 @@ let current_episode = null;
 let internal_link = false;
 // Support multiple player instances
 let players = {};
+let prevInnerHeight = window.innerHeight;
 
 
 // Returns true with the exception of iPhones with no playsinline support
 Modernizr.addTest('iphonewoplaysinline', function () {
     return navigator.userAgent.match(/(iPhone|iPod)/g) ? ('playsInline' in document.createElement('video')) : true;
+});
+
+// Returns true with the exception of iPhones with no playsinline support
+Modernizr.addTest('ioschrome', function () {
+    return (navigator.userAgent.toLowerCase().match(/iP(hone|ad|od)/i) &&
+            navigator.userAgent.toLowerCase().match(/\s(?:Chrome|CriOS)\//i))
 });
 
 /*
@@ -50,7 +57,6 @@ const parseUrl = function() {
 
 // CHECK CONDITIONAL LOGIC
 const checkConditionalLogic = function() {
-    // console.log("document.referrer:", document.referrer);
     if(document.referrer.indexOf('idp-georgia/') !== -1) {
         internal_link = true;
     }
@@ -68,16 +74,48 @@ const checkConditionalLogic = function() {
     checkOrientation();
 }
 
+const inStylePanelsHeight = function(height) {
+    // Set pixel height instead of 100vh for intro panels
+    _.each(document.querySelectorAll('.panel-intro'), function(d, i) {
+        d.style.height = height+'px';
+    });
+    // Set pixel height instead of 100vh for background image and video
+    _.each(document.querySelectorAll('.bg-img'), function(d, i) {
+        d.style.height = height+'px';
+    });
+}
+
+const checkiOSChromeBug = function(orientationChanged) {
+    if (Modernizr.ioschrome) {
+        if (orientationChanged || (window.innerHeight > prevInnerHeight)) {
+            prevInnerHeight = window.innerHeight;
+            inStylePanelsHeight(window.innerHeight);
+        }
+    }
+}
+
 const checkOrientation = function() {
     if (window.innerHeight >= window.innerWidth){
         if (!document.body.classList.contains('panel-portrait')) {
             document.body.classList.remove('panel-landscape');
             document.body.classList.add('panel-portrait');
+            // Hacky Fix 100vh chrome iOS issue
+            checkiOSChromeBug(true);
+        }
+        else {
+            // Hacky Fix 100vh chrome iOS issue
+            checkiOSChromeBug();
         }
     } else {
         if (!document.body.classList.contains('panel-landscape')) {
             document.body.classList.remove('panel-portrait');
             document.body.classList.add('panel-landscape');
+            // Hacky Fix 100vh chrome iOS issue
+            checkiOSChromeBug(true);
+        }
+        else {
+            // Hacky Fix 100vh chrome iOS issue
+            checkiOSChromeBug();
         }
     }
 }
