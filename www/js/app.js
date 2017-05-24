@@ -15,7 +15,7 @@ let prevInnerHeight = window.innerHeight;
 
 // Returns true with the exception of iPhones with no playsinline support
 Modernizr.addTest('iphonewoplaysinline', function () {
-    return navigator.userAgent.match(/(iPhone|iPod)/g) ? ('playsInline' in document.createElement('video')) : true;
+    return navigator.userAgent.toLowerCase().match(/iP(hone|od)/i) ? ('playsInline' in document.createElement('video')) : true;
 });
 
 // Returns true with the exception of iPhones with no playsinline support
