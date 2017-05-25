@@ -644,8 +644,41 @@ a {
                             width: 100%;
                         }
 
+                        p.image-caption {
+                            .gotham();
+                            -webkit-font-smoothing: auto;
+                            color: @textgray;
+                            font-size: .9rem;
+                            line-height: 1.7;
+                            text-align: left;
+                            margin: -1.5em auto 2px;
+                            padding: 4px 0 0;
+                            max-width: none;
+
+                            @media @screen-small-above {
+                                font-size: 1.2rem;
+                                padding: 12px 0 0;
+                            }
+                        }
                     }
 
+                    p.image-caption {
+                        .gotham();
+                         -webkit-font-smoothing: auto;
+                        color: @textgray;
+                        font-size: .9rem;
+                        line-height: 1.7;
+                        text-align: left;
+                        padding: 4px 0 0;
+                        max-width: none;
+
+                        @media @screen-small-above {
+                            font-size: 1.2rem;
+                            // Tweak because of height: 50vh on map;
+                            padding: 12px 67px 0;
+                            margin-top: -3.5em;
+                        }
+                    }
                 }
             }
 
