@@ -1,6 +1,8 @@
-<div class="{{class}}{%if extra_classes %} {{ extra_classes }}{% endif %}">
-    <img width="100%" height="auto" src="{{id}}">
+<div class="embed-image {{ format }}">
+    <div class="image-wrapper loaded">
+        <img width="{{ width }}" height="auto" src="{{ id }}">
+    </div>
     {% if caption != None and caption != '' %}
-    <p class="caption image-caption">{{ caption|safe }}</p>
+    <p class="caption image-caption">{{ caption }}</p>
     {% endif %}
 </div>

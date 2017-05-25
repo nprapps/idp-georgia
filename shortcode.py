@@ -28,7 +28,9 @@ SHORTCODE_DICT = {
         'format': 'centered'
     },
     'asset-image': {
-        'class': 'asset-image'
+        'caption': '',
+        'width': '100%',
+        'format': 'centered'
     },
     'idpgraphic': {},
     'video': {},
