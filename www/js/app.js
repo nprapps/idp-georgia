@@ -185,9 +185,8 @@ const initScroller = function() {
             // First panel of intro text will fade out the intro background
             if (d.classList.contains('bg-fade-out')) {
                 var bgScene = new ScrollMagic.Scene({
-                        duration: '70%',
-                        triggerElement: d,
-                        triggerHook: 'onEnter'
+                        duration: '50%',
+                        triggerElement: d
                     })
                     .setTween('#title-bg-container', { opacity: 0, ease: Power1.easeOut })
                     .on('end', function(e) {
