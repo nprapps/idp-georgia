@@ -258,10 +258,24 @@ a {
     box-shadow: 0 2px 7px rgba(0, 0, 0, .2);
 
     img {
-        padding: 0 1em;
+        margin-top: -.3rem;
+        padding: 0 0 0 .5rem;
         vertical-align: middle;
         opacity: .6;
-        max-width: 7rem;
+        max-width: 4rem;
+
+        display: none;
+
+        @media @screen-top-nav-above {
+            display: inline-block;
+        }
+
+        @media @screen-small-above {
+            max-width: 6rem;
+            padding: 0 0 0 1rem;
+        }
+
+
     }
 
     .nav-text {
@@ -273,7 +287,12 @@ a {
     .nav-head {
         font-weight: bold;
         text-transform: uppercase;
-        padding-right: .5rem;
+        padding-left: 1.2rem;
+
+        @media @screen-top-nav-above {
+            padding-left: .5rem;
+        }
+
         &::after {
             padding: 5px;
             font-family: npr-app-template;
@@ -537,6 +556,8 @@ a {
                     .top-nav-logo {
                         max-width: 7rem;
                     }
+
+
 
                     h1 {
                         font-size: 3.5rem;
