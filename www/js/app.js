@@ -11,6 +11,7 @@ let internal_link = false;
 // Support multiple player instances
 let players = {};
 let prevInnerHeight = window.innerHeight;
+const screenDimensions = [screen.width, screen.height];
 
 
 // Returns true with the exception of iPhones with no playsinline support
@@ -333,6 +334,18 @@ const initJWPlayerVideo = function(el) {
     }
 }
 
+const adaptSourceToScreen = function(src) {
+    // Try to adapt the video quality to the screen size
+    let finalSrc = null;
+    finalSrc = src;
+    if (_.max(screenDimensions) <= 740) {
+        finalSrc = src.replace('.mp4','-500000.mp4');
+    } else if (_.max(screenDimensions) <= 1024){
+        finalSrc = src.replace('.mp4','-1500000.mp4');
+    }
+    return finalSrc;
+}
+
 const initBackgroundVideo = function(el) {
     let videoTag = null;
     const src = el.getAttribute("data-src");
@@ -364,7 +377,8 @@ const initBackgroundVideo = function(el) {
         // Check if iPhone with no playsinline support
         if (Modernizr.iphonewoplaysinline) {
             let source = document.createElement('source');
-            source.setAttribute('src',src);
+            const finalSrc = adaptSourceToScreen(src);
+            source.setAttribute('src',finalSrc);
             videoTag.appendChild(source);
         }
 
