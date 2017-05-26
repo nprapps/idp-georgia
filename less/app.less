@@ -531,7 +531,7 @@ a {
                     line-height: 1.6;
                     max-width: 800px;
                     margin: 0 auto 1em;
-                    text-align: center;
+                    text-align: left;
 
                     @media @screen-small {
                         font-size: 1.4rem;
@@ -715,6 +715,13 @@ a {
 
             //PANEL-CHARACTERS- A unique class for the panel containing thumbnail images of the characters in each episode
             &.panel-characters {
+
+                .text-wrapper {
+                    p {
+                        text-align: center;
+                    }
+                }
+
                 .asset-wrapper {
                     .clearfix();
                     .story-well-sizing();
