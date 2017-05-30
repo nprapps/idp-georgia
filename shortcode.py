@@ -14,7 +14,7 @@ from jinja2 import Environment, FileSystemLoader
 from pymongo import MongoClient
 
 IMAGE_URL_TEMPLATE = '%s/%s'
-IMAGE_TYPES = ['image', 'graphic']
+IMAGE_TYPES = ['image', 'asset-image']
 COLLAGE_TYPES = ['collage2']
 SHORTCODE_DICT = {
     'image': {
@@ -60,7 +60,7 @@ def _get_extra_context(id, tag):
     """
     extra = dict()
     if tag in IMAGE_TYPES:
-        extra.update(_get_image_context(id))
+        extra.update(_get_image_context(id, tag))
     return extra
 
 
@@ -127,10 +127,16 @@ def process_shortcode(tag):
         return ''
 
 
-def _get_image_context(id):
+def _get_image_context(id, tag):
     """
     Download image and get/cache aspect ratio.
     """
+    if (tag == 'asset-image'):
+        image = Image.open('www/%s' % id)
+        ratio = float(image.height) / float(image.width)
+        ratio = round(ratio * 100, 2)
+        return dict(ratio=ratio)
+
     url = IMAGE_URL_TEMPLATE % (app_config.IMAGE_URL, id)
 
     client = MongoClient(app_config.MONGODB_URL)

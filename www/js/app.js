@@ -34,7 +34,7 @@ var onWindowLoaded = function(e) {
     checkConditionalLogic();
     adaptPageToReferrer();
     // Init intro background video
-    initBackgroundVideo(document.querySelector('#intro-vid'));
+    initBackgroundVideo(document.querySelector('#intro-vid'), true);
     // Init scrollmagic controller
     initScroller();
     // Force first section load of assets
@@ -345,7 +345,7 @@ const adaptSourceToScreen = function(src) {
     return finalSrc;
 }
 
-const initBackgroundVideo = function(el) {
+const initBackgroundVideo = function(el, cover) {
     let videoTag = null;
     const src = el.getAttribute("data-src");
     const poster = el.getAttribute("data-poster");
@@ -376,7 +376,11 @@ const initBackgroundVideo = function(el) {
         // Check if iPhone with no playsinline support
         if (Modernizr.iphonewoplaysinline) {
             let source = document.createElement('source');
-            const finalSrc = adaptSourceToScreen(src);
+            let finalSrc = adaptSourceToScreen(src);
+            // Use full video if it should cover the screen
+            if (cover) {
+                finalSrc = src;
+            }
             source.setAttribute('src',finalSrc);
             videoTag.appendChild(source);
         }
