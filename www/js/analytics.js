@@ -193,9 +193,7 @@ var ANALYTICS = (function () {
                     "js/chartbeat.js");
                 document.body.appendChild(e);
             }
-            var oldonload = window.onload;
-            window.onload = (typeof window.onload != "function") ?
-                loadChartbeat : function() { oldonload(); loadChartbeat(); };
+            loadChartbeat();
         })();
     }
 
