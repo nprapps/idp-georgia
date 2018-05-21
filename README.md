@@ -102,7 +102,7 @@ npm install
 fab update
 ```
 
-We'll need a running instance of mongo to cache our images, it you have used brew to install mongo then run this on a new terminal window:
+We'll need a running instance of mongo to cache our images, it you have used brew to install mongo, first make sure that the `/data/db` directory is created and accessible to scripts, then run this on a new terminal window:
 
 ```
 mongod --config /usr/local/etc/mongod.conf
